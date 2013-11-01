@@ -5,6 +5,7 @@
 		<meta name="author" content="Benj Fassbind & Jan Bucher" />
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" href="style/bootstrap.min.css" />
+		<link rel="stylesheet/less" type="text/css" href="style/global.less" />
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="//raw.github.com/less/less.js/master/dist/less-1.5.0.min.js" ></script>
 	</head>

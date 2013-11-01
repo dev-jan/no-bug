@@ -1,7 +1,7 @@
 <?php
 	include 'core/header.php';	
 ?>
-	<div class="main">
+	<div id="main">
 		<?php echo "No-bug Plattform funktioniert"; ?>
 	</div>
 	
