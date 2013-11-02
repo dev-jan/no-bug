@@ -33,50 +33,48 @@
 	</div>
 	
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="users.html">Users</a></li>
+		<li><a href="users.html">Users</a></li>
 		<li><a href="groups.html">Groups</a></li>
 		<li><a href="projects.html">Projects</a></li>
-		<li><a href="settings.html">Global Settings</a></li>
+		<li class="active"><a href="settings.html">Global Settings</a></li>
 	</ul>
 	
 	
 	<div id="main">
-		<h1>Users</h1>
-		<button type="button" class="btn btn-success" style="float: right; margin-bottom: 10px;">New User</button>
-		<table class="table table-hover">
-			<tr>
-				<th>Username</th>
-				<th>Name</th>
-				<th>email</th>
-				<th>actions</th>
-			</tr>
-			<tr>
-				<td>jan</td>
-				<td>Jan Bucher</td>
-				<td>jan@endlesscoderz.ch</td>
-				<td><button type="button" class="btn btn-default btn-sm">edit</button></td>
-			</tr>
-			<tr>
-				<td>benj</td>
-				<td>Benj Fassbind</td>
-				<td>benj@fassbind.ch</td>
-				<td><button type="button" class="btn btn-default btn-sm">edit</button></td>
-			</tr>
-			<tr class="danger">
-				<td>vaha</td>
-				<td>Hans Vader</td>
-				<td>hans.vader@sempervideo.de</td>
-				<td><form action="user.html?u=vader"><button type="submit" class="btn btn-default btn-sm" >edit</button></form></td>
-			</tr>
-			<tr>
-				<td>epeter</td>
-				<td>Peter Essig</td>
-				<td>peter.e@wayne.to</td>
-				<td><button type="button" class="btn btn-default btn-sm">edit</button></td>
-			</tr>
-		</table>
+		<h1>Global Settings</h1>
+		<form action="#" class="userEditForm">
+			<h2>> General</h2>
+			<table class="table">
+				<tr>
+					<th>Global Admin Group:</th>
+					<td>
+						<select class="form-control">
+						  <option id="1" selected="selected">global-admin</option>
+						  <option id="2">jquery-admin</option>
+						  <option id="3">jquery-dev</option>
+						  <option id="4">jquery-tester</option>
+						  <option id="5">inf2abm</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<button type="submit" class="btn btn-primary">Save Changes</button>
+		</form>
+		
+		<form action="#" class="userEditForm">
+			<h2>> Infos</h2>
+			<table class="table userEditTable">
+				<tr>
+					<th>Servername: </th>
+					<td>Linux raspberrypi 3.2.27+ #250 PREEMPT Thu Oct 18 19:03:02 BST 2012 armv6l</td>
+				</tr>
+				<tr>
+					<th>Total Tasks: </th>
+					<td>20'432</td>
+				</tr>
+			</table>
+		</form>
 	</div>
-	
 	<div id="footer" >Copyright 2013 | Benj Fassbind & Jan Bucher</div>
 </body>
 </html>

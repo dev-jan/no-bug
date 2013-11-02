@@ -7,7 +7,6 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" href="../style/bootstrap.min.css" />
 		<link rel="stylesheet/less" type="text/css" href="../style/global.less" />
-		<link rel="stylesheet/less" type="text/css" href="../style/administration.less" />
 		<script type="text/javascript" src="../js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="//raw.github.com/less/less.js/master/dist/less-1.5.0.min.js" ></script>
 		<script type="text/javascript" src="../js/global.js" ></script>
@@ -33,46 +32,48 @@
 	</div>
 	
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="users.html">Users</a></li>
+		<li><a href="users.html">Users</a></li>
 		<li><a href="groups.html">Groups</a></li>
-		<li><a href="projects.html">Projects</a></li>
+		<li class="active"><a href="projects.html">Projects</a></li>
 		<li><a href="settings.html">Global Settings</a></li>
 	</ul>
 	
 	
 	<div id="main">
-		<h1>Users</h1>
-		<button type="button" class="btn btn-success" style="float: right; margin-bottom: 10px;">New User</button>
+		<h1>Projects</h1>
+		<button type="button" class="btn btn-success" style="float: right; margin-bottom: 10px;">New Project</button>
 		<table class="table table-hover">
 			<tr>
-				<th>Username</th>
+				<th>Key</th>
 				<th>Name</th>
-				<th>email</th>
-				<th>actions</th>
+				<th>Description</th>
+				<th>Groups</th>
+				<th>Version</th>
+				<th>Actions</th>
 			</tr>
 			<tr>
-				<td>jan</td>
-				<td>Jan Bucher</td>
-				<td>jan@endlesscoderz.ch</td>
-				<td><button type="button" class="btn btn-default btn-sm">edit</button></td>
+				<td>NOBUG</td>
+				<td>no-bug</td>
+				<td>Bugtracking Plattform based on PHP</td>
+				<td>
+					Admin: <a href="group.php?g=no-bug-admin">no-bug-admin</a> <br /> 
+					Write: <a href="group.php?g=no-bug-dev">no-bug-dev</a> <br /> 
+					Read : <a href="group.php?g=no-bug-dev">no-bug-testers</a> <br /> 
+				</td>
+				<td>0.0.1 Pre Alpha</td>
+				<td><form action="project.html?p=nobug"><button type="submit" class="btn btn-default btn-sm" >edit</button></form></td>
 			</tr>
 			<tr>
-				<td>benj</td>
-				<td>Benj Fassbind</td>
-				<td>benj@fassbind.ch</td>
-				<td><button type="button" class="btn btn-default btn-sm">edit</button></td>
-			</tr>
-			<tr class="danger">
-				<td>vaha</td>
-				<td>Hans Vader</td>
-				<td>hans.vader@sempervideo.de</td>
-				<td><form action="user.html?u=vader"><button type="submit" class="btn btn-default btn-sm" >edit</button></form></td>
-			</tr>
-			<tr>
-				<td>epeter</td>
-				<td>Peter Essig</td>
-				<td>peter.e@wayne.to</td>
-				<td><button type="button" class="btn btn-default btn-sm">edit</button></td>
+				<td>JQ</td>
+				<td>jQuery</td>
+				<td>Javascript Library</td>
+				<td>
+					Admin: <a href="group.php?g=global-admin">global-admin</a> <br /> 
+					Write: <a href="group.php?g=jq-dev">jq-dev</a> <br /> 
+					Read : <a href="group.php?g=inf2abm">inf2abm</a> <br /> 
+				</td>
+				<td>2.5</td>
+				<td><form action="project.html?p=nobug"><button type="submit" class="btn btn-default btn-sm" >edit</button></form></td>
 			</tr>
 		</table>
 	</div>
