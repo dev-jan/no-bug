@@ -5,19 +5,20 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="author" content="Benj Fassbind & Jan Bucher" />
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" href="style/bootstrap.min.css" />
-		<link rel="stylesheet/less" type="text/css" href="style/global.less" />
-		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="../style/bootstrap.min.css" />
+		<link rel="stylesheet/less" type="text/css" href="../style/global.less" />
+		<link rel="stylesheet/less" type="text/css" href="../style/administration.less" />
+		<script type="text/javascript" src="../js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="//raw.github.com/less/less.js/master/dist/less-1.5.0.min.js" ></script>
-		<script type="text/javascript" src="js/global.js" ></script>
+		<script type="text/javascript" src="../js/global.js" ></script>
 	</head>
 <body style="padding-top: 70px" onload="javascript:document.loginform.loginUsername.focus();">
 	<div id="header" class="navbar navbar-default navbar-fixed-top">
 		<a class="navbar-brand" href="#">no-bug</a>
 		<ul class="nav navbar-nav">
-      		<li class="active"><a href="#">Main</a></li>
+      		<li class=""><a href="#">Main</a></li>
       		<li class=""><a href="#">Projects</a></li>
-      		<li class=""><a href="administration/user.html">Administration</a></li>
+      		<li class="active"><a href="#">Administration</a></li>
       	</ul>
 		 <ul class="nav navbar-nav navbar-right">
 	      	<li class="dropdown">
@@ -31,22 +32,40 @@
 	    </ul>
 	</div>
 	
-	<div id="main">
-		<div id="login-box" style="margin-bottom: 200px;">
-			<form method="post" name="loginform">
-				<div class="form-group">
-					<label for="login-username">Username:</label>
-					<input type="text" class="form-control" id="loginUsername" placeholder="Username..." />
-				</div>
-				<div class="form-group">
-					<label for="login-password">Password:</label>
-					<input type="password" class="form-control" id="loginPassword" placeholder="Password..." />
-				</div>
-				<button type="submit" class="btn btn-primary">Login</button>
-			</form>
-		</div>
-	</div>
+	<ul class="nav nav-tabs">
+		<li><a href="users.html">Users</a></li>
+		<li class="active"><a href="groups.html">Groups</a></li>
+		<li><a href="#">Projects</a></li>
+		<li><a href="#">Global Settings</a></li>
+	</ul>
 	
+	
+	<div id="main">
+		<h1>Edit Global-Admin...</h1>
+		<form action="#" class="userEditForm">
+			<table class="table">
+				<tr>
+					<th>Groupname:</th>
+					<td><input type="text" class="form-control" id="editGroupname" placeholder="Global-Admin"></td>
+				</tr>
+			</table>
+			<button type="submit" class="btn btn-primary">Save</button>
+		</form>
+		
+		<form action="#">
+			<h2>> Group Members...</h2>
+			<table class="table">
+				<tr>
+					<th>Name</th>
+					<th>Action</th>
+				</tr>
+				<tr>
+					<td>jan (User)</td>
+					<td><button type="button" class="btn btn-danger" >Remove</button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
 	<div id="footer" >Copyright 2013 | Benj Fassbind & Jan Bucher</div>
 </body>
 </html>
