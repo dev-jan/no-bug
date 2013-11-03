@@ -2,7 +2,10 @@
 	include 'core/header.php';	
 ?>
 	<div id="main">
-		<?php echo "No-bug Plattform funktioniert"; ?>
+		<div class="project">
+			<img src="" alt="project name" />
+			<div class="content"></div>
+		</div>
 	</div>
 	
 <?php 
