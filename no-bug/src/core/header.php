@@ -1,3 +1,14 @@
+<?php 
+session_start();
+
+define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/../', strlen($_SERVER['DOCUMENT_ROOT'])));
+
+if (!isset($_SESSION['userId'])) {
+	header("Location: " . ROOTPATH . "login.php");
+}
+
+?>
+
 <html>
 	<head>
 		<title>no-bug | pre alpha 0.0.1</title>
@@ -7,7 +18,7 @@
 		<link rel="stylesheet" href="style/bootstrap.min.css" />
 		<link rel="stylesheet/less" type="text/css" href="style/global.less" />
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="//raw.github.com/less/less.js/master/dist/less-1.5.0.min.js" ></script>
+		<script type="text/javascript" src="js/less.js" ></script>
 	</head>
 	<body>
 	
