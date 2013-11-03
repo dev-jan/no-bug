@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<title>no-bug | pre alpha 0.0.1</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="author" content="Benj Fassbind & Jan Bucher" />
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" href="../style/bootstrap.min.css" />
+		<link rel="stylesheet/less" type="text/css" href="../style/global.less" />
+		<link rel="stylesheet/less" type="text/css" href="../style/administration.less" />
+		<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="//raw.github.com/less/less.js/master/dist/less-1.5.0.min.js" ></script>
+		<script type="text/javascript" src="../js/global.js" ></script>
+	</head>
+<body style="padding-top: 70px" onload="javascript:document.loginform.loginUsername.focus();">
+	<div id="header" class="navbar navbar-default navbar-fixed-top">
+		<a class="navbar-brand" href="#">no-bug</a>
+		<ul class="nav navbar-nav">
+      		<li class=""><a href="#">Main</a></li>
+      		<li class=""><a href="#">Projects</a></li>
+      		<li class="active"><a href="#">Administration</a></li>
+      	</ul>
+		 <ul class="nav navbar-nav navbar-right">
+	      	<li class="dropdown">
+	        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" onclick="hideshow(document.getElementById('menuUserDropdown'));" onblur="hideshow(document.getElementById('menuUserDropdown'));">Hans Vader <b class="caret"></b></a>
+		        <ul class="dropdown-menu" id="menuUserDropdown" >
+		        	<li><a href="#">Profil</a></li>
+		        	<li class="divider"></li>
+		        	<li><a href="#">Logout</a></li>
+		        </ul>
+	      	</li>
+	    </ul>
+	</div>
+	
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="users.html">Users</a></li>
+		<li><a href="groups.html">Groups</a></li>
+		<li><a href="projects.html">Projects</a></li>
+		<li><a href="settings.html">Global Settings</a></li>
+	</ul>
+	
+	
+	<div id="main">
+		<h1>Edit Hans Vader...</h1>
+		<form action="#" class="userEditForm">
+			<h2>> General</h2>
+			<table class="table userEditTable">
+				<tr>
+					<th>Username:</th>
+					<td><input type="text" class="form-control" id="editUsername" placeholder="vaha"></td>
+				</tr>
+				<tr>
+					<th>Prename:</th>
+					<td><input type="text" class="form-control" id="editPrename" placeholder="Hans"></td>
+				</tr>
+				<tr>
+					<th>Surname:</th>
+					<td><input type="text" class="form-control" id="editSurname" placeholder="Vader"></td>
+				</tr>
+			</table>
+			<button type="submit" class="btn btn-primary">Save Changes</button>
+		</form>
+		
+		<form action="#" class="userEditForm">
+			<h2>> Password Reset...</h2>
+			<table class="table userEditTable">
+				<tr>
+					<th>New Password:</th>
+					<td><input type="password" class="form-control" id="pwreset1" placeholder="Password"></td>
+				</tr>
+				<tr>
+					<th>New Password:</th>
+					<td><input type="password" class="form-control" id="pwreset2" placeholder="Retype"></td>
+				</tr>
+			</table>
+			<button type="submit" class="btn btn-warning">Change Password</button>
+		</form>
+		
+		<form action="#" class="userEditForm">
+			<h2>> Member of...</h2>
+			<table class="table">
+				<tr>
+					<th>Member of this Groups:</th>
+					<th>Add new Group...</th>
+				</tr>
+				<tr>
+					<td>
+						<button type="button" class="btn btn-default btn-sm closebtn" >&times; global-admin </button>   <br />
+						<button type="button" class="btn btn-default btn-sm closebtn" >&times; jquery-dev </button>   <br />
+						<button type="button" class="btn btn-default btn-sm closebtn" >&times; inf2abm </button>   <br />
+					</td>
+					<td>
+						Add Group: 
+						<select class="form-control">
+						  <option id="1">global-admin</option>
+						  <option id="2">jquery-admin</option>
+						  <option id="3">jquery-dev</option>
+						  <option id="4">jquery-tester</option>
+						  <option id="5">inf2abm</option>
+						</select>
+						<button type="button" class="btn btn-success" style="margin-top: 10px;">Add</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<div id="footer" >Copyright 2013 | Benj Fassbind & Jan Bucher</div>
+</body>
+</html>
