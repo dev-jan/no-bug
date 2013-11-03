@@ -1,87 +1,57 @@
-<!DOCTYPE html>
-<html>
-<head>
-		<title>no-bug | pre alpha 0.0.1</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta name="author" content="Benj Fassbind & Jan Bucher" />
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" href="../style/bootstrap.min.css" />
-		<link rel="stylesheet/less" type="text/css" href="../style/global.less" />
-		<script type="text/javascript" src="../js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="//raw.github.com/less/less.js/master/dist/less-1.5.0.min.js" ></script>
-		<script type="text/javascript" src="../js/global.js" ></script>
-	</head>
-<body style="padding-top: 70px" onload="javascript:document.loginform.loginUsername.focus();">
-	<div id="header" class="navbar navbar-default navbar-fixed-top">
-		<a class="navbar-brand" href="#">no-bug</a>
-		<ul class="nav navbar-nav">
-      		<li class=""><a href="#">Main</a></li>
-      		<li class=""><a href="#">Projects</a></li>
-      		<li class="active"><a href="#">Administration</a></li>
-      	</ul>
-		 <ul class="nav navbar-nav navbar-right">
-	      	<li class="dropdown">
-	        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" onclick="hideshow(document.getElementById('menuUserDropdown'));" onblur="hideshow(document.getElementById('menuUserDropdown'));">Hans Vader <b class="caret"></b></a>
-		        <ul class="dropdown-menu" id="menuUserDropdown" >
-		        	<li><a href="#">Profil</a></li>
-		        	<li class="divider"></li>
-		        	<li><a href="#">Logout</a></li>
-		        </ul>
-	      	</li>
-	    </ul>
-	</div>
-	
+<?php
+	define( 'ACTIVE_MENU', 'administration');
+	include_once '../core/header.php';
+	include_once '../core/logic/userDA.php'	;
+?>
+<div id="main">
+	<div class="alert alert-warning">THIS SITE IS JUST A DEMO!!!</div>	
 	<ul class="nav nav-tabs">
-		<li><a href="users.html">Users</a></li>
-		<li class="active"><a href="groups.html">Groups</a></li>
-		<li><a href="projects.html">Projects</a></li>
-		<li><a href="settings.html">Global Settings</a></li>
+		<li><a href="users.php">Users</a></li>
+		<li class="active"><a href="groups.php">Groups</a></li>
+		<li><a href="projects.php">Projects</a></li>
+		<li><a href="settings.php">Global Settings</a></li>
 	</ul>
-	
-	
-	<div id="main">
-		<h1>Groups</h1>
-		<button type="button" class="btn btn-success" style="float: right; margin-bottom: 10px;">New Group</button>
-		<table class="table table-hover">
-			<tr>
-				<th>Name</th>
-				<th>Member of</th>
-				<th>Members</th>
-				<th>actions</th>
-			</tr>
-			<tr>
-				<td>global-admin</td>
-				<td>-</td>
-				<td>jan (User)<br /> benj (User)</td>
-				<td><form action="group.html?g=global-admin"><button type="submit" class="btn btn-default btn-sm" >edit</button></form></td>
-			</tr>
-			<tr>
-				<td>jquery-admin</td>
-				<td>-</td>
-				<td>billgates (User) <br /> steve (User)</td>
-				<td><button type="button" class="btn btn-default btn-sm">edit</button></td>
-			</tr>
-			<tr>
-				<td>jquery-dev</td>
-				<td>-</td>
-				<td>jquery-admin (Group) <br /> inf2abm (Group)</td>
-				<td><button type="button" class="btn btn-default btn-sm">edit</button></td>
-			</tr>
-			<tr>
-				<td>jquery-tester</td>
-				<td>-</td>
-				<td>julia (User) <br /> manuel (User)</td>
-				<td><button type="button" class="btn btn-default btn-sm">edit</button></td>
-			</tr>
-			<tr>
-				<td>inf2abm</td>
-				<td>jquery-dev</td>
-				<td>benj (User) <br /> manuel (User) <br /> jan (User) <br /> boss (User) <br /> alex (User) <br /> pesc (User)</td>
-				<td><button type="button" class="btn btn-default btn-sm">edit</button></td>
-			</tr>
-		</table>
-	</div>
-	
-	<div id="footer" >Copyright 2013 | Benj Fassbind & Jan Bucher</div>
-</body>
-</html>
+	<h1>Groups</h1>
+	<button type="button" class="btn btn-success" style="float: right; margin-bottom: 10px;">New Group</button>
+	<table class="table table-hover">
+		<tr>
+			<th>Name</th>
+			<th>Member of</th>
+			<th>Members</th>
+			<th>actions</th>
+		</tr>
+		<tr>
+			<td>global-admin</td>
+			<td>-</td>
+			<td>jan (User)<br /> benj (User)</td>
+			<td><form action="group.html?g=global-admin"><button type="submit" class="btn btn-default btn-sm" >edit</button></form></td>
+		</tr>
+		<tr>
+			<td>jquery-admin</td>
+			<td>-</td>
+			<td>billgates (User) <br /> steve (User)</td>
+			<td><button type="button" class="btn btn-default btn-sm">edit</button></td>
+		</tr>
+		<tr>
+			<td>jquery-dev</td>
+			<td>-</td>
+			<td>jquery-admin (Group) <br /> inf2abm (Group)</td>
+			<td><button type="button" class="btn btn-default btn-sm">edit</button></td>
+		</tr>
+		<tr>
+			<td>jquery-tester</td>
+			<td>-</td>
+			<td>julia (User) <br /> manuel (User)</td>
+			<td><button type="button" class="btn btn-default btn-sm">edit</button></td>
+		</tr>
+		<tr>
+			<td>inf2abm</td>
+			<td>jquery-dev</td>
+			<td>benj (User) <br /> manuel (User) <br /> jan (User) <br /> boss (User) <br /> alex (User) <br /> pesc (User)</td>
+			<td><button type="button" class="btn btn-default btn-sm">edit</button></td>
+		</tr>
+	</table>
+</div>
+<?php 
+	include '../core/footer.php';
+?>
