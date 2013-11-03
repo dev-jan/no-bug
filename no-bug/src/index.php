@@ -1,8 +1,12 @@
 <?php
-	include 'core/header.php';	
+	define( 'ACTIVE_MENU', 'main');
+	include_once 'core/header.php';	
 ?>
 	<div id="main">
-		<?php echo "No-bug Plattform funktioniert"; ?>
+		<div class="project">
+			<img src="" alt="project name" />
+			<div class="content"></div>
+		</div>
 	</div>
 	
 <?php 

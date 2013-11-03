@@ -1,5 +1,5 @@
 <?php
-include 'db.php';
+include_once 'db.php';
 
 class LoginDA {
 	
@@ -23,7 +23,7 @@ class LoginDA {
 		if ($saltquery->num_rows > 0) {
 			
 			$sql = "SELECT * FROM user
-					WHERE user.username = '$username' AND user.password = SHA2('$password', 256);";
+					WHERE user.username = '$username' AND user.password = SHA2('".$password . $saltresult["salt"]."', 256);";
 			$sqlquery = $db->query($sql);
 			$sqlresult = $sqlquery->fetch_assoc();
 			

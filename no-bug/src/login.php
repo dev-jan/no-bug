@@ -1,6 +1,8 @@
 <?php 
 session_start(); 
-include 'core/logic/loginDA.php';
+include_once dirname(__FILE__).'/core/logic/loginDA.php';
+define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/', strlen($_SERVER['DOCUMENT_ROOT'])));
+
 
 if (isset($_POST['login-username']) && isset($_POST['login-password'])) {
 	$loginDA = new LoginDA();
@@ -21,12 +23,12 @@ if (isset($_POST['login-username']) && isset($_POST['login-password'])) {
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="author" content="Benj Fassbind & Jan Bucher" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/less.js" ></script>
-	<link rel="stylesheet" href="style/bootstrap.min.css" />
-	<link rel="stylesheet/less" type="text/css" href="style/global.less" />
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/less.js" ></script>
+	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/less.js" ></script>
+	<link rel="stylesheet" href="<?php echo ROOTPATH; ?>style/bootstrap.min.css" />
+	<link rel="stylesheet/less" type="text/css" href="<?php echo ROOTPATH; ?>style/global.less" />
+	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/less.js" ></script>
 </head>
 
 <body style="padding-top: 70px">
