@@ -1,22 +1,32 @@
 <?php
 	define( 'ACTIVE_MENU', 'administration');
 	include_once '../core/header.php';
-	include_once '../core/logic/userDA.php'	;
+	include_once '../core/logic/groupDA.php'	;
+	
+	$groupDA = new GroupDA();
+	$selectedGroup = $groupDA->getGroup($_GET["g"]);
+	
+	if ($selectedGroup == null) {
+		//header("Location: groups.php");
+		die();
+	}
+	
+	
 ?>
 <div id="main">
-	<div class="alert alert-warning">THIS SITE IS JUST A DEMO!!!</div>	
 	<ul class="nav nav-tabs">
-		<li><a href="users.html">Users</a></li>
+		<li><a href="users.php">Users</a></li>
 		<li class="active"><a href="groups.php">Groups</a></li>
 		<li><a href="projects.php">Projects</a></li>
 		<li><a href="settings.php">Global Settings</a></li>
 	</ul>
-	<h1>Edit Global-Admin...</h1>
+	<h1>Edit <?php echo $selectedGroup["name"]; ?>...</h1>
 	<form action="#" class="userEditForm">
+		<input type="hidden" name="general" value="true" />
 		<table class="table">
 			<tr>
 				<th>Groupname:</th>
-				<td><input type="text" class="form-control" id="editGroupname" placeholder="Global-Admin"></td>
+				<td><input type="text" class="form-control" id="editGroupname" value="<?php echo $selectedGroup["name"]; ?>"></td>
 			</tr>
 		</table>
 		<button type="submit" class="btn btn-primary">Save</button>
@@ -40,11 +50,7 @@
 			<tr>
 				<td>Add User: 
 					<select class="form-control">
-					  <option id="1">global-admin</option>
-					  <option id="2">jquery-admin</option>
-					  <option id="3">jquery-dev</option>
-					  <option id="4">jquery-tester</option>
-					  <option id="5">inf2abm</option>
+					<?php echo $groupDA->printGroupSelect();?>
 					</select></td>
 				<td><button type="button" class="btn btn-success" style="margin-top: 20px;">Add</button></td>
 			</tr>

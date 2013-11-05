@@ -57,7 +57,7 @@ class UserDA {
 		$newUsername = $db->esc($newUsername);
 		
 		
-		if (!usernameExists($newUsername)) {
+		if (!$this->usernameExists($newUsername)) {
 			$updateSql = "UPDATE user SET username='$newUsername'
 			WHERE id=$userId";
 			$db->query($updateSql);

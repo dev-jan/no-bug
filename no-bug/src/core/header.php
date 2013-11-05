@@ -28,6 +28,9 @@ $logedInUser = $userDA->getUser($_SESSION["userId"]);
 		<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/less.js" ></script>
 		<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/global.js" ></script>
+		
+		<link rel="shortcut icon" href="<?php echo ROOTPATH; ?>icon.ico" type="image/x-icon" />
+		<link rel="icon" href="<?php echo ROOTPATH; ?>icon.ico" type="image/x-icon" /> 
 	</head>
 	<body>
 	

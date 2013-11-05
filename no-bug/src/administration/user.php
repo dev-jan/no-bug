@@ -20,6 +20,9 @@
 		if (isset($_POST["editSurname"])) {
 			$userDA->updateSurname($_GET["u"], $_POST["editSurname"]);
 		}
+		if (isset($_POST["editEmail"])) {
+			$userDA->updateEmail($_GET["u"], $_POST["editEmail"]);
+		}
 	}
 	
 	// Event PwReset
@@ -63,19 +66,19 @@
 			<table class="table userEditTable">
 				<tr>
 					<th>Username:</th>
-					<td><input type="text" class="form-control" name="editUsername" placeholder="<?php echo $selectedUser["username"];?>"></td>
+					<td><input type="text" class="form-control" name="editUsername" value="<?php echo $selectedUser["username"];?>"></td>
 				</tr>
 				<tr>
 					<th>Prename:</th>
-					<td><input type="text" class="form-control" name="editPrename" placeholder="<?php echo $selectedUser["prename"];?>"></td>
+					<td><input type="text" class="form-control" name="editPrename" value="<?php echo $selectedUser["prename"];?>"></td>
 				</tr>
 				<tr>
 					<th>Surname:</th>
-					<td><input type="text" class="form-control" name="editSurname" placeholder="<?php echo $selectedUser["surname"];?>"></td>
+					<td><input type="text" class="form-control" name="editSurname" value="<?php echo $selectedUser["surname"];?>"></td>
 				</tr>
 				<tr>
 					<th>Email:</th>
-					<td><input type="text" class="form-control" name="editEmail" placeholder="<?php echo $selectedUser["email"];?>"></td>
+					<td><input type="text" class="form-control" name="editEmail" value="<?php echo $selectedUser["email"];?>"></td>
 				</tr>
 			</table>
 			<button type="submit" class="btn btn-primary">Save Changes</button>
