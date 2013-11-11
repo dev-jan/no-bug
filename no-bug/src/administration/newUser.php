@@ -1,4 +1,5 @@
 <?php
+	define( 'ACTIVE_MENU', 'administration');
 	include_once '../core/header.php';
 	include_once '../core/logic/userDA.php';
 	$userDA = new UserDA();
