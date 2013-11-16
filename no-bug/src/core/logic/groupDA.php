@@ -232,6 +232,21 @@ class GroupDA {
 		$db->query($insertSql);
 	}
 	
+	public function printGroupSelection ($selectedGroupID) {
+		$db = new DB();
+		$db->connect();
+	
+		$sql = "SELECT * FROM `group` WHERE active != 0";
+		$query = $db->query($sql);
+		while ($oneGroup = $query->fetch_assoc()) {
+			$selectedText = "";
+			if ($oneGroup["id"] == $selectedGroupID) {
+				$selectedText = ' selected="selected" ';
+			}
+			echo '<option value="'.$oneGroup["id"].'"'.$selectedText.'>'.$oneGroup["name"].'</option>';
+		}
+	}
+	
 	public function toDate($unixTimestamp){
 		return date("Y-m-d", $unixTimestamp);
 	}

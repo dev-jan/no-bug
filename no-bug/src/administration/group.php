@@ -75,16 +75,14 @@
 		</table>
 	</form>
 	
-	<form action="#" class="userEditForm">
-		<h2>> Group Members...</h2>
-		<table class="table">
-			<tr>
-				<th>Name</th>
-				<th>Action</th>
-			</tr>
-			<?php echo $groupDA->printGroupMembersAsTable($selectedGroup["id"]); ?>
-		</table>
-	</form>
+	<h2>> Group Members...</h2>
+	<table class="table">
+		<tr>
+			<th>Name</th>
+			<th>Action</th>
+		</tr>
+		<?php echo $groupDA->printGroupMembersAsTable($selectedGroup["id"]); ?>
+	</table>
 	
 </div>
 <?php 

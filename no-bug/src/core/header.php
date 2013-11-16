@@ -16,7 +16,7 @@ $logedInUser = $userDA->getUser($_SESSION["userId"]);
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>no-bug | pre alpha 0.0.1</title>
+		<title>no-bug</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="author" content="Benj Fassbind & Jan Bucher" />
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
