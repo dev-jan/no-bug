@@ -11,12 +11,12 @@ class UserDA {
 		}
 		else {
 			$allUsersSql = "SELECT * FROM user
-							WHERE user.activ = 1";
+							WHERE user.active = 1";
 		}
 		
 		$usersQuery = $db->query($allUsersSql);		
 		while ($oneUser = $usersQuery->fetch_assoc()) {
-			if ($oneUser["activ"] == 1) {
+			if ($oneUser["active"] == 1) {
 				echo '<tr>';
 			}
 			else {
@@ -59,7 +59,7 @@ class UserDA {
 		
 		if (!$this->usernameExists($newUsername)) {
 			$updateSql = "UPDATE user SET username='$newUsername'
-			WHERE id=$userId";
+							WHERE id=$userId";
 			$db->query($updateSql);
 		}
 		else {
@@ -146,9 +146,9 @@ class UserDA {
 		
 		if (!$this->usernameExists($username)) {
 			$insertSql = "INSERT INTO `no-bug`.`user`
-						(`username`, `email`, `prename`, `surname`, `password`, `salt`, `activ`, `meta_creatorID`, `meta_createDate`,
+						(`username`, `email`, `prename`, `surname`, `password`, `salt`, `active`, `meta_creatorID`, `meta_createDate`,
 						`meta_changeUserID`, `meta_changeDate`)
-						VALUES ('$username', '$email', '$prename', '$surname', SHA2('$password', 256), '$salt', 1, ".$_SESSION["userId"].", '".$this->toDate(time())."', '".$_SESSION["userId"]."', '".$this->toDate(time())."');";
+						VALUES ('$username', '$email', '$prename', '$surname', SHA2('$password', 256), '$salt', 1, ".$_SESSION["userId"].", '".$db->toDate(time())."', '".$_SESSION["userId"]."', '".$this->toDate(time())."');";
 			$db->query($insertSql);
 		}
 	}
@@ -158,7 +158,7 @@ class UserDA {
 		$db->connect();
 		
 		$userId = $db->esc($userId);
-		$db->query("UPDATE user SET activ=0 WHERE user.id=$userId");
+		$db->query("UPDATE user SET active=0 WHERE user.id=$userId");
 	}
 	
 	public function activateUser($userId) {
@@ -166,7 +166,7 @@ class UserDA {
 		$db->connect();
 	
 		$userId = $db->esc($userId);
-		$db->query("UPDATE user SET activ=1 WHERE user.id=$userId");
+		$db->query("UPDATE user SET active=1 WHERE user.id=$userId");
 	}
 	
 	public function isUserActive($userId) {
@@ -174,17 +174,11 @@ class UserDA {
 		$db->connect();
 		
 		$userId = $db->esc($userId);
-		$query = $db->query("SELECT activ FROM user WHERE user.id=$userId");
+		$query = $db->query("SELECT active FROM user WHERE user.id=$userId");
 		$result = $query->fetch_assoc();
-		if ($result["activ"] == 1) {
+		if ($result["active"] == 1) {
 			return true;
 		}
 		return false;
-	}
-	
-	
-	
-	public function toDate($unixTimestamp){
-		return date("Y-m-d", $unixTimestamp);
 	}
 }

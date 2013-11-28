@@ -122,7 +122,9 @@ class ProjectDA {
 		
 		$allProjQuery = $db->query($getAllProjSql);
 		while ($oneProj = $allProjQuery->fetch_assoc()) {
-			echo '<a href="#" class="list-group-item"><h4>'.$oneProj["name"].' ('.$oneProj["key"].')</h4>'.$oneProj["description"].'</a>';
+			$sql = "SELECT * FROM task WHERE project_id = ".$oneProj["id"];
+			$taskcount = $db->query($sql)->num_rows;
+			echo '<a href="project.php?p='.$oneProj["id"].'" class="list-group-item"><h4>'.$oneProj["name"].' ('.$oneProj["key"].')</h4>'.$oneProj["description"].' <span class="badge pull-right">'.$taskcount.'</span></a>';
 		}
 	}
 }

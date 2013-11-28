@@ -227,7 +227,7 @@ class GroupDA {
 		$currentUserId = $db->esc($_SESSION["userId"]);
 		
 		$insertSql = "INSERT INTO `no-bug`.`group` (`name`, `active`, `meta_creator_id`, `meta_creatDate`)
-						 VALUES ('$groupname', '1', '$currentUserId', '".$this->toDate(time())."')";
+						 VALUES ('$groupname', '1', '$currentUserId', '".$db->toDate(time())."')";
 		
 		$db->query($insertSql);
 	}
@@ -245,9 +245,5 @@ class GroupDA {
 			}
 			echo '<option value="'.$oneGroup["id"].'"'.$selectedText.'>'.$oneGroup["name"].'</option>';
 		}
-	}
-	
-	public function toDate($unixTimestamp){
-		return date("Y-m-d", $unixTimestamp);
 	}
 }

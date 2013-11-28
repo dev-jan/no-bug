@@ -40,7 +40,7 @@ $logedInUser = $userDA->getUser($_SESSION["userId"]);
 			<a class="navbar-brand" href="#">no-bug</a>
 			<ul class="nav navbar-nav">
 	      		<li class="<?php if (ACTIVE_MENU == "main") {echo 'active';}?>"><a href="<?php echo ROOTPATH; ?>">Main</a></li>
-	      		<li class="<?php if (ACTIVE_MENU == "proj") {echo 'active';}?>"><a href="#">Projects</a></li>
+	      		<li class="<?php if (ACTIVE_MENU == "proj") {echo 'active';}?>"><a href="<?php echo ROOTPATH; ?>project.php">Projects</a></li>
 	      		<li class="<?php if (ACTIVE_MENU == "administration") {echo 'active';}?>"><a href="<?php echo ROOTPATH; ?>administration">Administration</a></li>
 	      	</ul>
 			

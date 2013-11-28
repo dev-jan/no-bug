@@ -14,7 +14,7 @@ class LoginDA {
 		
 		
 		$sqlsalt = "SELECT salt FROM user
-						WHERE user.username = '$username'";
+						WHERE user.username = '$username' AND user.active != 0";
 		
 		$saltquery = $db->query($sqlsalt);
 		$saltresult = $saltquery->fetch_assoc();

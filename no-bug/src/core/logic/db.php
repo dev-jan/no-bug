@@ -9,6 +9,7 @@ class DB {
 		if (mysqli_connect_errno($this->db)) {
 			echo "Connection lost! ^^";
 		}
+		$this->db->set_charset("utf8");
 	}
 	
 	public function query($sql) {
@@ -16,7 +17,7 @@ class DB {
 	}
 	
 	public function esc($par) {
-		return mysqli_real_escape_string($this->db, $par);
+		return htmlentities(mysqli_real_escape_string($this->db, $par), ENT_COMPAT | ENT_HTML5 , "UTF-8");
 	}
 	
 	public function createSalt() {
@@ -39,5 +40,9 @@ class DB {
 			$returnString.=$w_s[$wg];
 		}
 		return $returnString;
+	}
+	
+	public function toDate($unixTimestamp){
+		return date("Y-m-d", $unixTimestamp);
 	}
 }
