@@ -25,22 +25,18 @@
       		$taskDA = new TaskDA();
       		$projectsTask = $taskDA->getTasksQueryByProjectID($_GET["p"]);
       		while ($oneTask = $projectsTask->fetch_assoc()) {
-				echo '<a href="task.php?t='.$oneTask["id"].'" class="list-group-item"><b>'.$selectedProject["key"].'-'.$oneTask["id"].'</b>: '.$oneTask["summary"].'</a>';
+				echo '<a href="task.php?t='.$oneTask["id"].'" class="list-group-item"><b>'.$selectedProject["key"].'-'.$oneTask["id"].'</b>: '.$oneTask["summary"].' <span class="badge pull-right">'.$oneTask["name"].'</span> </a>';
 			}
-      	
       	?>
       </div>
 	</div>
-	
 </div>
-	
 <?php 
 	include 'core/footer.php';
 	die();
 	}
 	
 ?>
-
 
 <div id="main">
 	<h1>All Projects</h1>

@@ -48,7 +48,7 @@ $logedInUser = $userDA->getUser($_SESSION["userId"]);
 		      	<li class="dropdown">
 		        	<a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $logedInUser["prename"] . " " . $logedInUser["surname"]?> <b class="caret"></b></a>
 			        <ul class="dropdown-menu" id="menuUserDropdown" role="menu" aria-labelledby="dLabel">
-			        	<li><a href="#">Profil</a></li>
+			        	<li><a href="<?php echo ROOTPATH; ?>profil.php">Profil</a></li>
 			        	<li class="divider"></li>
 			        	<li><a href="<?php echo ROOTPATH; ?>core/logout.php">Logout</a></li>
 			        </ul>
