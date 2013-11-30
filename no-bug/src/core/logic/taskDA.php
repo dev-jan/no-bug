@@ -51,7 +51,7 @@ class TaskDA {
 				      `assignee_id`, `createDate`, `tasktype_id`, `priority`, `active`) 
 				VALUES ('$summary', '$description', '$status', '$project', '".$_SESSION["userId"]."',
 				'$assignee', '".$db->toDate(time())."', '$type', '$priority', '1');";
-		$db->query($sql);		
+		$db->query($sql);	
 	}
 	
 	public function updateTask($taskid, $summary, $project, $assignee, $type, $priority, $status, $description) {

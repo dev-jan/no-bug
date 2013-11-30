@@ -113,7 +113,7 @@ class GroupDA {
 		$db = new DB();
 		$db->connect();
 	
-		$sql = "SELECT * FROM `user` WHERE `user`.activ != 0";
+		$sql = "SELECT * FROM `user` WHERE `user`.active != 0";
 		$query = $db->query($sql);
 		while ($oneUser = $query->fetch_assoc()) {
 			echo '<option value="'.$oneUser["id"].'">'.$oneUser["username"].'</option>';

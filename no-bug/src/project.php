@@ -2,15 +2,25 @@
 	define( 'ACTIVE_MENU', 'proj');
 	include_once 'core/header.php';
 	include_once 'core/logic/projectDA.php';
+	include_once 'core/logic/permissionDA.php';
 	$projDA = new ProjectDA();
+	$permDA = new PermissionDA();
 	
 	if (isset($_GET["p"])) {
+		$permDA->isReadOnProjectAllowed($_GET["p"]);
 		$selectedProject = $projDA->getProject($_GET["p"]);
+		if ($selectedProject["id"] == "") {
+			$permDA->echoPermissionDeniedAndDie();
+		}
 ?>
 <div id="main">
 	<h1><?php echo $selectedProject["name"];?> <small><?php echo $selectedProject["version"]?></small></h1>
 	<p><?php echo $selectedProject["description"];?></p> 
-	
+	<p>
+		Admin? <?php echo $permDA->isAdminOnProjectAllowed($selectedProject["id"]); ?>
+		Write? <?php echo $permDA->isWriteOnProjectAllowed($selectedProject["id"]); ?>
+		Read? <?php echo $permDA->isReadOnProjectAllowed($selectedProject["id"]); ?>
+	</p>
 	<form action="task.php" method="get">
 		<input type="hidden" name="new" value="true" />
 		<input type="hidden" name="proj" value="<?php echo $_GET["p"]; ?>" />

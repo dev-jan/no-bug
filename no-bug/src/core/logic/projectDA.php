@@ -118,13 +118,16 @@ class ProjectDA {
 		$db = new DB();
 		$db->connect();
 		
-		$getAllProjSql = "SELECT * FROM project WHERE active != 0";
-		
-		$allProjQuery = $db->query($getAllProjSql);
+		include_once dirname(__FILE__).'/permissionDA.php';
+		$permissionDA = new PermissionDA();
+		$allProjQuery = $permissionDA->getAllAllowedProjects($_SESSION["userId"]);
 		while ($oneProj = $allProjQuery->fetch_assoc()) {
 			$sql = "SELECT * FROM task WHERE project_id = ".$oneProj["id"];
 			$taskcount = $db->query($sql)->num_rows;
 			echo '<a href="project.php?p='.$oneProj["id"].'" class="list-group-item"><h4>'.$oneProj["name"].' ('.$oneProj["key"].')</h4>'.$oneProj["description"].' <span class="badge pull-right">'.$taskcount.'</span></a>';
+		}
+		if ($allProjQuery->num_rows <= 0) {
+			echo '<p class="list-group-item" >No Projects found...</p>';
 		}
 	}
 }
