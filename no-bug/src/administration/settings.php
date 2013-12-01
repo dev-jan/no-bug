@@ -10,6 +10,10 @@
 	}
 	
 	$settingsDA = new SettingsDA();
+	
+	if (isset($_POST["edited"])) {
+		$settingsDA->setValues($_POST["admingroup"], $_POST["platformname"], $_POST["motd"]);
+	}
 ?>	
 <div id="main">
 	<ul class="nav nav-tabs">
@@ -19,7 +23,8 @@
 		<li class="active"><a href="settings.php">Global Settings</a></li>
 	</ul>
 	<h1>Global Settings</h1>
-	<form action="#" class="userEditForm">
+	<form action="#" class="userEditForm" method="post">
+		<input type="hidden" name="edited" value="true" />
 		<h2>> General</h2>
 		<table class="table">
 			<tr>

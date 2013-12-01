@@ -22,6 +22,10 @@ class DB {
 		return $sqlEscape;
 	}
 	
+	public function mySqlEsc($par) {
+		return mysqli_real_escape_string($this->db, $par);
+	}
+	
 	public function createSalt() {
 		return $this->random_string(29,false,true);
 	}

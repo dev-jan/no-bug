@@ -2,10 +2,16 @@
 define( 'ACTIVE_MENU', 'main');
 include_once 'core/header.php';
 include_once 'core/logic/projectDA.php';
+include_once 'core/logic/settingsDA.php';
 ?>
 <div id="main">
 	<div class="panel panel-default">
-		<div class="panel-body">Achtung: no-bug ist zurzeit noch in der Entwicklung! Bei Fehler: Mail an <a href="mailto:jan@endlesscoderz.ch">jan@endlesscoderz.ch</a></div>
+		<div class="panel-body">
+		<?php 
+			$settingsDA = new SettingsDA();
+			echo $settingsDA->getMotd();
+		?>
+		</div>
 	</div>
 
 	<div class="panel panel-primary">
