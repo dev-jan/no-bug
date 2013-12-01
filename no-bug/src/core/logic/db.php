@@ -17,7 +17,9 @@ class DB {
 	}
 	
 	public function esc($par) {
-		return htmlentities(mysqli_real_escape_string($this->db, $par), ENT_COMPAT | ENT_HTML5 , "UTF-8");
+		$htmlEscape = htmlspecialchars($par, ENT_COMPAT | ENT_HTML5 , "UTF-8");
+		$sqlEscape = mysqli_real_escape_string($this->db, $htmlEscape);
+		return $sqlEscape;
 	}
 	
 	public function createSalt() {

@@ -31,7 +31,8 @@ class TaskDA {
 		
 		$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name FROM task 
 					INNER JOIN `status` ON task.status_id = `status`.id
-				WHERE project_id = ".$projectID;
+				WHERE project_id = ".$projectID . 
+				" ORDER BY task.id DESC";
 		return $db->query($sql);
 	}
 	

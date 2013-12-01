@@ -125,7 +125,7 @@
 	<div class="panel panel-primary" >
 		<div class="panel-heading">Description</div>
 		<div class="panel-body">
-			<?php echo $selectedTask["description"]?>
+			<?php echo nl2br($selectedTask["description"]); ?>
 		</div>
 	</div>
 	
