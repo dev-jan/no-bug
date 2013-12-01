@@ -76,14 +76,33 @@ class PermissionDA {
 	}
 	
 	public function isGeneralAdmininstrationAllowed () {
-		// TODO: implement!
+		$db = new DB();
+		$db->connect();
+		$userId = $db->esc($_SESSION["userId"]);
+		
+		$groupsSql = "";
+		$groupsArray = $this->getAllGroups($userId);
+		$groupCounter = count($groupsArray);
+		for ($x = 0; $x < $groupCounter; $x++)
+		{
+			if ($x == 0) {
+				$groupsSql = $groupsSql . "'".$groupsArray[$x]."'";
+			}
+			$groupsSql = $groupsSql . ",'".$groupsArray[$x]."'";
+		}
+		
+		$sql = "SELECT value FROM setting WHERE `key` = 'global.admingroup' AND value IN (" . $groupsSql . ")";
+		if ($db->query($sql)->num_rows > 0) {
+			return true;
+		}
+		return false;
 	}
 	
 	public function echoPermissionDeniedAndDie() {
 		echo '<div class="alert alert-danger alert-dismissable">
 			  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			  <strong>Access Denied!</strong> You don\'t have the Permission to access this Page! </div>';
-		include 'core/footer.php';
+		include dirname(__FILE__).'/../footer.php';
 		die();
 	}
 	

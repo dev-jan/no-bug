@@ -2,6 +2,12 @@
 	define( 'ACTIVE_MENU', 'administration');
 	include_once '../core/header.php';
 	include_once '../core/logic/projectDA.php';
+	include_once '../core/logic/permissionDA.php';
+	
+	$permDA = new PermissionDA();
+	if (!$permDA->isGeneralAdmininstrationAllowed()) {
+		$permDA->echoPermissionDeniedAndDie();
+	}
 	
 	$projDA = new ProjectDA();
 	

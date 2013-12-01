@@ -5,6 +5,12 @@
 	$userDA = new UserDA();
 	include_once '../core/logic/groupDA.php';
 	$groupDA = new GroupDA();
+	include_once '../core/logic/permissionDA.php';
+	
+	$permDA = new PermissionDA();
+	if (!$permDA->isGeneralAdmininstrationAllowed()) {
+		$permDA->echoPermissionDeniedAndDie();
+	}
 	
 	if(!isset($_GET["u"])) {
 		//header("Location: users.php");

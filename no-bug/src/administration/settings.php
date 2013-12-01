@@ -1,10 +1,17 @@
 <?php
 	define( 'ACTIVE_MENU', 'administration');
 	include_once '../core/header.php';
-	include_once '../core/logic/userDA.php'	;
+	include_once '../core/logic/settingsDA.php';
+	include_once '../core/logic/permissionDA.php';
+	
+	$permDA = new PermissionDA();
+	if (!$permDA->isGeneralAdmininstrationAllowed()) {
+		$permDA->echoPermissionDeniedAndDie();
+	}
+	
+	$settingsDA = new SettingsDA();
 ?>	
 <div id="main">
-	<div class="alert alert-warning">THIS SITE IS JUST A DEMO!!!</div>	
 	<ul class="nav nav-tabs">
 		<li><a href="users.php">Users</a></li>
 		<li><a href="groups.php">Groups</a></li>
@@ -18,13 +25,21 @@
 			<tr>
 				<th>Global Admin Group:</th>
 				<td>
-					<select class="form-control">
-					  <option id="1" selected="selected">global-admin</option>
-					  <option id="2">jquery-admin</option>
-					  <option id="3">jquery-dev</option>
-					  <option id="4">jquery-tester</option>
-					  <option id="5">inf2abm</option>
+					<select class="form-control" name="admingroup" >
+					  <?php $settingsDA->printGlobalAdminGroupSelect(); ?>
 					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>Name of this Platform:</th>
+				<td>
+					<input type="text" class="form-control" name="platformname" value="<?php echo $settingsDA->getPlatformName(); ?>" />
+				</td>
+			</tr>
+			<tr>
+				<th>Message of the Day:</th>
+				<td>
+					<textarea name="motd" class="form-control" ><?php echo $settingsDA->getMotd(); ?></textarea>
 				</td>
 			</tr>
 		</table>
@@ -34,14 +49,7 @@
 	<form action="#" class="userEditForm">
 		<h2>> Infos</h2>
 		<table class="table userEditTable">
-			<tr>
-				<th>Servername: </th>
-				<td>Linux raspberrypi 3.2.27+ #250 PREEMPT Thu Oct 18 19:03:02 BST 2012 armv6l</td>
-			</tr>
-			<tr>
-				<th>Total Tasks: </th>
-				<td>20'432</td>
-			</tr>
+			<?php $settingsDA->printServerInfos(); ?>
 		</table>
 	</form>
 </div>
