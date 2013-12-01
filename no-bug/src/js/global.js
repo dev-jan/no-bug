@@ -12,6 +12,10 @@ function hideshow(which){
 }
 
 function resizeTextarea (textarea) {
+	window.setTimeout("realresizeTextarea('" + textarea + "')", 20);
+}
+
+function realresizeTextarea (textarea) {
 	var rowsArray = document.getElementById(textarea).value.split('\n');
-	document.getElementById(textarea).rows = rowsArray.length + 1;
+	document.getElementById(textarea).rows = rowsArray.length + 2;
 }

@@ -78,7 +78,7 @@
 		<div class="panel panel-primary" >
 			<div class="panel-heading">Description</div>
 			<div class="panel-body">
-				<textarea name="description" class="form-control" placeholder="Description here..." id="desc" onkeydown="setTimeout(resizeTextarea('desc'),20)" ><?php echo $selectedTask["description"]; ?></textarea>
+				<textarea name="description" class="form-control" placeholder="Description here..." id="desc" onkeydown="resizeTextarea('desc')" ><?php echo $selectedTask["description"]; ?></textarea>
 			</div>
 		</div>
 		<button type="submit" class="btn btn-success">Save Changes</button>

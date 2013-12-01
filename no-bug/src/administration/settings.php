@@ -44,10 +44,13 @@
 			<tr>
 				<th>Message of the Day:</th>
 				<td>
-					<textarea name="motd" class="form-control" ><?php echo $settingsDA->getMotd(); ?></textarea>
+					<textarea name="motd" class="form-control" id="motd" onkeydown="resizeTextarea('motd')"><?php echo $settingsDA->getMotd(); ?></textarea>
 				</td>
 			</tr>
 		</table>
+		<script type="text/javascript" >
+			resizeTextarea('motd');
+		</script>
 		<button type="submit" class="btn btn-primary">Save Changes</button>
 	</form>
 	
