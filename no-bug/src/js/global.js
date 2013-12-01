@@ -10,3 +10,8 @@ function hideshow(which){
 		which.style.display="block";
 	}
 }
+
+function resizeTextarea (textarea) {
+	var rowsArray = document.getElementById(textarea).value.split('\n');
+	document.getElementById(textarea).rows = rowsArray.length + 1;
+}
