@@ -137,7 +137,9 @@
 				</td>
 			</tr>
 		</table>
-
+		
+		<form action="" ><h2>> Permissions on Projects...</h2></form>
+		<?php echo $userDA->printPermissionTable($selectedUser["id"]); ?>
 		
 		<form action="#" method="post">
 			<?php 

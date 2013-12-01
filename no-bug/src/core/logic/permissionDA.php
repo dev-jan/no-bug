@@ -126,7 +126,20 @@ class PermissionDA {
 		return $db->query($allowedProjectsSql);
 	}
 	
-	private function getAllGroups ($userId) {
+	public function isGroupInList ($groupId, $groupsArray) {
+		$count = count($groupsArray) - 1;
+		
+		$x = 0;
+		while ($x <= $count) {
+			if ($groupId == $groupsArray[$x]) {
+				return true;
+			}
+			$x++;
+		}
+		
+	} 
+	
+	public function getAllGroups ($userId) {
 		$db = new DB();
 		$db->connect();
 		$userId = $db->esc($userId);

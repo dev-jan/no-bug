@@ -1,5 +1,6 @@
 <?php
 include_once 'db.php';
+include_once dirname(__FILE__).'/permissionDA.php';
 
 class UserDA {	
 	public function printAllUsersTable($reallyAll) {
@@ -180,5 +181,51 @@ class UserDA {
 			return true;
 		}
 		return false;
+	}
+	
+	public function printPermissionTable ($userId) {
+		$db = new DB();
+		$db->connect();
+		
+		$userId = $db->esc($userId);
+		$permDA = new PermissionDA();
+		
+		$query = $permDA->getAllAllowedProjects($userId);
+		$usersGroups = $permDA->getAllGroups($userId);
+		$textYes = "YES";
+		$textNO = "NO";
+		
+		echo '<table class="table">
+				<tr>
+					<th>Project</th>
+					<th>Admin</th>
+					<th>Write</th>
+					<th>Read</th>
+				</tr>';		
+		while ($oneProject = $query->fetch_assoc()) {
+			$adminText = $textNO;
+			$writeText = $textNO;
+			$readText = $textNO;
+			if ($permDA->isGroupInList($oneProject["group_admin"], $usersGroups)) {
+				$adminText = $textYes;
+				$writeText = $textYes;
+				$readText = $textYes;
+			}
+			else if ($permDA->isGroupInList($oneProject["group_write"], $usersGroups)) {
+				$writeText = $textYes;
+				$readText = $textYes;
+			}
+			else if ($permDA->isGroupInList($oneProject["group_read"], $usersGroups)) {
+				$readText = $textYes;
+			}
+			
+			echo '<tr>
+					<td>'.$oneProject["name"].'('.$oneProject["key"].')</td>
+					<td>'.$adminText.'</td>
+					<td>'.$writeText.'</td>
+					<td>'.$readText.'</td>
+				  </tr>';
+		}
+		echo '</table>';
 	}
 }
