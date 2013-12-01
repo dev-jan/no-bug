@@ -246,4 +246,18 @@ class GroupDA {
 			echo '<option value="'.$oneGroup["id"].'"'.$selectedText.'>'.$oneGroup["name"].'</option>';
 		}
 	}
+	
+	public function printGroupsOfUser($userId) {
+		$db = new DB();
+		$db->connect();
+		$userId = $db->esc($userId);
+		
+		$sql = "SELECT * FROM user_group
+					INNER JOIN `group` ON `group`.id = user_group.group_id
+				WHERE user_id = " . $userId;
+		$query = $db->query($sql);
+		while ($oneGroup = $query->fetch_assoc()) {
+			echo '<a href="group.php?g=' . $oneGroup["id"] . '">' . $oneGroup["name"] . '</a><br />';
+		}
+	}
 }

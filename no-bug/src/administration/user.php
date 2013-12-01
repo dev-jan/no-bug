@@ -3,6 +3,8 @@
 	include_once '../core/header.php';
 	include_once '../core/logic/userDA.php';
 	$userDA = new UserDA();
+	include_once '../core/logic/groupDA.php';
+	$groupDA = new GroupDA();
 	
 	if(!isset($_GET["u"])) {
 		//header("Location: users.php");
@@ -30,6 +32,11 @@
 		if ($_POST["pwreset1"] == $_POST["pwreset2"]) {
 			$userDA->updatePassword($_GET["u"], $_POST["pwreset1"]);
 		}
+	}
+	
+	// Events Groupmembership
+	if (isset($_POST["addGroupSelect"])) {
+		$groupDA->addUsermember($_POST["addGroupSelect"], $_GET["u"]);
 	}
 	
 	// Event Activate/Deactivate User
@@ -101,33 +108,30 @@
 			<button type="submit" class="btn btn-warning">Change Password</button>
 		</form>
 		
-		<form action="#" class="userEditForm">
-			<h2>> Member of...</h2>
-			<table class="table">
-				<tr>
-					<th>Member of this Groups:</th>
-					<th>Add new Group...</th>
-				</tr>
-				<tr>
-					<td>
-						<button type="button" class="btn btn-default btn-sm closebtn" >&times; global-admin </button>   <br />
-						<button type="button" class="btn btn-default btn-sm closebtn" >&times; jquery-dev </button>   <br />
-						<button type="button" class="btn btn-default btn-sm closebtn" >&times; inf2abm </button>   <br />
-					</td>
-					<td>
-						Add Group: 
-						<select class="form-control">
-						  <option id="1">global-admin</option>
-						  <option id="2">jquery-admin</option>
-						  <option id="3">jquery-dev</option>
-						  <option id="4">jquery-tester</option>
-						  <option id="5">inf2abm</option>
-						</select>
-						<button type="button" class="btn btn-success" style="margin-top: 10px;">Add</button>
-					</td>
-				</tr>
-			</table>
-		</form>
+		<form class="userEditForm"><h2>> Member of...</h2></form>
+		<table class="table">
+			<tr>
+				<th>Member of this Groups:</th>
+				<th>Add new Group...</th>
+			</tr>
+			<tr>
+				<td>
+					<?php 
+						$groupDA->printGroupsOfUser($_GET["u"]);
+					?>
+				</td>
+				<td>
+					Add Group: 
+					<form action="#" method="post" ><select class="form-control" name="addGroupSelect">
+					  <?php 
+					  	$groupDA->printGroupSelect();
+					  ?>
+					</select>
+					<button type="submit" class="btn btn-success" style="margin-top: 10px;">Add</button></form>
+				</td>
+			</tr>
+		</table>
+
 		
 		<form action="#" method="post">
 			<?php 
