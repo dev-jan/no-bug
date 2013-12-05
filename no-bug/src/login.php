@@ -1,4 +1,5 @@
 <?php 
+$error = null;
 session_start(); 
 include_once dirname(__FILE__).'/core/logic/loginDA.php';
 define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/', strlen($_SERVER['DOCUMENT_ROOT'])));
@@ -11,6 +12,8 @@ if (isset($_POST['loginusername']) && isset($_POST['loginpassword'])) {
 		$_SESSION['userId'] = $uid;
 		header("Location: index.php");
 		die();
+	} else {
+		$error = "<b>Error:</b> Incorrect username or password code entered. Please try again.";
 	}
 }
 
@@ -26,6 +29,7 @@ if (isset($_POST['loginusername']) && isset($_POST['loginpassword'])) {
 	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/less.js" ></script>
 	<link rel="stylesheet" href="<?php echo ROOTPATH; ?>style/bootstrap.min.css" />
+	<link rel="stylesheet" href="<?php echo ROOTPATH; ?>style/gh-fork-ribbon.css" />
 	<link rel="stylesheet/less" type="text/css" href="<?php echo ROOTPATH; ?>style/global.less" />
 	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/less.js" ></script>
@@ -40,7 +44,23 @@ if (isset($_POST['loginusername']) && isset($_POST['loginpassword'])) {
 	</div>
 	
 	<div id=main>
-		<div id="login-box" style="margin-bottom: 200px;">
+		<?php 
+		if ($error != null):
+		?>
+		<div class="alert alert-danger">
+			<?php echo $error ?>
+		</div>
+		<?php
+		endif
+		?>
+		
+		<div class="github-fork-ribbon-wrapper right">
+	        <div class="github-fork-ribbon">
+	            <a href="https://github.com/dev-jan/no-bug">Fork me on GitHub</a>
+	        </div>
+	    </div>
+		
+		<div id="login-box">
 			<form method="POST" action="" name="loginform">
 				<div class="form-group">
 					<label for="login-username">Username:</label>

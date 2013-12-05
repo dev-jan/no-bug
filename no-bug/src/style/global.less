@@ -5,10 +5,32 @@ body {
 	padding-top: 70px;
 }
 
+/*
+ * HEADER AND FOOTER STYLE:
+ *  This is the header and footer style
+ */
+
 #header-wrapper {
 	max-width: @maxpagewidth;
 	margin: auto;
 }
+
+#footer {
+	
+	margin-top: 20px;
+	margin-bottom: 20px;
+	background-color: #f8f8f8;
+	text-align: center;
+	border-top: solid 1px #e7e7e7;
+	border-bottom: solid 1px #e7e7e7;
+	color: #777777;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+/*
+ * MAIN STYLE:
+ */
 
 #main {
 	padding-left: 15px;
@@ -26,27 +48,46 @@ body {
 	}
 }
 
-#footer {
+/*
+ * LOGIN STYLE:
+ *  Style for the login page
+ */
+
+.form-group {
+	label {
+		display: inline-block;
+		margin-right: 10px;
+		font-size: 1.2em;
+	}
 	
-	margin-top: 20px;
-	margin-bottom: 20px;
-	background-color: #f8f8f8;
-	text-align: center;
-	border-top: solid 1px #e7e7e7;
-	border-bottom: solid 1px #e7e7e7;
-	color: #777777;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	.form-control {
+		width: 200px;
+		display: inline-block;
+	}
+	
+	button {
+		margin-left: 238px;
+	}
 }
 
 #login-box {
-	width: 250px;
+	width: 500px;
 	padding-left: 50px;
-	padding-top: 20px;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 50px;
+	padding-top: 30px;
+	margin-top: 20px;
+	margin-bottom: 200px;
 }
+
+.image-gallery {
+	width: 500px;
+	height: 400px;
+	float: right;
+}
+
+/*
+ * NAVIGATION STYLE:
+ *  Style for the navigation
+ */
 
 .nav-tabs {
 	margin-left: 10px;
