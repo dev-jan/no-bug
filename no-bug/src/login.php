@@ -33,6 +33,10 @@ if (isset($_POST['loginusername']) && isset($_POST['loginpassword'])) {
 	<link rel="stylesheet/less" type="text/css" href="<?php echo ROOTPATH; ?>style/global.less" />
 	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/less.js" ></script>
+	<link rel="stylesheet" href="<?php echo ROOTPATH; ?>js/nivo-slider/nivo-slider.css" type="text/css" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
+	<script src="<?php echo ROOTPATH; ?>js/nivo-slider/jquery.nivo.slider.pack.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="<?php echo ROOTPATH; ?>js/nivo-slider/themes/default/default.css" type="text/css" />
 </head>
 
 <body style="padding-top: 70px" onload="javascript:document.loginform.loginusername.focus();">
@@ -73,6 +77,23 @@ if (isset($_POST['loginusername']) && isset($_POST['loginpassword'])) {
 				<button type="submit" class="btn btn-primary">Login</button>
 			</form>
 		</div>
+		<div id="promo-box" class="slider-wrapper theme-default">
+			<div class="ribbon"></div>
+			<div id="slider" class="nivoSlider">
+			    <img src="images/promotion/promotion.PNG" alt="" />
+			    <img src="images/promotion/promotion1.PNG" alt=""/>
+			    <img src="images/promotion/promotion2.PNG" alt="" />
+			    <img src="images/promotion/promotion3.PNG" alt="" />
+			    <img src="images/promotion/promotion4.PNG" alt="" />
+			</div>
+			
+			<script type="text/javascript">
+			$(window).load(function() {
+			    $('#slider').nivoSlider();
+			});
+			</script>
+		</div>
+		<div style="clear:both;"></div>
 	</div>
 <?php
 include 'core/footer.php';
