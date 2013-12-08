@@ -1,10 +1,9 @@
 <?php 
-$error = null;
 session_start(); 
 include_once dirname(__FILE__).'/core/logic/loginDA.php';
 define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/', strlen($_SERVER['DOCUMENT_ROOT'])));
 
-
+$error = null;
 if (isset($_POST['loginusername']) && isset($_POST['loginpassword'])) {
 	$loginDA = new LoginDA();
 	
@@ -65,6 +64,7 @@ if (isset($_POST['loginusername']) && isset($_POST['loginpassword'])) {
 	    </div>
 		
 		<div id="login-box">
+			<h3 style="color: #428bca; border-bottom: 1px solid; padding-bottom: 2px; margin-bottom: 30px;"><strong>Login</strong></h3>
 			<form method="POST" action="" name="loginform">
 				<div class="form-group">
 					<label for="login-username">Username:</label>
@@ -77,7 +77,14 @@ if (isset($_POST['loginusername']) && isset($_POST['loginpassword'])) {
 				<button type="submit" class="btn btn-primary">Login</button>
 			</form>
 		</div>
-		<div id="promo-box" class="slider-wrapper theme-default">
+		<div id="promo-text" class="promo-box" style="margin-bottom: 10px;">
+			<h4>no-bug Bugtracker</h4>
+			<p>Welcome to the "no-bug" - Bugtracker. This is a new, innovative, simple and stylish Bugtracking System for
+			   your Software Project. And it's no only free, its Open Source, so you can simply implement your own features.
+			   Here are some screenshots:
+			</p>
+		</div>
+		<div id="promo-box" class="slider-wrapper theme-default promo-box">
 			<div class="ribbon"></div>
 			<div id="slider" class="nivoSlider">
 			    <img src="images/promotion/promotion.PNG" alt="" />

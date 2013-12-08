@@ -67,12 +67,12 @@ class GroupDA {
 			} 
 		}
 		
-		$childUsersSql = "SELECT user.id AS id, user.username, user.prename, user.surname FROM user_group
+		$childUsersSql = "SELECT user.id, user.username, user.prename, user.surname FROM user_group
 							LEFT OUTER JOIN user ON user.id = user_group.user_id
 						  WHERE user_group.group_id = $groupID";
 		$childUserQuery = $db->query($childUsersSql);
 		while ($oneUser = $childUserQuery->fetch_assoc()) {
-			if ($oneUser["id"]) {
+			if ($oneUser["id"] != "") {
 				$return = $return . '<a href="user.php?u="'.$oneUser["id"].'">'.$oneUser["prename"].' '.$oneUser["surname"].' (User)</a><br />';
 			}
 		}
