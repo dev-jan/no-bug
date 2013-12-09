@@ -9,7 +9,7 @@ class TaskDA {
 		$absoluteId = $db->esc($absoluteId);
 		
 		$sql="SELECT task.id AS id, task.summary AS summary, task.description AS description, 
-				     task.createDate AS createDate, status.name AS statusname, 
+				     task.createDate AS createDate, status.name AS statusname, status.id AS status_id,
 				     tasktype.name AS tasktypname, `user`.prename AS prename, `user`.surname AS surname,
 					 task.priority AS priority, `user`.id AS assigneeId, tasktype.id AS tasktypId,
 					 project.id AS projectId, project.key AS projectkey

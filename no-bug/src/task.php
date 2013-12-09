@@ -68,7 +68,7 @@
 					<td>Status: </td>
 					<th>
 						<select class="form-control" name="statusSelect">
-							<?php $taskDA->printStatusSelect(); ?>
+							<?php $taskDA->printStatusSelect($selectedTask["status_id"]); ?>
 						</select>
 					</th>
 				</tr>
