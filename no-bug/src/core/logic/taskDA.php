@@ -16,10 +16,10 @@ class TaskDA {
 				FROM task
 				INNER JOIN status ON task.status_id = status.id
 				INNER JOIN tasktype ON task.tasktype_id = tasktype.id
-				INNER JOIN `user` ON task.assignee_id = `user`.id
+				LEFT JOIN `user` ON task.assignee_id = `user`.id
 				INNER JOIN project ON task.project_id = project.id
 				WHERE task.id = ".$absoluteId;
-		$query = $db->query($sql);
+		$query = $db->query($sql);	
 		return $query->fetch_assoc();
 	}
 	
@@ -48,10 +48,17 @@ class TaskDA {
 		$priority = $db->esc($priority);
 		$status = $db->esc($status);
 		
+		if ($assignee == 0) {
+			$assignee = "null";
+		}
+		else {
+			$assignee = "'".$assignee."'";
+		}
+		
 		$sql = "INSERT INTO `task` (`summary`, `description`, `status_id`, `project_id`, `creator_id`, 
 				      `assignee_id`, `createDate`, `tasktype_id`, `priority`, `active`) 
 				VALUES ('$summary', '$description', '$status', '$project', '".$_SESSION["userId"]."',
-				'$assignee', '".$db->toDate(time())."', '$type', '$priority', '1');";
+				$assignee, '".$db->toDate(time())."', '$type', '$priority', '1');";
 		$db->query($sql);	
 	}
 	
@@ -68,9 +75,16 @@ class TaskDA {
 		$priority = $db->esc($priority);
 		$status = $db->esc($status);
 		
+		if ($assignee == 0) {
+			$assignee = "null";
+		}
+		else {
+			$assignee = "'".$assignee."'";
+		}
+		
 		$sql = "UPDATE `task` 
 				SET `summary`='$summary', `description`='$description', `status_id`='$status', 
-				`project_id`='$project', `assignee_id`='$assignee', `tasktype_id`='$type', 
+				`project_id`='$project', `assignee_id`=$assignee, `tasktype_id`='$type', 
 				`priority`='2' WHERE `id`='$taskid';
 		";
 		$db->query($sql);
@@ -112,6 +126,7 @@ class TaskDA {
 		$sql = "SELECT * FROM `user` WHERE active != 0";
 		$query = $db->query($sql);
 		
+		echo '<option value="0">-- nobudy --</option>';
 		while ($oneRow = $query->fetch_assoc()) {
 			$selectedText = "";
 			if ($selectedAssignee == $oneRow["id"]) {

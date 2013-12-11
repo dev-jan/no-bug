@@ -110,7 +110,14 @@
 		<table class="table">
 			<tr>
 				<td>Assignee: </td>
-				<th><?php echo $selectedTask["prename"].' '. $selectedTask["surname"]?></th>
+				<th><?php 
+					if (isset($selectedTask["prename"]) && isset($selectedTask["surname"])) {
+						echo $selectedTask["prename"].' '. $selectedTask["surname"];
+					}
+					else {
+						echo '--- nobudy ---';
+					}
+				?></th>
 				
 				<td>Type: </td>
 				<th><?php echo $selectedTask["tasktypname"]?></th>
