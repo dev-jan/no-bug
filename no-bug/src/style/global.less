@@ -16,9 +16,8 @@ body {
 }
 
 #footer {
-	
-	margin-top: 20px;
-	margin-bottom: 20px;
+	position: fixed;
+	bottom: 0px;
 	background-color: #f8f8f8;
 	text-align: center;
 	border-top: solid 1px #e7e7e7;
@@ -26,6 +25,7 @@ body {
 	color: #777777;
 	padding-top: 5px;
 	padding-bottom: 5px;
+	width: 100%;
 }
 
 /*
@@ -38,7 +38,9 @@ body {
 	padding-right: 15px;
 	min-height: 400px;
 	max-width: @maxpagewidth;
-	margin: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 50px;
 	
 	h1 {
 		border-bottom: 1px solid #eeeeee;

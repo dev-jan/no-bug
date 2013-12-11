@@ -223,7 +223,7 @@ if (isset($_GET["new"])) {
 		<div class="panel panel-primary" >
 			<div class="panel-heading">Description</div>
 			<div class="panel-body">
-				<textarea name="description" class="form-control" placeholder="Description here..."></textarea>
+				<textarea name="description" class="form-control" placeholder="Description here..." id="desc" onkeydown="resizeTextarea('desc')" ></textarea>
 			</div>
 		</div>
 		<button type="submit" class="btn btn-success">Create Task</button>
