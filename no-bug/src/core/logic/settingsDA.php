@@ -60,8 +60,12 @@ class SettingsDA {
 		$informations[1]['value'] = phpversion();
 		
 		$informations[2] = array();
-		$informations[2]['name'] = 'Database Size';
-		$informations[2]['value'] = $this->getBytesWithPrefix($this->getDatabasesize());
+		$informations[2]['name'] = 'mySQL Version';
+		$informations[2]['value'] = mysqli_get_client_info();
+		
+		$informations[3] = array();
+		$informations[3]['name'] = 'Database Size';
+		$informations[3]['value'] = $this->getBytesWithPrefix($this->getDatabasesize());
 		
 		$numberOfInformations = count($informations) - 1;
 		
@@ -86,7 +90,7 @@ class SettingsDA {
 		while ($oneTable = $query->fetch_assoc()) {
 			$dbsize += $oneTable["Data_length"] + $oneTable["Index_length"];
 		}
-		
+		return $dbsize;
 	}
 	
 	private function getBytesWithPrefix ($bytes) {
