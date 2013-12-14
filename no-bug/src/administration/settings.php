@@ -10,12 +10,17 @@
 	}
 	
 	$settingsDA = new SettingsDA();
+	$alerts = "";
 	
 	if (isset($_POST["edited"])) {
 		$settingsDA->setValues($_POST["admingroup"], $_POST["platformname"], $_POST["motd"]);
+		$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
+					  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					  				<strong>Successfull</strong> changed Settings</div>';
 	}
 ?>	
 <div id="main">
+	<?php echo $alerts; ?>
 	<ul class="nav nav-tabs">
 		<li><a href="users.php">Users</a></li>
 		<li><a href="groups.php">Groups</a></li>

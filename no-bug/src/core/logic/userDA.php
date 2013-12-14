@@ -63,9 +63,10 @@ class UserDA {
 			$updateSql = "UPDATE user SET username='$newUsername'
 							WHERE id=$userId";
 			$db->query($updateSql);
+			return true;
 		}
 		else {
-			//TODO: Error Message
+			return false;
 		}
 		
 	}
@@ -150,7 +151,7 @@ class UserDA {
 			$insertSql = "INSERT INTO `no-bug`.`user`
 						(`username`, `email`, `prename`, `surname`, `password`, `salt`, `active`, `meta_creatorID`, `meta_createDate`,
 						`meta_changeUserID`, `meta_changeDate`)
-						VALUES ('$username', '$email', '$prename', '$surname', SHA2('$password', 256), '$salt', 1, ".$_SESSION["userId"].", '".$db->toDate(time())."', '".$_SESSION["userId"]."', '".$this->toDate(time())."');";
+						VALUES ('$username', '$email', '$prename', '$surname', SHA2('$password', 256), '$salt', 1, ".$_SESSION["userId"].", '".$db->toDate(time())."', '".$_SESSION["userId"]."', '".$db->toDate(time())."');";
 			$db->query($insertSql);
 		}
 	}
@@ -203,29 +204,39 @@ class UserDA {
 					<th>Write</th>
 					<th>Read</th>
 				</tr>';		
-		while ($oneProject = $query->fetch_assoc()) {
-			$adminText = $textNO;
-			$writeText = $textNO;
-			$readText = $textNO;
-			if ($permDA->isGroupInList($oneProject["group_admin"], $usersGroups)) {
-				$adminText = $textYes;
-				$writeText = $textYes;
-				$readText = $textYes;
+		if ($query != null && $query->num_rows > 0) {
+			while ($oneProject = $query->fetch_assoc()) {
+				$adminText = $textNO;
+				$writeText = $textNO;
+				$readText = $textNO;
+				if ($permDA->isGroupInList($oneProject["group_admin"], $usersGroups)) {
+					$adminText = $textYes;
+					$writeText = $textYes;
+					$readText = $textYes;
+				}
+				else if ($permDA->isGroupInList($oneProject["group_write"], $usersGroups)) {
+					$writeText = $textYes;
+					$readText = $textYes;
+				}
+				else if ($permDA->isGroupInList($oneProject["group_read"], $usersGroups)) {
+					$readText = $textYes;
+				}
+				
+				echo '<tr>
+						<td>'.$oneProject["name"].'('.$oneProject["key"].')</td>
+						<td>'.$adminText.'</td>
+						<td>'.$writeText.'</td>
+						<td>'.$readText.'</td>
+					  </tr>';
 			}
-			else if ($permDA->isGroupInList($oneProject["group_write"], $usersGroups)) {
-				$writeText = $textYes;
-				$readText = $textYes;
-			}
-			else if ($permDA->isGroupInList($oneProject["group_read"], $usersGroups)) {
-				$readText = $textYes;
-			}
-			
+		}
+		else {
 			echo '<tr>
-					<td>'.$oneProject["name"].'('.$oneProject["key"].')</td>
-					<td>'.$adminText.'</td>
-					<td>'.$writeText.'</td>
-					<td>'.$readText.'</td>
-				  </tr>';
+						<td>No Projects for this user...</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					  </tr>';
 		}
 		echo '</table>';
 	}

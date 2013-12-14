@@ -6,6 +6,7 @@
 	include_once '../core/logic/groupDA.php';
 	$groupDA = new GroupDA();
 	include_once '../core/logic/permissionDA.php';
+	$alerts = "";
 	
 	$permDA = new PermissionDA();
 	if (!$permDA->isGeneralAdmininstrationAllowed()) {
@@ -19,8 +20,12 @@
 	
 	// Event General->Save Changes
 	if (isset($_POST["general"])) {
-		if (isset($_POST["editUsername"])) {
-			$userDA->updateUsername($_GET["u"], $_POST["editUsername"]);
+		if (isset($_POST["editUsername"]) && ($userDA->getUser($_GET["u"])["username"] != $_POST["editUsername"])) {
+			if (!$userDA->updateUsername($_GET["u"], $_POST["editUsername"])) {
+				$alerts = '<div class="alert alert-danger alert-dismissable">
+		  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		  				<strong>Failed</strong> to changed the username to '.$_POST["editUsername"].' because it already exists.</div>';
+			}
 		}
 		if (isset($_POST["editPrename"])) {
 			$userDA->updatePrename($_GET["u"], $_POST["editPrename"]);
@@ -31,12 +36,23 @@
 		if (isset($_POST["editEmail"])) {
 			$userDA->updateEmail($_GET["u"], $_POST["editEmail"]);
 		}
+		$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
+		  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		  				<strong>Successfull</strong> changed usersettings </div>';
 	}
 	
 	// Event PwReset
 	if (isset($_POST["pwReset"])) {
 		if ($_POST["pwreset1"] == $_POST["pwreset2"]) {
 			$userDA->updatePassword($_GET["u"], $_POST["pwreset1"]);
+			$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
+		  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		  				<strong>Successfull</strong> changed Password </div>';
+		}
+		else {
+			$alerts = $alerts . '<div class="alert alert-danger alert-dismissable">
+		  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		  				<strong>Failed!</strong> Passwords not match </div>';
 		}
 	}
 	
@@ -48,9 +64,15 @@
 	// Event Activate/Deactivate User
 	if (isset($_POST["activate"])) {
 		$userDA->activateUser($_GET["u"]);
+		$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
+		  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		  				<strong>Successfull</strong> activate User </div>';
 	}
 	if (isset($_POST["deactivate"])) {
 		$userDA->deactivateUser($_GET["u"]);
+		$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
+		  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		  				<strong>Successfull</strong> deactivate User </div>';
 	}
 	
 	
@@ -66,6 +88,7 @@
 	
 ?>
 	<div id="main">
+		<?php echo $alerts; ?>
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="users.php">Users</a></li>
 			<li><a href="groups.php">Groups</a></li>

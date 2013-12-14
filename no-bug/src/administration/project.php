@@ -8,15 +8,21 @@
 	if (!$permDA->isGeneralAdmininstrationAllowed()) {
 		$permDA->echoPermissionDeniedAndDie();
 	}
-	
+	$alerts = "";
 	$projDA = new ProjectDA();
 	
 	if (isset($_POST["general"])) {
 		$projDA->updateGeneral($_GET["p"], $_POST["editName"], $_POST["editDescription"], $_POST["editVersion"]);
+		$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
+					  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					  				<strong>Successfull</strong> changed Project </div>';
 	}
 	
 	if (isset($_POST["groups"])) {
 		$projDA->updateGroups ($_GET["p"], $_POST["adminselect"], $_POST["writeselect"], $_POST["readselect"]);
+		$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
+					  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					  				<strong>Successfull</strong> changed Groups of the Project</div>';
 	}
 	
 	
@@ -30,6 +36,7 @@
 	
 ?>
 <div id="main">
+	<?php echo $alerts;?>
 	<ul class="nav nav-tabs">
 		<li><a href="users.php">Users</a></li>
 		<li><a href="groups.php">Groups</a></li>

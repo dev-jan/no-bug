@@ -10,18 +10,25 @@
 	}
 	
 	$userDA = new UserDA();
+	$alerts = "";
 	
 	if (isset($_POST["createUser"])) {
 		if ($_POST["newPassword"] == $_POST["newPassword2"]) {
 			$userDA->createUser($_POST["newUsername"], $_POST["newPrename"], $_POST["newSurname"], $_POST["newEmail"], $_POST["newPassword"]);
+			$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
+		  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		  				<strong>Successfull</strong> created user "'.$_POST["newUsername"].'"</div>';
 		}
 		else {
-			//TODO: Error Message
+			$alerts = $alerts . '<div class="alert alert-danger alert-dismissable">
+		  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		  				<strong>Failed</strong> to create user "'.$_POST["newUsername"].'", because the passwords not match</div>';
 		}
 	}
 	
 ?>
 	<div id="main">
+		<?php echo $alerts; ?>
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="users.php">Users</a></li>
 			<li><a href="groups.php">Groups</a></li>

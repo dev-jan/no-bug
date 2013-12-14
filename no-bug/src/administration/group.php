@@ -10,9 +10,13 @@
 	}
 	
 	$groupDA = new GroupDA();
-	
+	$alerts = "";
+		
 	if (isset($_POST["editGroupname"])) {
 		$groupDA->updateGroupname($_GET["g"], $_POST["editGroupname"]);
+		 $alerts = $alerts . '<div class="alert alert-success alert-dismissable">
+					  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					  				<strong>Successfull</strong> changed Group "'.$_POST["editGroupname"].'"</div>';
 	}
 	if (isset($_POST["addGroup"])) {
 		$groupDA->addGroupmember($_GET["g"], $_POST["newGroup"]);
@@ -33,12 +37,9 @@
 		//header("Location: groups.php");
 		die();
 	}
-	
-
-	
-	
 ?>
 <div id="main">
+	<?php echo $alerts;?>
 	<ul class="nav nav-tabs">
 		<li><a href="users.php">Users</a></li>
 		<li class="active"><a href="groups.php">Groups</a></li>

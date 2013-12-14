@@ -1,5 +1,5 @@
 <?php
-        define( 'ACTIVE_MENU', 'administration');
+        define( 'ACTIVE_MENU', 'administration');	
         include_once '../core/header.php';
         include_once '../core/logic/projectDA.php';
         include_once '../core/logic/permissionDA.php';
@@ -10,18 +10,25 @@
         }
         
         $projDA = new ProjectDA();
+        $alerts = "";
         
         if (isset($_POST["createProject"])) {
                 if ($projDA->checkProjectKey($_POST["newKey"])) {
                         $projDA->createProject($_POST["newKey"], $_POST["newName"], $_POST["newDescription"], $_POST["newVersion"], $_POST["adminselect"], $_POST["writeselect"], $_POST["readselect"]);
+                        $alerts = $alerts . '<div class="alert alert-success alert-dismissable">
+					  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					  				<strong>Successfull</strong> created Project "'.$_POST["newName"].'"</div>';
                 }
                 else {
-                        //TODO: Error Message
+                        $alerts = $alerts . '<div class="alert alert-danger alert-dismissable">
+					  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					  				<strong>Failed</strong> to create Project "'.$_POST["newUsername"].'", because KEY already exists.</div>';
                 }
         }
         
 ?>
         <div id="main">
+        	<?php echo $alerts; ?>
                 <ul class="nav nav-tabs">
                         <li><a href="users.php">Users</a></li>
                         <li><a href="groups.php">Groups</a></li>
