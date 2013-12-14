@@ -1,6 +1,7 @@
 <?php
 include_once 'db.php';
 include_once dirname(__FILE__).'/permissionDA.php';
+include_once dirname(__FILE__).'/loginDA.php';
 
 class UserDA {	
 	public function printAllUsersTable($reallyAll) {
@@ -227,5 +228,16 @@ class UserDA {
 				  </tr>';
 		}
 		echo '</table>';
+	}
+	
+	public function checkPassword ($userId, $password) {
+		$loginDA = new LoginDA();
+		$username = $this->getUser($userId)["username"];
+		if ($loginDA->getUser($username, $password) != null) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

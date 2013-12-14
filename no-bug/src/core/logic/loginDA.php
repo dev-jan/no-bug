@@ -21,21 +21,21 @@ class LoginDA {
 		
 		
 		if ($saltquery->num_rows > 0) {
-			
 			$sql = "SELECT * FROM user
 					WHERE user.username = '$username' AND user.password = SHA2('".$password . $saltresult["salt"]."', 256);";
 			$sqlquery = $db->query($sql);
 			$sqlresult = $sqlquery->fetch_assoc();
 			
-			
 			if ($sqlquery->num_rows > 0) {
 				return $sqlresult['id'];
 			}
 			else {
+				sleep(2);
 				return null;
 			}
 		}
 		else {
+			sleep(2);
 			return null;
 		}
 	}
