@@ -29,7 +29,7 @@ class TaskDA {
 		
 		$projectID = $db->esc($projectID);
 		
-		$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name FROM task 
+		$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name, `status`.color FROM task 
 					INNER JOIN `status` ON task.status_id = `status`.id
 				WHERE project_id = ".$projectID . 
 				" ORDER BY task.id DESC";

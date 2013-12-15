@@ -15,7 +15,7 @@
 ?>
 <div id="main">
 	<h1><?php echo $selectedProject["name"];?> <small><?php echo $selectedProject["version"]?></small></h1>
-	<p><?php echo $selectedProject["description"];?></p> 
+	<p><?php echo nl2br($selectedProject["description"]);?></p> 
 	<p>
 		Admin? <?php echo $permDA->isAdminOnProjectAllowed($selectedProject["id"]); ?>
 		Write? <?php echo $permDA->isWriteOnProjectAllowed($selectedProject["id"]); ?>
@@ -35,7 +35,9 @@
       		$taskDA = new TaskDA();
       		$projectsTask = $taskDA->getTasksQueryByProjectID($_GET["p"]);
       		while ($oneTask = $projectsTask->fetch_assoc()) {
-				echo '<a href="task.php?t='.$oneTask["id"].'" class="list-group-item"><b>'.$selectedProject["key"].'-'.$oneTask["id"].'</b>: '.$oneTask["summary"].' <span class="badge pull-right">'.$oneTask["name"].'</span> </a>';
+				echo '<a href="task.php?t='.$oneTask["id"].'" class="list-group-item"><b>'
+				   .$selectedProject["key"].'-'.$oneTask["id"].'</b>: '.$oneTask["summary"].
+				   ' <span class="badge pull-right" style="background-color: '.$oneTask["color"].'">'.$oneTask["name"].'</span> </a>';
 			}
       	?>
       </div>

@@ -3,7 +3,7 @@
 	include_once 'core/header.php';
 	include_once 'core/logic/taskDA.php';
 	$taskDA = new TaskDA();
-	
+
 	$selectedTask = null;
 	if (isset($_GET["t"])) {
 		$selectedTask = $taskDA->getTaskByID($_GET["t"]);
@@ -18,6 +18,14 @@
 	if (isset($_POST["newCommentText"])) {
 		$taskDA->createComment($_GET["t"], $_POST["newCommentText"]);
 		header("Location: task.php?t=" . $_GET["t"]);
+	}
+	
+	//Proceed create Task...
+	if (isset($_POST["createNew"])) {
+		$taskDA->createTask($_POST["summary"], $_POST["description"],
+				$_POST["projectSelect"], $_POST["assigneeSelect"], $_POST["typeSelect"],
+				$_POST["prioritySelect"], $_POST["statusSelect"]);
+		header("Location: project.php?p=" . $_POST["projectSelect"]);
 	}
 	
 	if ($selectedTask != null) {
@@ -157,13 +165,6 @@
 	include_once 'core/footer.php';
 	die();
 	}
-}
-
-//Proceed create Task...
-if (isset($_POST["createNew"])) {
-	$taskDA->createTask($_POST["summary"], $_POST["description"], 
-		$_POST["projectSelect"], $_POST["assigneeSelect"], $_POST["typeSelect"], 
-		$_POST["prioritySelect"], $_POST["statusSelect"]);
 }
 
 if (isset($_GET["new"])) {
