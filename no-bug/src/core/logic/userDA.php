@@ -151,7 +151,7 @@ class UserDA {
 			$insertSql = "INSERT INTO `no-bug`.`user`
 						(`username`, `email`, `prename`, `surname`, `password`, `salt`, `active`, `meta_creatorID`, `meta_createDate`,
 						`meta_changeUserID`, `meta_changeDate`)
-						VALUES ('$username', '$email', '$prename', '$surname', SHA2('$password', 256), '$salt', 1, ".$_SESSION["userId"].", '".$db->toDate(time())."', '".$_SESSION["userId"]."', '".$db->toDate(time())."');";
+						VALUES ('$username', '$email', '$prename', '$surname', SHA2('$password', 256), '$salt', 1, ".$_SESSION['nobug'.RANDOMKEY.'userId'].", '".$db->toDate(time())."', '".$_SESSION['nobug'.RANDOMKEY.'userId']."', '".$db->toDate(time())."');";
 			$db->query($insertSql);
 		}
 	}

@@ -57,7 +57,7 @@ class TaskDA {
 		
 		$sql = "INSERT INTO `task` (`summary`, `description`, `status_id`, `project_id`, `creator_id`, 
 				      `assignee_id`, `createDate`, `tasktype_id`, `priority`, `active`) 
-				VALUES ('$summary', '$description', '$status', '$project', '".$_SESSION["userId"]."',
+				VALUES ('$summary', '$description', '$status', '$project', '".$_SESSION['nobug'.RANDOMKEY.'userId']."',
 				$assignee, '".$db->toDate(time())."', '$type', '$priority', '1');";
 		$db->query($sql);	
 	}
@@ -99,7 +99,7 @@ class TaskDA {
 		
 		$sql = "INSERT INTO `no-bug`.`changelog` 
 				(`task_id`, `changedField`, `date`, `value`, `user_id`) 
-				VALUES ('$taskId', 'comment', '".$db->toDate(time())."', '$value', '".$_SESSION["userId"]."')";
+				VALUES ('$taskId', 'comment', '".$db->toDate(time())."', '$value', '".$_SESSION['nobug'.RANDOMKEY.'userId']."')";
 		$db->query($sql);
 	}
 	

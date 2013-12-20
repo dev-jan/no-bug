@@ -7,8 +7,8 @@ $alerts = "";
 
 if (isset($_POST["newpw"])) {
 	if ($_POST["newpw"] == $_POST["newpw2"]) {
-		if ($userDA->checkPassword($_SESSION["userId"], $_POST["oldpw"])) {
-			$userDA->updatePassword($_SESSION["userId"], $_POST["newpw"]);
+		if ($userDA->checkPassword($_SESSION['nobug'.RANDOMKEY.'userId'], $_POST["oldpw"])) {
+			$userDA->updatePassword($_SESSION['nobug'.RANDOMKEY.'userId'], $_POST["newpw"]);
 			$alerts = '<div class="alert alert-success alert-dismissable">
 		  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 		  				<strong>Password changed!</strong> Your Password was successful changed </div>';

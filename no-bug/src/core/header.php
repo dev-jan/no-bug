@@ -5,14 +5,14 @@ include_once dirname(__FILE__).'/logic/permissionDA.php';
 include_once dirname(__FILE__).'/logic/settingsDA.php';
 define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/../', strlen($_SERVER['DOCUMENT_ROOT'])));
 
-if (!isset($_SESSION['userId'])) {
+if (!isset($_SESSION['nobug'.RANDOMKEY.'userId'])) {
 	header("Location: " . ROOTPATH . "login.php");
 }
 
 $permDA = new PermissionDA();
 $settingsDA = new SettingsDA();
 $userDA = new UserDA();
-$logedInUser = $userDA->getUser($_SESSION["userId"]);
+$logedInUser = $userDA->getUser($_SESSION['nobug'.RANDOMKEY.'userId']);
 
 ?>
 <!DOCTYPE html>

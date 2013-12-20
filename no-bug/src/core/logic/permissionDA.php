@@ -6,7 +6,7 @@ class PermissionDA {
 	public function isReadOnProjectAllowed ($projectId) {
 		$db = new DB();
 		$db->connect();
-		$userId = $db->esc($_SESSION["userId"]);
+		$userId = $db->esc($_SESSION['nobug'.RANDOMKEY.'userId']);
 		$groupsSql = "";
 		
 		$groupsArray = $this->getAllGroups($userId);
@@ -30,7 +30,7 @@ class PermissionDA {
 	public function isWriteOnProjectAllowed ($projectId) {
 		$db = new DB();
 		$db->connect();
-		$userId = $db->esc($_SESSION["userId"]);
+		$userId = $db->esc($_SESSION['nobug'.RANDOMKEY.'userId']);
 		$groupsSql = "";
 		
 		$groupsArray = $this->getAllGroups($userId);
@@ -54,7 +54,7 @@ class PermissionDA {
 	public function isAdminOnProjectAllowed ($projectId) {
 		$db = new DB();
 		$db->connect();
-		$userId = $db->esc($_SESSION["userId"]);
+		$userId = $db->esc($_SESSION['nobug'.RANDOMKEY.'userId']);
 		$groupsSql = "";
 		
 		$groupsArray = $this->getAllGroups($userId);
@@ -78,7 +78,7 @@ class PermissionDA {
 	public function isGeneralAdmininstrationAllowed () {
 		$db = new DB();
 		$db->connect();
-		$userId = $db->esc($_SESSION["userId"]);
+		$userId = $db->esc($_SESSION['nobug'.RANDOMKEY.'userId']);
 		
 		$groupsSql = "";
 		$groupsArray = $this->getAllGroups($userId);

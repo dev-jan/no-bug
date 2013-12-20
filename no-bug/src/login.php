@@ -8,7 +8,7 @@ if (isset($_POST['loginusername']) && isset($_POST['loginpassword'])) {
 	$loginDA = new LoginDA();
 	
 	if (($uid = $loginDA->getUser($_POST['loginusername'], $_POST['loginpassword'])) != null) {
-		$_SESSION['userId'] = $uid;
+		$_SESSION['nobug'.RANDOMKEY.'userId'] = $uid;
 		header("Location: index.php");
 		die();
 	} else {

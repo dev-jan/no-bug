@@ -110,7 +110,7 @@ class ProjectDA {
 		$groupReadID = $db->esc($groupReadID);
 		
 		$sql = "INSERT INTO project (`key`, `name`, `description`, `version`, `active`, `group_admin`, `group_write`, `group_read`, `meta_creatorID`, `meta_createDate`) 
-				VALUES ('$key', '$name', '$description', '$version', 1, '$groupAdmID', '$groupWriteID', '$groupReadID', '".$_SESSION["userId"]."', '14.11.13')";
+				VALUES ('$key', '$name', '$description', '$version', 1, '$groupAdmID', '$groupWriteID', '$groupReadID', '".$_SESSION['nobug'.RANDOMKEY.'userId']."', '14.11.13')";
 		$query = $db->query($sql);
 	}
 	
@@ -120,7 +120,7 @@ class ProjectDA {
 		
 		include_once dirname(__FILE__).'/permissionDA.php';
 		$permissionDA = new PermissionDA();
-		$allProjQuery = $permissionDA->getAllAllowedProjects($_SESSION["userId"]);
+		$allProjQuery = $permissionDA->getAllAllowedProjects($_SESSION['nobug'.RANDOMKEY.'userId']);
 		while ($oneProj = $allProjQuery->fetch_assoc()) {
 			$sql = "SELECT * FROM task WHERE project_id = ".$oneProj["id"];
 			$taskcount = $db->query($sql)->num_rows;
