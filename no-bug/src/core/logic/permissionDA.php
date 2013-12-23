@@ -21,7 +21,11 @@ class PermissionDA {
 		
 		$allowedProjectsSql = "SELECT * FROM project WHERE (group_read IN (" . $groupsSql . ") OR group_write IN (" . $groupsSql . ") OR group_admin IN (" . $groupsSql . "))" .
 								" AND id = " . $projectId;
-		if ($db->query($allowedProjectsSql)->num_rows != 1) {
+		$query = $db->query($allowedProjectsSql);
+		if ($query == null) {
+			return false;
+		}
+		if ($query->num_rows == 0) {
 			return false;
 		}
 		return true;

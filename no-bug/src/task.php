@@ -2,11 +2,17 @@
 	define( 'ACTIVE_MENU', 'proj');
 	include_once 'core/header.php';
 	include_once 'core/logic/taskDA.php';
+	include_once 'core/logic/permissionDA.php';
 	$taskDA = new TaskDA();
+	$permDA = new PermissionDA();
 
 	$selectedTask = null;
 	if (isset($_GET["t"])) {
 		$selectedTask = $taskDA->getTaskByID($_GET["t"]);
+		
+		if (!$permDA->isReadOnProjectAllowed($selectedTask["projectId"])) {
+			$permDA->echoPermissionDeniedAndDie();
+		}
 	}
 	
 	if (isset($_POST["edited"])) {
@@ -90,6 +96,7 @@
 			</div>
 		</div>
 		<button type="submit" class="btn btn-success">Save Changes</button>
+		<a href="task.php?t=<?php echo $selectedTask["id"];?>" style="margin-left: 20px" >Abort</a>
 	</form>
 </div>
 <script type="text/javascript" >

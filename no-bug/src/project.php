@@ -7,7 +7,9 @@
 	$permDA = new PermissionDA();
 	
 	if (isset($_GET["p"])) {
-		$permDA->isReadOnProjectAllowed($_GET["p"]);
+		if (!$permDA->isReadOnProjectAllowed($_GET["p"])) {
+			$permDA->echoPermissionDeniedAndDie();
+		}
 		$selectedProject = $projDA->getProject($_GET["p"]);
 		if ($selectedProject["id"] == "") {
 			$permDA->echoPermissionDeniedAndDie();
