@@ -24,6 +24,7 @@ $logedInUser = $userDA->getUser($_SESSION['nobug'.RANDOMKEY.'userId']);
 		<meta name="author" content="Benj Fassbind & Jan Bucher" />
 
 		<link rel="stylesheet" href="<?php echo ROOTPATH; ?>style/bootstrap.min.css" />
+		<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 		<link rel="stylesheet/less" type="text/css" href="<?php echo ROOTPATH; ?>style/global.less" />
 		<link rel="stylesheet/less" type="text/css" href="<?php echo ROOTPATH; ?>style/administration.less" />
 		<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/jquery-1.10.2.min.js" ></script>
@@ -37,21 +38,22 @@ $logedInUser = $userDA->getUser($_SESSION['nobug'.RANDOMKEY.'userId']);
 	
 	<div id="header" class="navbar navbar-default navbar-fixed-top">
 		<div id="header-wrapper">
-			<a class="navbar-brand" href="<?php echo ROOTPATH; ?>">no-bug</a>
+			<a class="navbar-brand" href="<?php echo ROOTPATH; ?>"><i class="fa fa-bug"></i> no-bug</a>
 			<ul class="nav navbar-nav">
-	      		<li class="<?php if (ACTIVE_MENU == "main") {echo 'active';}?>"><a href="<?php echo ROOTPATH; ?>">Main</a></li>
-	      		<li class="<?php if (ACTIVE_MENU == "proj") {echo 'active';}?>"><a href="<?php echo ROOTPATH; ?>project.php">Projects</a></li>
+	      		<li class="<?php if (ACTIVE_MENU == "main") {echo 'active';}?>"><a href="<?php echo ROOTPATH; ?>"><i class="fa fa-home"></i> Main</a></li>
+	      		<li class="<?php if (ACTIVE_MENU == "proj") {echo 'active';}?>"><a href="<?php echo ROOTPATH; ?>project.php"><i class="fa fa-folder-open"></i> Projects</a></li>
 	      		<?php 
 	      		if ($permDA->isGeneralAdmininstrationAllowed()) {
 	      		?>
 	      		<li class="dropdown <?php if (ACTIVE_MENU == "administration") {echo 'active';}?>">
-		        	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Administration <b class="caret"></b></a>
+		        	<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-cog"></i> Administration <b class="caret"></b></a>
 			        <ul class="dropdown-menu" id="menuAdminDropdown" role="menu" aria-labelledby="dLabel">
 			        	<li><a href="<?php echo ROOTPATH; ?>administration/users.php">Users</a></li>
 			        	<li><a href="<?php echo ROOTPATH; ?>administration/groups.php">Groups</a></li>
 			        	<li><a href="<?php echo ROOTPATH; ?>administration/projects.php">Projects</a></li>
+			        	<li><a href="<?php echo ROOTPATH; ?>administration/taskproperties.php">Taskproperties</a></li>
 			        	<li class="divider"></li>
-			        	<li><a href="<?php echo ROOTPATH; ?>administration/settings.php">Global Settings</a></li>
+			        	<li><a href="<?php echo ROOTPATH; ?>administration/settings.php"><i class="fa fa-globe"></i> Global Settings</a></li>
 			        </ul>
 		      	</li>
 		      	<?php 
@@ -61,11 +63,11 @@ $logedInUser = $userDA->getUser($_SESSION['nobug'.RANDOMKEY.'userId']);
 			
 			 <ul class="nav navbar-nav navbar-right">
 		      	<li class="dropdown">
-		        	<a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $logedInUser["prename"] . " " . $logedInUser["surname"]?> <b class="caret"></b></a>
+		        	<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-user"></i> <?php echo $logedInUser["prename"] . " " . $logedInUser["surname"]?> <b class="caret"></b></a>
 			        <ul class="dropdown-menu" id="menuUserDropdown" role="menu" aria-labelledby="dLabel">
-			        	<li><a href="<?php echo ROOTPATH; ?>profil.php">Profil</a></li>
+			        	<li><a href="<?php echo ROOTPATH; ?>profil.php"><i class="fa fa-user"></i> Profil</a></li>
 			        	<li class="divider"></li>
-			        	<li><a href="<?php echo ROOTPATH; ?>core/logout.php">Logout</a></li>
+			        	<li><a href="<?php echo ROOTPATH; ?>core/logout.php"><i class="fa fa-sign-out"></i> Logout</a></li>
 			        </ul>
 		      	</li>
 		    </ul>

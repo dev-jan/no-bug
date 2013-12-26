@@ -32,7 +32,7 @@ class ProjectDA {
 					<td>'.$oneProj["version"].'</td>
 					<td><form action="project.php?" method="get" >
 							<input type="hidden" name="p" value="'.$oneProj["id"].'" />
-							<button type="submit" class="btn btn-default btn-sm" >edit</button></form></td>
+							<button type="submit" class="btn btn-default btn-sm" ><i class="fa fa-pencil"></i> edit</button></form></td>
 				  </tr>';
 		}
 	}

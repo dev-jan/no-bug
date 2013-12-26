@@ -103,9 +103,8 @@ class PermissionDA {
 	}
 	
 	public function echoPermissionDeniedAndDie() {
-		echo '<div class="alert alert-danger alert-dismissable">
-			  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			  <strong>Access Denied!</strong> You don\'t have the Permission to access this Page! </div>';
+		echo '<div class="alert alert-danger alert-dismissable" style="margin: 50px;">
+			  <strong><i class="fa fa-lock"></i> Access Denied!</strong> You don\'t have the Permission to access this Page! </div>';
 		include dirname(__FILE__).'/../footer.php';
 		die();
 	}

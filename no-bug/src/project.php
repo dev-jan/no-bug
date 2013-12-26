@@ -26,7 +26,7 @@
 	<form action="task.php" method="get">
 		<input type="hidden" name="new" value="true" />
 		<input type="hidden" name="proj" value="<?php echo $_GET["p"]; ?>" />
-		<button type="submit" class="btn btn-success pull-right">New Task...</button>
+		<button type="submit" class="btn btn-success pull-right"><i class="fa fa-plus-square"></i> New Task...</button>
 	</form>
 	
 	<div class="panel panel-default" style="margin-top: 60px;">

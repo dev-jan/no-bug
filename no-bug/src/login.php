@@ -25,24 +25,30 @@ if (isset($_POST['loginusername']) && isset($_POST['loginpassword'])) {
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="author" content="Benj Fassbind & Jan Bucher" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	
 	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/less.js" ></script>
-	<link rel="stylesheet" href="<?php echo ROOTPATH; ?>style/bootstrap.min.css" />
-	<link rel="stylesheet" href="<?php echo ROOTPATH; ?>style/gh-fork-ribbon.css" />
+	
 	<link rel="stylesheet/less" type="text/css" href="<?php echo ROOTPATH; ?>style/global.less" />
 	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/less.js" ></script>
 	<link rel="stylesheet" href="<?php echo ROOTPATH; ?>js/nivo-slider/nivo-slider.css" type="text/css" />
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
 	<script src="<?php echo ROOTPATH; ?>js/nivo-slider/jquery.nivo.slider.pack.js" type="text/javascript"></script>
+	
+	<link rel="stylesheet" href="<?php echo ROOTPATH; ?>style/bootstrap.min.css" />
+	<link rel="stylesheet" href="<?php echo ROOTPATH; ?>style/gh-fork-ribbon.css" />
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 	<link rel="stylesheet" href="<?php echo ROOTPATH; ?>js/nivo-slider/themes/default/default.css" type="text/css" />
+	<link rel="shortcut icon" href="<?php echo ROOTPATH; ?>icon.ico" type="image/x-icon" />
+	<link rel="icon" href="<?php echo ROOTPATH; ?>icon.ico" type="image/x-icon" /> 
 </head>
 
 <body style="padding-top: 70px" onload="javascript:document.loginform.loginusername.focus();">
 	
 	<div id="header" class="navbar navbar-default navbar-fixed-top">
 		<div id="header-wrapper" >
-			<a class="navbar-brand" href="#">no-bug</a>
+			<a class="navbar-brand" href="#"><i class="fa fa-bug"></i> no-bug</a>
 		</div>
 	</div>
 	
@@ -64,7 +70,7 @@ if (isset($_POST['loginusername']) && isset($_POST['loginpassword'])) {
 	    </div>
 		
 		<div id="login-box">
-			<h3 style="color: #428bca; border-bottom: 1px solid; padding-bottom: 2px; margin-bottom: 30px;"><strong>Login</strong></h3>
+			<h3 style="color: #428bca; border-bottom: 1px solid; padding-bottom: 2px; margin-bottom: 30px;"><strong><i class="fa fa-lock"></i> Login</strong></h3>
 			<form method="POST" action="" name="loginform">
 				<div class="form-group">
 					<label for="login-username">Username:</label>

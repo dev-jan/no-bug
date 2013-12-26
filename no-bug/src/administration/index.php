@@ -1,2 +1,2 @@
 <?php
-	header("Location: users.php");
+header("Location: users.php");

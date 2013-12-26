@@ -29,7 +29,7 @@ class UserDA {
 					<td>'.$oneUser['email'].'</td>
 					<td><form action="user.php?" method="GET">
 							<input type="hidden" name="u" value="'.$oneUser['id'].'" />
-							<button type="submit" class="btn btn-default btn-sm">edit</button></form></td>
+							<button type="submit" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i> edit</button></form></td>
 				</tr>';
 		}
 	}

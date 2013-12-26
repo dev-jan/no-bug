@@ -28,7 +28,7 @@ class GroupDA {
 						<td>'.$this->printChildEntitys($oneGroup["id"]).'</td>
 						<td><form action="group.php?" method="GET">
 							<input type="hidden" name="g" value="'.$oneGroup['id'].'" />
-							<button type="submit" class="btn btn-default btn-sm">edit</button></form></td>
+							<button type="submit" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i> edit</button></form></td>
 					</tr>';
 		}
 	}
