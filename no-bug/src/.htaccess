@@ -1,0 +1,64 @@
+Options -Indexes
+ErrorDocument 404 "<!DOCTYPE html>\
+					<html> \
+					<head><title>Error 404</title> \
+					<style type='text/css'> \
+					<!-- \
+						.failDiv {margin-left: auto; margin-right: auto; width: 500px; margin-top: 50px;} \
+						.fail-title {font-size: 200%;}\
+					-->\
+					</style>\
+					</head><body>\
+						<div class='failDiv'><span class='fail-title'>Error 404 - Site not available</span><br />\
+							<span class='fail-text'>This site is not available</span>\
+						</div>\
+					</body>\
+					</html>"
+
+ErrorDocument 401 "<!DOCTYPE html>\
+					<html> \
+					<head><title>Error 401</title> \
+					<style type='text/css'> \
+					<!-- \
+						.failDiv {margin-left: auto; margin-right: auto; width: 500px; margin-top: 50px;} \
+						.fail-title {font-size: 200%;}\
+					-->\
+					</style>\
+					</head><body>\
+						<div class='failDiv'><span class='fail-title'>Error 401 - Authorization Failed</span><br />\
+							<span class='fail-text'>Login failed</span>\
+						</div>\
+					</body>\
+					</html>"
+
+ErrorDocument 403 "<!DOCTYPE html>\
+					<html> \
+					<head><title>Error 403</title> \
+					<style type='text/css'> \
+					<!-- \
+						.failDiv {margin-left: auto; margin-right: auto; width: 500px; margin-top: 50px;} \
+						.fail-title {font-size: 200%;}\
+					-->\
+					</style>\
+					</head><body>\
+						<div class='failDiv'><span class='fail-title'>Error 403 - Access Denied</span><br />\
+							<span class='fail-text'>You not have the rights to visit this site</span>\
+						</div>\
+					</body>\
+					</html>"
+					
+ErrorDocument 500 "<!DOCTYPE html>\
+					<html> \
+					<head><title>Error 500</title> \
+					<style type='text/css'> \
+					<!-- \
+						.failDiv {margin-left: auto; margin-right: auto; width: 500px; margin-top: 50px;} \
+						.fail-title {font-size: 200%;}\
+					-->\
+					</style>\
+					</head><body>\
+						<div class='failDiv'><span class='fail-title'>Error 500 - Internal Error</span><br />\
+							<span class='fail-text'>Something went terrible wrong. Please contact the administrator.</span>\
+						</div>\
+					</body>\
+					</html>"
