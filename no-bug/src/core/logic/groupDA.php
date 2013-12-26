@@ -45,7 +45,7 @@ class GroupDA {
 		$parentQuery = $db->query($parentSql);
 		while ($oneParent = $parentQuery->fetch_assoc()) {
 			if ($oneParent["parentID"] != ""){
-				$return = $return . '<a href="group.php?g='.$oneParent["parentID"].'">'.$oneParent["parentName"].' (Group)</a><br />';
+				$return = $return . '<a href="group.php?g='.$oneParent["parentID"].'"><i class="fa fa-users"></i> '.$oneParent["parentName"].'</a><br />';
 			}
 		}
 		return $return;
@@ -63,7 +63,7 @@ class GroupDA {
 		$childQuery = $db->query($childSql);
 		while ($oneChild = $childQuery->fetch_assoc()) {
 			if ($oneChild["childID"] != "") {
-				$return = $return . '<a href="group.php?g='.$oneChild["childID"].'">'.$oneChild["childName"].' (Group)</a><br />';
+				$return = $return . '<a href="group.php?g='.$oneChild["childID"].'"><i class="fa fa-users"></i> '.$oneChild["childName"].' </a><br />';
 			} 
 		}
 		
@@ -73,7 +73,7 @@ class GroupDA {
 		$childUserQuery = $db->query($childUsersSql);
 		while ($oneUser = $childUserQuery->fetch_assoc()) {
 			if ($oneUser["id"] != "") {
-				$return = $return . '<a href="user.php?u="'.$oneUser["id"].'">'.$oneUser["prename"].' '.$oneUser["surname"].' (User)</a><br />';
+				$return = $return . '<a href="user.php?u='.$oneUser["id"].'"><i class="fa fa-user"></i> '.$oneUser["prename"].' '.$oneUser["surname"].' </a><br />';
 			}
 		}
 		
@@ -136,10 +136,10 @@ class GroupDA {
 		while ($oneMember = $groupQuery->fetch_assoc()) {
 			if ($oneMember["childID"] != "") {
 				$return = $return . '<tr>
-										<td>'.$oneMember["childName"].' (Group)</td>
+										<td><a href="group.php?g='.$oneMember["childID"].'"><i class="fa fa-users"></i> '.$oneMember["childName"].'</a></td>
 										<td><form action="?g='.$groupID.'" method="post">
 												<input type="hidden" name="groupId" value="'.$oneMember["childID"].'" />
-												<button type="submit" class="btn btn-danger" >Remove</button>
+												<button type="submit" class="btn btn-danger" ><i class="fa fa-trash-o"></i> Remove</button>
 											</form></td>
 									 </tr>';
 			}
@@ -152,10 +152,10 @@ class GroupDA {
 		while ($oneMember = $userQuery->fetch_assoc()) {
 			if ($oneMember["id"] != "") {
 				$return = $return . '<tr>
-										<td>'.$oneMember["username"].' (User)</td>
+										<td><a href="user.php?u='.$oneMember["id"].'" ><i class="fa fa-user"></i> '.$oneMember["username"].' </a></td>
 										<td><form action="?g='.$groupID.'" method="post">
 												<input type="hidden" name="userId" value="'.$oneMember["id"].'" />
-												<button type="submit" class="btn btn-danger" >Remove</button>
+												<button type="submit" class="btn btn-danger" ><i class="fa fa-trash-o"></i> Remove</button>
 											</form></td>
 									 </tr>';
 			}
@@ -257,7 +257,7 @@ class GroupDA {
 				WHERE user_id = " . $userId;
 		$query = $db->query($sql);
 		while ($oneGroup = $query->fetch_assoc()) {
-			echo '<a href="group.php?g=' . $oneGroup["id"] . '">' . $oneGroup["name"] . '</a><br />';
+			echo '<a href="group.php?g=' . $oneGroup["id"] . '"><i class="fa fa-users"></i> ' . $oneGroup["name"] . '</a><br />';
 		}
 	}
 }

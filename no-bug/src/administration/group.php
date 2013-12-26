@@ -50,8 +50,7 @@ if ($selectedGroup == null) {
 		<?php echo $selectedGroup["name"]; ?>
 		...
 	</h1>
-	<form action="?g=<?php echo $selectedGroup["id"]; ?>"
-		class="userEditForm" method="post">
+	<form action="?g=<?php echo $selectedGroup["id"]; ?>" class="userEditForm" method="post">
 		<table class="table">
 			<tr>
 				<th>Groupname:</th>
@@ -62,8 +61,7 @@ if ($selectedGroup == null) {
 		<button type="submit" class="btn btn-primary">Save</button>
 	</form>
 
-	<form action="?g=<?php echo $selectedGroup["id"]; ?>" method="post"
-		class="userEditForm">
+	<form action="?g=<?php echo $selectedGroup["id"]; ?>" method="post" class="userEditForm">
 		<input type="hidden" name="addGroup" value="true" />
 		<table class="table" border="0" style="border: none">
 			<tr>
@@ -76,8 +74,7 @@ if ($selectedGroup == null) {
 			</tr>
 		</table>
 	</form>
-	<form action="?g=<?php echo $selectedGroup["id"]; ?>" method="post"
-		class="userEditForm">
+	<form action="?g=<?php echo $selectedGroup["id"]; ?>" method="post" class="userEditForm">
 		<input type="hidden" name="addUser" value="true" />
 		<table class="table" border="0">
 			<tr>
@@ -90,16 +87,16 @@ if ($selectedGroup == null) {
 			</tr>
 		</table>
 	</form>
-
-	<h2>> Group Members...</h2>
-	<table class="table">
-		<tr>
-			<th>Name</th>
-			<th>Action</th>
-		</tr>
-		<?php echo $groupDA->printGroupMembersAsTable($selectedGroup["id"]); ?>
-	</table>
-
+	<form class="userEditForm">
+		<h2><i class="fa fa-angle-double-right"></i> Group Members...</h2>
+		<table class="table">
+			<tr>
+				<th>Name</th>
+				<th>Action</th>
+			</tr>
+			<?php echo $groupDA->printGroupMembersAsTable($selectedGroup["id"]); ?>
+		</table>
+	</form>
 </div>
 <?php 
 include '../core/footer.php';

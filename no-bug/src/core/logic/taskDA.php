@@ -13,11 +13,12 @@ class TaskDA {
 				     task.createDate AS createDate, status.name AS statusname, status.id AS status_id,
 				     tasktype.name AS tasktypname, `user`.prename AS prename, `user`.surname AS surname,
 					 task.priority AS priority, `user`.id AS assigneeId, tasktype.id AS tasktypId,
-					 project.id AS projectId, project.key AS projectkey
+					 project.id AS projectId, project.key AS projectkey, creator.prename AS cPrename, creator.surname AS cSurname
 				FROM task
 				INNER JOIN status ON task.status_id = status.id
 				INNER JOIN tasktype ON task.tasktype_id = tasktype.id
 				LEFT JOIN `user` ON task.assignee_id = `user`.id
+				INNER JOIN `user` AS `creator` ON `creator`.id = task.creator_id
 				INNER JOIN project ON task.project_id = project.id
 				WHERE task.id = ".$absoluteId;
 		$query = $db->query($sql);	
@@ -222,8 +223,9 @@ class TaskDA {
 			}
 		}
 		
-		$sql = "SELECT task.id, task.summary, project.key FROM `no-bug`.task 
-					INNER JOIN project ON project.id = task.project_id		
+		$sql = "SELECT task.id, task.summary, project.key, `status`.color, `status`.name AS status FROM `no-bug`.task 
+					INNER JOIN project ON project.id = task.project_id
+					INNER JOIN `status` ON `status`.id = task.status_id		
 				WHERE status_id IN ($openstatusTest) AND assignee_id = " . $_SESSION['nobug'.RANDOMKEY.'userId'];
 		return $db->query($sql);
 	}

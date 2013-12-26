@@ -37,7 +37,6 @@ if (isset($_POST["createUser"])) {
 	<h1><i class="fa fa-user"></i> New User...</h1>
 	<form action="" class="userEditForm" method="post">
 		<input type="hidden" name="createUser" value="true" />
-		<h2>> General</h2>
 		<table class="table userEditTable">
 			<tr>
 				<th>Username:</th>

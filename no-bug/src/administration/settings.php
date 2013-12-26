@@ -29,7 +29,7 @@ if (isset($_POST["edited"])) {
 	<h1><i class="fa fa-globe"></i> Global Settings</h1>
 	<form action="#" class="userEditForm" method="post">
 		<input type="hidden" name="edited" value="true" />
-		<h2>> General</h2>
+		<h2><i class="fa fa-angle-double-right"></i> General</h2>
 		<table class="table">
 			<tr>
 				<th>Global Admin Group:</th>
@@ -58,7 +58,7 @@ if (isset($_POST["edited"])) {
 	</form>
 
 	<form action="#" class="userEditForm">
-		<h2>> Infos</h2>
+		<h2><i class="fa fa-angle-double-right"></i> Infos</h2>
 		<table class="table userEditTable">
 			<?php $settingsDA->printServerInfos(); ?>
 		</table>

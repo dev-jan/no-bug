@@ -102,7 +102,7 @@ if ($selectedUser == null) {
 	<form action="?u=<?php echo $selectedUser["id"]; ?>"
 		class="userEditForm" method="post">
 		<input type="hidden" name="general" value="true" />
-		<h2>> General</h2>
+		<h2><i class="fa fa-angle-double-right"></i> General</h2>
 		<table class="table userEditTable">
 			<tr>
 				<th>Username:</th>
@@ -131,7 +131,7 @@ if ($selectedUser == null) {
 
 	<form action="#" class="userEditForm" method="post">
 		<input type="hidden" name="pwReset" value="true" />
-		<h2>> Password Reset...</h2>
+		<h2><i class="fa fa-angle-double-right"></i> Password Reset...</h2>
 		<table class="table userEditTable">
 			<tr>
 				<th>New Password:</th>
@@ -148,7 +148,7 @@ if ($selectedUser == null) {
 	</form>
 
 	<form class="userEditForm">
-		<h2>> Member of...</h2>
+		<h2><i class="fa fa-angle-double-right"></i> Member of...</h2>
 	</form>
 	<table class="table">
 		<tr>
@@ -174,8 +174,8 @@ if ($selectedUser == null) {
 		</tr>
 	</table>
 
-	<form action="">
-		<h2>> Permissions on Projects...</h2>
+	<form action="" class="userEditForm">
+		<h2><i class="fa fa-angle-double-right"></i> Permissions on Projects...</h2>
 	</form>
 	<?php echo $userDA->printPermissionTable($selectedUser["id"]); ?>
 

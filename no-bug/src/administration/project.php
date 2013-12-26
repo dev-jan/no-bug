@@ -52,7 +52,7 @@ if ($selectedProject == null) {
 	<form action="?p=<?php echo $selectedProject["id"]; ?>"
 		class="userEditForm" method="post">
 		<input type="hidden" name="general" value="true" />
-		<h2>> General</h2>
+		<h2><i class="fa fa-angle-double-right"></i> General</h2>
 		<table class="table">
 			<tr>
 				<th>Name:</th>
@@ -75,7 +75,7 @@ if ($selectedProject == null) {
 	<form action="?p=<?php echo $selectedProject["id"]; ?>"
 		class="userEditForm" method="post">
 		<input type="hidden" name="groups" value="true" />
-		<h2>> Groups</h2>
+		<h2><i class="fa fa-angle-double-right"></i> Groups</h2>
 		<table class="table userEditTable">
 			<tr>
 				<th>Admin Group:</th>

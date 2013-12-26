@@ -39,11 +39,11 @@
 	
 	//Proceed create Task...
 	if (isset($_POST["createNew"])) {
-		if ($permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) {
+		if ($permDA->isWriteOnProjectAllowed($_GET["proj"])) {
 			$taskDA->createTask($_POST["summary"], $_POST["description"],
-					$_POST["projectSelect"], $_POST["assigneeSelect"], $_POST["typeSelect"],
+					$_GET["proj"], $_POST["assigneeSelect"], $_POST["typeSelect"],
 					$_POST["prioritySelect"], $_POST["statusSelect"]);
-			header("Location: project.php?p=" . $_POST["projectSelect"]);
+			header("Location: project.php?p=" . $_GET["proj"]);
 		}
 		else {
 			$permDA->echoPermissionDeniedAndDie();
@@ -161,6 +161,12 @@
 				<td>Status: </td>
 				<th><?php echo $selectedTask["statusname"]?></th>
 			</tr>
+			<tr>
+					<td>Creator: </td>
+					<th><?php echo $selectedTask["cPrename"] . " " . $selectedTask["cSurname"]; ?></th>
+					<td>Created Date: </td>
+					<th><?php echo $selectedTask["createDate"]?></th>
+				</tr>
 		</table>
 	</div>
 	
@@ -193,7 +199,7 @@
 	}
 }
 
-if (isset($_GET["new"])) {
+if (isset($_GET["new"]) && $permDA->isWriteOnProjectAllowed($_GET["proj"])) {
 	//Create Task window
 ?>
 <div id="main">

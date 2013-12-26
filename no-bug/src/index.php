@@ -29,7 +29,7 @@ include_once 'core/logic/settingsDA.php';
 
 	<div class="panel panel-success">
 		<div class="panel-heading">
-			<h3 class="panel-title"><i class="fa fa-rocket"></i> Assigned to Me</h3>
+			<h3 class="panel-title"><i class="fa fa-rocket"></i> My open Tasks</h3>
 		</div>
 		<div class="">
 			<?php 
@@ -40,7 +40,7 @@ include_once 'core/logic/settingsDA.php';
 			}
 			else {
 				while ($oneTask = $myOpenTasks->fetch_assoc()) {
-					echo '<a href="task.php?t='.$oneTask["id"].'" class="list-group-item"><b>'.$oneTask["key"].'-'.$oneTask["id"].'</b>: '.$oneTask["summary"].'</a> ';
+					echo '<a href="task.php?t='.$oneTask["id"].'" class="list-group-item"><b>'.$oneTask["key"].'-'.$oneTask["id"].'</b>: '.$oneTask["summary"].'<span class="badge pull-right" style="background-color: '.$oneTask["color"].'">'.$oneTask["status"].'</span></a> ';
 				}
 			}
 			

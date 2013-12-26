@@ -194,8 +194,8 @@ class UserDA {
 		
 		$query = $permDA->getAllAllowedProjects($userId);
 		$usersGroups = $permDA->getAllGroups($userId);
-		$textYes = "YES";
-		$textNO = "NO";
+		$textYes = "<i class=\"fa fa-check\"></i>";
+		$textNO = "<i class=\"fa fa-times\"></i>";
 		
 		echo '<table class="table">
 				<tr>
@@ -223,7 +223,7 @@ class UserDA {
 				}
 				
 				echo '<tr>
-						<td>'.$oneProject["name"].'('.$oneProject["key"].')</td>
+						<td>'.$oneProject["name"].' ('.$oneProject["key"].')</td>
 						<td>'.$adminText.'</td>
 						<td>'.$writeText.'</td>
 						<td>'.$readText.'</td>
