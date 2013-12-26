@@ -17,17 +17,31 @@
 ?>
 <div id="main">
 	<h1><?php echo $selectedProject["name"];?> <small><?php echo $selectedProject["version"]?></small></h1>
-	<p><?php echo nl2br($selectedProject["description"]);?></p> 
-	<p>
-		Admin? <?php echo $permDA->isAdminOnProjectAllowed($selectedProject["id"]); ?>
-		Write? <?php echo $permDA->isWriteOnProjectAllowed($selectedProject["id"]); ?>
-		Read? <?php echo $permDA->isReadOnProjectAllowed($selectedProject["id"]); ?>
+	<p style="float: right">
+		<?php 
+			if ($permDA->isAdminOnProjectAllowed($selectedProject["id"])) {
+				echo '<i class="fa fa-rocket"></i> Administrator';
+			}
+			else {
+				if ($permDA->isWriteOnProjectAllowed($selectedProject["id"])) {
+					echo '<i class="fa fa-coffee"></i> Developer';
+				}
+				else {
+					echo '<i class="fa fa-eye"></i> Read Only';
+				}
+			}
+		?>
 	</p>
+	<p><?php echo nl2br($selectedProject["description"]);?></p> 
+	
+	<span style="clear: both">&nbsp;<br /></span>
+	<?php if ($permDA->isWriteOnProjectAllowed($selectedProject["id"])) { ?>
 	<form action="task.php" method="get">
 		<input type="hidden" name="new" value="true" />
 		<input type="hidden" name="proj" value="<?php echo $_GET["p"]; ?>" />
 		<button type="submit" class="btn btn-success pull-right"><i class="fa fa-plus-square"></i> New Task...</button>
 	</form>
+	<?php }?>
 	
 	<div class="panel panel-default" style="margin-top: 60px;">
 	  <div class="panel-heading">Tasks</div>

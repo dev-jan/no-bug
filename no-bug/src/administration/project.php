@@ -61,9 +61,7 @@ if ($selectedProject == null) {
 			</tr>
 			<tr>
 				<th>Description:</th>
-				<td><textarea class="form-control" rows="3" name="editDescription">
-						<?php echo $selectedProject["description"]; ?>
-					</textarea></td>
+				<td><textarea class="form-control" rows="3" name="editDescription"><?php echo $selectedProject["description"]; ?></textarea></td>
 			</tr>
 			<tr>
 				<th>Version:</th>

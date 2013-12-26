@@ -1,5 +1,6 @@
 <?php
 include_once 'db.php';
+include_once dirname(__FILE__).'/groupDA.php';
 
 class PermissionDA {	
 
@@ -49,7 +50,11 @@ class PermissionDA {
 		
 		$allowedProjectsSql = "SELECT * FROM project WHERE (group_write IN (" . $groupsSql . ") OR group_admin IN (" . $groupsSql . "))" .
 								" AND id = " . $projectId;
-		if ($db->query($allowedProjectsSql)->num_rows != 1) {
+		$query = $db->query($allowedProjectsSql);
+		if ($query == null) {
+			return false;
+		}
+		if ($query->num_rows != 1) {
 			return false;
 		}
 		return true;
@@ -73,7 +78,11 @@ class PermissionDA {
 		
 		$allowedProjectsSql = "SELECT * FROM project WHERE (group_admin IN (" . $groupsSql . "))".
 								" AND id = " . $projectId;
-		if ($db->query($allowedProjectsSql)->num_rows != 1) {
+		$query = $db->query($allowedProjectsSql);
+		if ($query == null) {
+			return false;
+		}
+		if ($query->num_rows != 1) {
 			return false;
 		}
 		return true;
@@ -127,6 +136,27 @@ class PermissionDA {
 		
 		$allowedProjectsSql = "SELECT * FROM project WHERE group_admin IN (" . $groupsSql . ") OR group_write IN (" . $groupsSql . ") OR group_read IN (" . $groupsSql . ")";
 		return $db->query($allowedProjectsSql);
+	}
+	
+	public function getUsersOfAProject ($projectId) {
+		$db = new DB();
+		$db->connect();
+		$projectId = $db->esc($projectId);
+		$userarray = array();
+		
+		$currentProject = $db->query("SELECT * FROM project WHERE id = ".$projectId);
+		$allUsersSql = "SELECT * FROM `user` WHERE active=1";
+		$allUsers = $db->query($allUsersSql);
+		while ($oneUser = $allUsers->fetch_assoc()) {
+			$allowedProjectOfUser = $this->getAllAllowedProjects($oneUser["id"]);
+			while ($oneProjectOfUser = $allowedProjectOfUser->fetch_assoc()) {
+				if ($oneProjectOfUser["id"] == $projectId) {
+					$userarray[] = $oneUser;
+					break 1;
+				}
+			}
+		}
+		return $userarray;
 	}
 	
 	public function isGroupInList ($groupId, $groupsArray) {

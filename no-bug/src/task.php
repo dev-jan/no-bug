@@ -7,6 +7,7 @@
 	$permDA = new PermissionDA();
 
 	$selectedTask = null;
+	
 	if (isset($_GET["t"])) {
 		$selectedTask = $taskDA->getTaskByID($_GET["t"]);
 		
@@ -16,27 +17,42 @@
 	}
 	
 	if (isset($_POST["edited"])) {
-		$taskDA->updateTask($_GET["t"], $_POST["summary"], $_POST["projectSelect"], $_POST["assigneeSelect"],
-				 $_POST["typeSelect"], $_POST["prioritySelect"], $_POST["statusSelect"], $_POST["description"]);
-		header("Location: task.php?t=" . $_GET["t"]);
+		if ($permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) {
+			$taskDA->updateTask($_GET["t"], $_POST["summary"], $_POST["projectSelect"], $_POST["assigneeSelect"],
+					$_POST["typeSelect"], $_POST["prioritySelect"], $_POST["statusSelect"], $_POST["description"]);
+			header("Location: task.php?t=" . $_GET["t"]);
+		}
+		else {
+			$permDA->echoPermissionDeniedAndDie();
+		}
 	}
 	
 	if (isset($_POST["newCommentText"])) {
-		$taskDA->createComment($_GET["t"], $_POST["newCommentText"]);
-		header("Location: task.php?t=" . $_GET["t"]);
+		if ($permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) {
+			$taskDA->createComment($_GET["t"], $_POST["newCommentText"]);
+			header("Location: task.php?t=" . $_GET["t"]);
+		}
+		else {
+			$permDA->echoPermissionDeniedAndDie();
+		}
 	}
 	
 	//Proceed create Task...
 	if (isset($_POST["createNew"])) {
-		$taskDA->createTask($_POST["summary"], $_POST["description"],
-				$_POST["projectSelect"], $_POST["assigneeSelect"], $_POST["typeSelect"],
-				$_POST["prioritySelect"], $_POST["statusSelect"]);
-		header("Location: project.php?p=" . $_POST["projectSelect"]);
+		if ($permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) {
+			$taskDA->createTask($_POST["summary"], $_POST["description"],
+					$_POST["projectSelect"], $_POST["assigneeSelect"], $_POST["typeSelect"],
+					$_POST["prioritySelect"], $_POST["statusSelect"]);
+			header("Location: project.php?p=" . $_POST["projectSelect"]);
+		}
+		else {
+			$permDA->echoPermissionDeniedAndDie();
+		}
 	}
 	
 	if ($selectedTask != null) {
 		//Show Task Details...
-		if (isset($_GET["edit"])) {
+		if (isset($_GET["edit"]) && $permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) {
 	?>
 <div id="main">
 	<h1>Edit <small>NOBUG-<?php echo $selectedTask["id"]?> </small> <?php echo $selectedTask["summary"]?>...</h1>
@@ -60,7 +76,7 @@
 					<td>Assignee: </td>
 					<th>
 						<select class="form-control" name="assigneeSelect">
-							<?php $taskDA->printAssigneeSelect($selectedTask["assigneeId"]); ?>
+							<?php $taskDA->printAssigneeSelect($selectedTask["assigneeId"], $selectedTask["projectId"]); ?>
 						</select>
 					</th>
 					
@@ -110,6 +126,7 @@
 ?>
 <div id="main">
 	<h1><small><?php echo $selectedTask["projectkey"].'-'.$selectedTask["id"]?> </small> <?php echo $selectedTask["summary"]?></h1>
+	<?php if($permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) { ?>
 	<div style="margin-top: 20px; margin-bottom: 20px;">
 		<form action="" method="get" style='display:inline;'>  
 			<input type="hidden" name="t" value="<?php echo $selectedTask["id"];?>" />
@@ -118,8 +135,8 @@
 		</form>
 		<button type="button" class="btn btn-default">Assign to Me</button>
 		<button type="button" class="btn btn-default">Change Status</button>
-	
 	</div>
+	<?php }?>
 	<div class="panel panel-primary" >
 		<div class="panel-heading">General</div>
 		<table class="table">
@@ -159,11 +176,13 @@
 		<div class="panel-body">
 			<?php echo $taskDA->printComments($selectedTask["id"]);?>
 			<hr >
+			<?php if ($permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) { ?>
 			<form action="" method="post" >
 				<input type="hidden" name="t" value="<?php echo $selectedTask["id"];?>" />
 				<textarea name="newCommentText" placeholder="New Comment..." class="form-control" ></textarea>
 				<input type="submit" class="btn btn-success" value="New Comment" style="margin-top: 10px" />
 			</form> 
+			<?php  }?>
 		</div>
 	</div>
 	
@@ -190,16 +209,19 @@ if (isset($_GET["new"])) {
 					
 					<td>Project: </td>
 					<th>
-						<select class="form-control" name="projectSelect">
-							<?php $taskDA->printProjectSelect($_GET["proj"]); ?>
-						</select>
+						<?php 
+								include_once 'core/logic/projectDA.php';
+								$projDA = new ProjectDA();
+								$project = $projDA->getProject($_GET["proj"]);
+								echo $project["name"]; 
+						?>
 					</th>
 				</tr>
 				<tr>
 					<td>Assignee: </td>
 					<th>
 						<select class="form-control" name="assigneeSelect">
-							<?php $taskDA->printAssigneeSelect(); ?>
+							<?php $taskDA->printAssigneeSelect(null, $_GET["proj"]); ?>
 						</select>
 					</th>
 					

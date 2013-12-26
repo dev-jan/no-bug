@@ -1,5 +1,6 @@
 <?php
 include_once 'db.php';
+include_once dirname(__FILE__).'/permissionDA.php';
 
 class TaskDA {
 	public function getTaskByID($absoluteId) {
@@ -106,11 +107,11 @@ class TaskDA {
 	public function printProjectSelect ($selectedProject) {
 		$db = new DB();
 		$db->connect();
+				
+		$permissionDA = new PermissionDA();
+		$allowedProjects = $permissionDA->getAllAllowedProjects($_SESSION['nobug'.RANDOMKEY.'userId']);
 		
-		$sql = "SELECT * FROM project WHERE active != 0";
-		$query = $db->query($sql);
-		
-		while ($oneRow = $query->fetch_assoc()) {
+		while ($oneRow = $allowedProjects->fetch_assoc()) {
 			$selectedText = "";
 			if ($selectedProject == $oneRow["id"]) {
 				$selectedText = ' selected="selected" ';
@@ -119,15 +120,18 @@ class TaskDA {
 		}
 	}
 	
-	public function printAssigneeSelect ($selectedAssignee) {
+	public function printAssigneeSelect ($selectedAssignee, $projectId) {
 		$db = new DB();
 		$db->connect();
-	
-		$sql = "SELECT * FROM `user` WHERE active != 0";
-		$query = $db->query($sql);
+		
+		$permissionDA = new PermissionDA();
+		$users = $permissionDA->getUsersOfAProject($projectId);
 		
 		echo '<option value="0">-- nobudy --</option>';
-		while ($oneRow = $query->fetch_assoc()) {
+		$counter = count($users);
+		for ($x = 0; $x < $counter; $x++)
+		{
+			$oneRow = $users[$x];
 			$selectedText = "";
 			if ($selectedAssignee == $oneRow["id"]) {
 				$selectedText = ' selected="selected" ';
@@ -199,5 +203,28 @@ class TaskDA {
 				<option value="3">3</option>
 				<option value="4">4</option>
 				<option value="5">5</option>';
+	}
+	
+	
+	public function getOpenAssignedToMe () {
+		$db = new DB();
+		$db->connect();
+		
+		$openstatusTest = "";
+		$openStatus = "SELECT * FROM `status` WHERE isDone = 0";
+		$openQuery = $db->query($openStatus);
+		while ($oneStatus = $openQuery->fetch_assoc()) {
+			if ($openstatusTest == "") {
+				$openstatusTest = $oneStatus["id"];
+			}
+			else {
+				$openstatusTest = $openstatusTest . ", " . $oneStatus["id"];
+			}
+		}
+		
+		$sql = "SELECT task.id, task.summary, project.key FROM `no-bug`.task 
+					INNER JOIN project ON project.id = task.project_id		
+				WHERE status_id IN ($openstatusTest) AND assignee_id = " . $_SESSION['nobug'.RANDOMKEY.'userId'];
+		return $db->query($sql);
 	}
 }

@@ -2,21 +2,22 @@
 define( 'ACTIVE_MENU', 'main');
 include_once 'core/header.php';
 include_once 'core/logic/projectDA.php';
+include_once 'core/logic/taskDA.php';
 include_once 'core/logic/settingsDA.php';
 ?>
 <div id="main">
-	<div class="panel panel-default">
-		<div class="panel-body">
-		<?php 
-			$settingsDA = new SettingsDA();
-			echo $settingsDA->getMotd();
-		?>
-		</div>
-	</div>
+	
+	<?php
+	$settingsDA = new SettingsDA();
+	if ($settingsDA->getMotd() != "") {
+		echo '<div class="panel panel-default"><div class="panel-body">'.$settingsDA->getMotd().'</div></div>';
+	}
+	?>		
+	
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h3 class="panel-title">Your Projects</h3>
+			<h3 class="panel-title"><i class="fa fa-folder-open"></i> Your Projects</h3>
 		</div>
 		<div class="">
 			<?php 
@@ -28,12 +29,22 @@ include_once 'core/logic/settingsDA.php';
 
 	<div class="panel panel-success">
 		<div class="panel-heading">
-			<h3 class="panel-title">Assigned to Me</h3>
+			<h3 class="panel-title"><i class="fa fa-rocket"></i> Assigned to Me</h3>
 		</div>
 		<div class="">
-			<a href="#" class="list-group-item"><b>NOBUG-512</b>: Can not delete
-				Projects</a> <a href="#" class="list-group-item"><b>JQ-14493</b>:
-				Fail to load library in Firefox 25</a>
+			<?php 
+			$taskDA = new TaskDA();
+			$myOpenTasks = $taskDA->getOpenAssignedToMe();
+			if ($myOpenTasks == null) {
+				echo '<span class="list-group-item">You have no open Tasks...</span>';
+			}
+			else {
+				while ($oneTask = $myOpenTasks->fetch_assoc()) {
+					echo '<a href="task.php?t='.$oneTask["id"].'" class="list-group-item"><b>'.$oneTask["key"].'-'.$oneTask["id"].'</b>: '.$oneTask["summary"].'</a> ';
+				}
+			}
+			
+			?>
 		</div>
 	</div>
 </div>

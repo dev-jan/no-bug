@@ -47,9 +47,7 @@ if (isset($_POST["edited"])) {
 			<tr>
 				<th>Message of the Day:</th>
 				<td><textarea name="motd" class="form-control" id="motd"
-						onkeydown="resizeTextarea('motd')">
-						<?php echo $settingsDA->getMotd(); ?>
-					</textarea>
+						onkeydown="resizeTextarea('motd')"><?php echo $settingsDA->getMotd(); ?></textarea>
 				</td>
 			</tr>
 		</table>
