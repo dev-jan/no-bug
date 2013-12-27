@@ -3,8 +3,10 @@
 	include_once 'core/header.php';
 	include_once 'core/logic/projectDA.php';
 	include_once 'core/logic/permissionDA.php';
+	include_once 'core/logic/taskpropDA.php';
 	$projDA = new ProjectDA();
 	$permDA = new PermissionDA();
+	$taskpropDA = new TaskpropDA();
 	
 	if (isset($_GET["p"])) {
 		if (!$permDA->isReadOnProjectAllowed($_GET["p"])) {
@@ -16,6 +18,11 @@
 		}
 ?>
 <div id="main">
+	<ol class="breadcrumb">
+	  <li><a href="index.php">Home</a></li>
+	  <li class="active">Project <?php echo $selectedProject["name"]; ?></li>
+	</ol>
+
 	<h1><?php echo $selectedProject["name"];?> <small><?php echo $selectedProject["version"]?></small></h1>
 	<p style="float: right">
 		<?php 
@@ -42,6 +49,34 @@
 		<button type="submit" class="btn btn-success pull-right"><i class="fa fa-plus-square"></i> New Task...</button>
 	</form>
 	<?php }?>
+	<?php 
+		$shownMenu = "";
+		if (!isset($_GET["show"])) {
+			$shownMenu = "myopen";
+		}
+		else {
+			$shownMenu = $_GET["show"];
+		}
+	?>
+	<div style="clear: both; margin-bottom: 30px;"></div>
+	<ul class="nav nav-tabs nav-justified" style="margin-bottom: -45px;">
+	  <li <?php if ($shownMenu == "myopen") {echo "class=\"active\"";}?>>
+	  	<a href="project.php?p=<?php echo $_GET["p"];?>&show=myopen">My Open Tasks 
+	  	<span class="badge"><?php echo $taskpropDA->getNumberOfTasksByMenu($selectedProject["id"], "myopen"); ?></span></a></li>
+	  <li <?php if ($shownMenu == "unassigned") {echo "class=\"active\"";}?>>
+	 	<a href="project.php?p=<?php echo $_GET["p"];?>&show=unassigned">Unassigned Tasks
+	  	<span class="badge"><?php echo $taskpropDA->getNumberOfTasksByMenu($selectedProject["id"], "unassigned"); ?></span></a></li>
+	  <li <?php if ($shownMenu == "open") {echo "class=\"active\"";}?>>
+	  	<a href="project.php?p=<?php echo $_GET["p"];?>&show=open">Open Tasks
+	  	<span class="badge"><?php echo $taskpropDA->getNumberOfTasksByMenu($selectedProject["id"], "open"); ?></span></a></li>
+	  <li <?php if ($shownMenu == "closed") {echo "class=\"active\"";}?>>
+	  	<a href="project.php?p=<?php echo $_GET["p"];?>&show=closed">Closed Tasks
+	  	<span class="badge"><?php echo $taskpropDA->getNumberOfTasksByMenu($selectedProject["id"], "closed"); ?></span></a></li>
+	  <li <?php if ($shownMenu == "all") {echo "class=\"active\"";}?>>
+	  	<a href="project.php?p=<?php echo $_GET["p"];?>&show=all">All Tasks
+	  	<span class="badge"><?php echo $taskpropDA->getNumberOfTasksByMenu($selectedProject["id"], "all"); ?></span></a></li>
+	</ul>
+	
 	
 	<div class="panel panel-default" style="margin-top: 60px;">
 	  <div class="panel-heading">Tasks</div>
@@ -49,12 +84,19 @@
       	<?php 
       		include_once 'core/logic/taskDA.php';
       		$taskDA = new TaskDA();
-      		$projectsTask = $taskDA->getTasksQueryByProjectID($_GET["p"]);
-      		while ($oneTask = $projectsTask->fetch_assoc()) {
-				echo '<a href="task.php?t='.$oneTask["id"].'" class="list-group-item"><b>'
-				   .$selectedProject["key"].'-'.$oneTask["id"].'</b>: '.$oneTask["summary"].
-				   ' <span class="badge pull-right" style="background-color: '.$oneTask["color"].'">'.$oneTask["name"].'</span> </a>';
-			}
+      		$projectsTask = $taskDA->getTasksQueryByProjectID($_GET["p"], $shownMenu);
+      		$areTaskAvailable = false;
+      		if ($projectsTask != null) {
+      			while ($oneTask = $projectsTask->fetch_assoc()) {
+					echo '<a href="task.php?t='.$oneTask["id"].'" class="list-group-item"><b>'
+							.$selectedProject["key"].'-'.$oneTask["id"].'</b>: '.$oneTask["summary"].
+							' <span class="badge pull-right" style="background-color: '.$oneTask["color"].'">'.$oneTask["name"].'</span> </a>';
+					$areTaskAvailable = true;
+				}
+      		}
+      		if (!$areTaskAvailable) {
+      			echo '<span class="list-group-item">No Tasks available...</span>';
+      		}
       	?>
       </div>
 	</div>

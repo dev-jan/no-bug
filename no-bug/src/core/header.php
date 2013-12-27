@@ -41,7 +41,21 @@ $logedInUser = $userDA->getUser($_SESSION['nobug'.RANDOMKEY.'userId']);
 			<a class="navbar-brand" href="<?php echo ROOTPATH; ?>"><i class="fa fa-bug"></i> no-bug</a>
 			<ul class="nav navbar-nav">
 	      		<li class="<?php if (ACTIVE_MENU == "main") {echo 'active';}?>"><a href="<?php echo ROOTPATH; ?>"><i class="fa fa-home"></i> Main</a></li>
-	      		<li class="<?php if (ACTIVE_MENU == "proj") {echo 'active';}?>"><a href="<?php echo ROOTPATH; ?>project.php"><i class="fa fa-folder-open"></i> Projects</a></li>
+	      		<li class="dropdown <?php if (ACTIVE_MENU == "proj") {echo 'active';}?>">
+	      			<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-folder-open"></i> Projects <b class="caret"></b></a>
+	      			<ul class="dropdown-menu" id="menuProjDropdown" role="menu" aria-labelledby="dLabel">
+	      				<?php 
+	      				$allAllowedProjects = $permDA->getAllAllowedProjects($_SESSION['nobug'.RANDOMKEY.'userId']);
+	      				if ($allAllowedProjects != null) {
+		      				while ($oneProject = $allAllowedProjects->fetch_assoc()) {
+		      					echo '<li><a href="'.ROOTPATH.'project.php?p='.$oneProject["id"].'">'.$oneProject["name"].'</a></li>';
+		      				}
+	      				}
+	      				?>
+			        	<li class="divider"></li>
+			        	<li><a href="<?php echo ROOTPATH; ?>project.php"><i class="fa fa-sitemap"></i> All Projects</a></li>
+			        </ul>
+	      		</li>
 	      		<?php 
 	      		if ($permDA->isGeneralAdmininstrationAllowed()) {
 	      		?>

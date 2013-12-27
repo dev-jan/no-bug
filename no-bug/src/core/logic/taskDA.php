@@ -1,6 +1,7 @@
 <?php
 include_once 'db.php';
 include_once dirname(__FILE__).'/permissionDA.php';
+include_once dirname(__FILE__).'/taskpropDA.php';
 
 class TaskDA {
 	public function getTaskByID($absoluteId) {
@@ -13,6 +14,7 @@ class TaskDA {
 				     task.createDate AS createDate, status.name AS statusname, status.id AS status_id,
 				     tasktype.name AS tasktypname, `user`.prename AS prename, `user`.surname AS surname,
 					 task.priority AS priority, `user`.id AS assigneeId, tasktype.id AS tasktypId,
+					 project.name AS projectname,
 					 project.id AS projectId, project.key AS projectkey, creator.prename AS cPrename, creator.surname AS cSurname
 				FROM task
 				INNER JOIN status ON task.status_id = status.id
@@ -25,17 +27,59 @@ class TaskDA {
 		return $query->fetch_assoc();
 	}
 	
-	public function getTasksQueryByProjectID ($projectID) {
+	public function getTasksQueryByProjectID ($projectID, $shownMenu) {
 		$db = new DB();
 		$db->connect();
 		
 		$projectID = $db->esc($projectID);
+		$taskpropDA = new TaskpropDA();
 		
-		$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name, `status`.color FROM task 
+		if ($shownMenu == "all") {
+			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name, 
+						`status`.color FROM task
 					INNER JOIN `status` ON task.status_id = `status`.id
-				WHERE project_id = ".$projectID . 
-				" ORDER BY task.id DESC";
-		return $db->query($sql);
+					WHERE project_id = ".$projectID . "
+					ORDER BY task.id DESC";
+			return $db->query($sql);
+		}
+		
+		if ($shownMenu == "myopen") { //IMPLEMENT!!!!!!
+			$userId = $_SESSION['nobug'.RANDOMKEY.'userId'];
+			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name, 
+						`status`.color FROM task
+					INNER JOIN `status` ON task.status_id = `status`.id
+					WHERE project_id = ".$projectID . " AND `status`.isDone = 0 AND `task`.assignee_id = $userId
+					ORDER BY task.id DESC";
+			return $db->query($sql);
+		}
+		
+		if ($shownMenu == "open") {
+			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name,
+						`status`.color FROM task
+					INNER JOIN `status` ON task.status_id = `status`.id
+					WHERE project_id = ".$projectID . " AND `status`.isDone = 0
+					ORDER BY task.id DESC";
+			return $db->query($sql);
+		}
+		
+		if ($shownMenu == "closed") {
+			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name,
+						`status`.color FROM task
+					INNER JOIN `status` ON task.status_id = `status`.id
+					WHERE project_id = ".$projectID . " AND `status`.isDone = 1
+					ORDER BY task.id DESC";
+			return $db->query($sql);
+		}
+		
+		if ($shownMenu == "unassigned") {
+			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name,
+						`status`.color FROM task
+					INNER JOIN `status` ON task.status_id = `status`.id
+					WHERE project_id = ".$projectID . " AND task.assignee_id is null
+					ORDER BY task.id DESC";
+			return $db->query($sql);
+		}
+		return null;
 	}
 	
 	public function createTask ($summary, $description, $project, $assignee, $type, $priority, $status) {

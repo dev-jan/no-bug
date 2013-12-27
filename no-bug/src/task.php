@@ -20,7 +20,7 @@
 		if ($permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) {
 			$taskDA->updateTask($_GET["t"], $_POST["summary"], $_POST["projectSelect"], $_POST["assigneeSelect"],
 					$_POST["typeSelect"], $_POST["prioritySelect"], $_POST["statusSelect"], $_POST["description"]);
-			header("Location: task.php?t=" . $_GET["t"]);
+			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=task.php?t=' . $_GET["t"].'" >';  
 		}
 		else {
 			$permDA->echoPermissionDeniedAndDie();
@@ -30,7 +30,7 @@
 	if (isset($_POST["newCommentText"])) {
 		if ($permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) {
 			$taskDA->createComment($_GET["t"], $_POST["newCommentText"]);
-			header("Location: task.php?t=" . $_GET["t"]);
+			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=task.php?t=' . $_GET["t"].'" >';  
 		}
 		else {
 			$permDA->echoPermissionDeniedAndDie();
@@ -43,6 +43,7 @@
 			$taskDA->createTask($_POST["summary"], $_POST["description"],
 					$_GET["proj"], $_POST["assigneeSelect"], $_POST["typeSelect"],
 					$_POST["prioritySelect"], $_POST["statusSelect"]);
+			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=project.php?p=' . $_GET["proj"] .'" >';
 			header("Location: project.php?p=" . $_GET["proj"]);
 		}
 		else {
@@ -51,7 +52,7 @@
 	}
 	
 	if ($selectedTask != null) {
-		//Show Task Details...
+		//Show Task to Edit...
 		if (isset($_GET["edit"]) && $permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) {
 	?>
 <div id="main">
@@ -125,7 +126,14 @@
 	// Show ReadOnly Task...
 ?>
 <div id="main">
+	<ol class="breadcrumb">
+	  <li><a href="index.php">Home</a></li>
+	  <li><a href="project.php?p=<?php echo $selectedTask["projectId"]; ?>">Project <?php echo $selectedTask["projectname"]; ?></a></li>
+	  <li class="active">Task #<?php echo $selectedTask["id"]; ?></li>
+	</ol>
+	
 	<h1><small><?php echo $selectedTask["projectkey"].'-'.$selectedTask["id"]?> </small> <?php echo $selectedTask["summary"]?></h1>
+	
 	<?php if($permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) { ?>
 	<div style="margin-top: 20px; margin-bottom: 20px;">
 		<form action="" method="get" style='display:inline;'>  
@@ -263,6 +271,7 @@ if (isset($_GET["new"]) && $permDA->isWriteOnProjectAllowed($_GET["proj"])) {
 			</div>
 		</div>
 		<button type="submit" class="btn btn-success">Create Task</button>
+		<a href="task.php?t=<?php echo $selectedTask["id"];?>" style="margin-left: 20px" >Abort</a>
 	</form>
 </div>
 <?php 
