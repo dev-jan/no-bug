@@ -121,13 +121,16 @@ class ProjectDA {
 		include_once dirname(__FILE__).'/permissionDA.php';
 		$permissionDA = new PermissionDA();
 		$allProjQuery = $permissionDA->getAllAllowedProjects($_SESSION['nobug'.RANDOMKEY.'userId']);
-		while ($oneProj = $allProjQuery->fetch_assoc()) {
-			$sql = "SELECT * FROM task WHERE project_id = ".$oneProj["id"] . " AND active=1";
-			$taskcount = $db->query($sql)->num_rows;
-			echo '<a href="project.php?p='.$oneProj["id"].'" class="list-group-item"><h4>'.$oneProj["name"].' ('.$oneProj["key"].')</h4>'.$oneProj["description"].' <span class="badge pull-right">'.$taskcount.'</span></a>';
+		if ($allProjQuery != null) {
+			while ($oneProj = $allProjQuery->fetch_assoc()) {
+				$sql = "SELECT * FROM task WHERE project_id = ".$oneProj["id"] . " AND active=1";
+				$taskcount = $db->query($sql)->num_rows;
+				echo '<a href="project.php?p='.$oneProj["id"].'" class="list-group-item"><h4>'.$oneProj["name"].' ('.$oneProj["key"].')</h4>'.$oneProj["description"].' <span class="badge pull-right">'.$taskcount.'</span></a>';
+			}
 		}
-		if ($allProjQuery->num_rows <= 0) {
+		else {
 			echo '<p class="list-group-item" >No Projects found...</p>';
 		}
+		
 	}
 }

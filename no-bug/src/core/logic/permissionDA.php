@@ -105,7 +105,11 @@ class PermissionDA {
 		}
 		
 		$sql = "SELECT value FROM setting WHERE `key` = 'global.admingroup' AND value IN (" . $groupsSql . ")";
-		if ($db->query($sql)->num_rows > 0) {
+		$query = $db->query($sql);
+		if ($query == null) {
+			return false;
+		}
+		if ($query->num_rows > 0) {
 			return true;
 		}
 		return false;
