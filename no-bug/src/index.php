@@ -35,15 +35,16 @@ include_once 'core/logic/settingsDA.php';
 			<?php 
 			$taskDA = new TaskDA();
 			$myOpenTasks = $taskDA->getOpenAssignedToMe();
-			if ($myOpenTasks == null) {
-				echo '<span class="list-group-item">You have no open Tasks...</span>';
-			}
-			else {
+			$areTasksThere = false;
+			if ($myOpenTasks != null) {
 				while ($oneTask = $myOpenTasks->fetch_assoc()) {
 					echo '<a href="task.php?t='.$oneTask["id"].'" class="list-group-item"><b>'.$oneTask["key"].'-'.$oneTask["id"].'</b>: '.$oneTask["summary"].'<span class="badge pull-right" style="background-color: '.$oneTask["color"].'">'.$oneTask["status"].'</span></a> ';
+					$areTasksThere = true;
 				}
 			}
-			
+			if (!$areTasksThere) {
+				echo '<span class="list-group-item">You have no open Tasks...</span>';
+			}
 			?>
 		</div>
 	</div>

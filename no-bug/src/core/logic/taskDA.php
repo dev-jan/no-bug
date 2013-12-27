@@ -22,9 +22,8 @@ class TaskDA {
 				LEFT JOIN `user` ON task.assignee_id = `user`.id
 				INNER JOIN `user` AS `creator` ON `creator`.id = task.creator_id
 				INNER JOIN project ON task.project_id = project.id
-				WHERE task.id = ".$absoluteId;
-		$query = $db->query($sql);	
-		return $query->fetch_assoc();
+				WHERE task.active=1 AND task.id = ".$absoluteId;
+		return $db->query($sql);
 	}
 	
 	public function getTasksQueryByProjectID ($projectID, $shownMenu) {
@@ -38,7 +37,7 @@ class TaskDA {
 			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name, 
 						`status`.color FROM task
 					INNER JOIN `status` ON task.status_id = `status`.id
-					WHERE project_id = ".$projectID . "
+					WHERE project_id = ".$projectID . " AND task.active=1
 					ORDER BY task.id DESC";
 			return $db->query($sql);
 		}
@@ -48,7 +47,7 @@ class TaskDA {
 			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name, 
 						`status`.color FROM task
 					INNER JOIN `status` ON task.status_id = `status`.id
-					WHERE project_id = ".$projectID . " AND `status`.isDone = 0 AND `task`.assignee_id = $userId
+					WHERE project_id = ".$projectID . " AND task.active=1 AND `status`.isDone = 0 AND `task`.assignee_id = $userId
 					ORDER BY task.id DESC";
 			return $db->query($sql);
 		}
@@ -57,7 +56,7 @@ class TaskDA {
 			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name,
 						`status`.color FROM task
 					INNER JOIN `status` ON task.status_id = `status`.id
-					WHERE project_id = ".$projectID . " AND `status`.isDone = 0
+					WHERE project_id = ".$projectID . " AND task.active=1 AND `status`.isDone = 0
 					ORDER BY task.id DESC";
 			return $db->query($sql);
 		}
@@ -66,7 +65,7 @@ class TaskDA {
 			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name,
 						`status`.color FROM task
 					INNER JOIN `status` ON task.status_id = `status`.id
-					WHERE project_id = ".$projectID . " AND `status`.isDone = 1
+					WHERE project_id = ".$projectID . " AND task.active=1 AND `status`.isDone = 1
 					ORDER BY task.id DESC";
 			return $db->query($sql);
 		}
@@ -75,7 +74,7 @@ class TaskDA {
 			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name,
 						`status`.color FROM task
 					INNER JOIN `status` ON task.status_id = `status`.id
-					WHERE project_id = ".$projectID . " AND task.assignee_id is null
+					WHERE project_id = ".$projectID . " AND task.active=1 AND task.assignee_id is null
 					ORDER BY task.id DESC";
 			return $db->query($sql);
 		}
@@ -270,7 +269,30 @@ class TaskDA {
 		$sql = "SELECT task.id, task.summary, project.key, `status`.color, `status`.name AS status FROM `no-bug`.task 
 					INNER JOIN project ON project.id = task.project_id
 					INNER JOIN `status` ON `status`.id = task.status_id		
-				WHERE status_id IN ($openstatusTest) AND assignee_id = " . $_SESSION['nobug'.RANDOMKEY.'userId'];
+				WHERE status_id IN ($openstatusTest) AND assignee_id = " . $_SESSION['nobug'.RANDOMKEY.'userId'] . "
+				ORDER BY project.name, task.id DESC 
+				LIMIT 10";
 		return $db->query($sql);
+	}
+	
+	public function updateAssignee($taskId, $newAssigneeId) {
+		$db = new DB();
+		$db->connect();
+		
+		$taskId = $db->esc($taskId);
+		$newAssigneeId = $db->esc($newAssigneeId);
+		
+		$sql = "UPDATE `task` SET `assignee_id`='$newAssigneeId' WHERE `id`='$taskId'";
+		$db->query($sql);
+	}
+	
+	public function deleteTask ($taskId) {
+		$db = new DB();
+		$db->connect();
+		
+		$taskId = $db->esc($taskId);
+		
+		$sql = "UPDATE `task` SET `active`='0' WHERE `id`=".$taskId;
+		$db->query($sql);
 	}
 }

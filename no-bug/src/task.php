@@ -10,6 +10,13 @@
 	
 	if (isset($_GET["t"])) {
 		$selectedTask = $taskDA->getTaskByID($_GET["t"]);
+		if ($selectedTask == null) {
+			echo '<div class="alert alert-warning alert-dismissable" style="margin: 50px;">
+			  <strong><i class="fa fa-question"></i> Not Found!</strong> This Task was eaten by King Kong...! </div>';
+			include_once 'core/footer.php';
+			die();
+		}
+		$selectedTask = $selectedTask->fetch_assoc();
 		
 		if (!$permDA->isReadOnProjectAllowed($selectedTask["projectId"])) {
 			$permDA->echoPermissionDeniedAndDie();
@@ -21,9 +28,29 @@
 			$taskDA->updateTask($_GET["t"], $_POST["summary"], $_POST["projectSelect"], $_POST["assigneeSelect"],
 					$_POST["typeSelect"], $_POST["prioritySelect"], $_POST["statusSelect"], $_POST["description"]);
 			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=task.php?t=' . $_GET["t"].'" >';  
+			die();
 		}
 		else {
 			$permDA->echoPermissionDeniedAndDie();
+		}
+	}
+	
+	if (isset($_GET["assignToMe"])) {
+		if ($permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) {
+			$taskDA->updateAssignee($_GET["t"], $_SESSION['nobug'.RANDOMKEY.'userId']);
+			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=task.php?t=' . $_GET["t"].'" >';
+			die();
+		}
+		else {
+			$permDA->echoPermissionDeniedAndDie();
+		}
+	}
+	
+	if (isset($_GET["delete"])) {
+		if ($permDA->isAdminOnProjectAllowed($selectedTask["projectId"])) {
+			$taskDA->deleteTask($_GET["t"]);
+			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=project.php?p=' . $_GET["proj"] .'" >'; 
+			die();
 		}
 	}
 	
@@ -31,6 +58,7 @@
 		if ($permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) {
 			$taskDA->createComment($_GET["t"], $_POST["newCommentText"]);
 			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=task.php?t=' . $_GET["t"].'" >';  
+			die();
 		}
 		else {
 			$permDA->echoPermissionDeniedAndDie();
@@ -44,7 +72,7 @@
 					$_GET["proj"], $_POST["assigneeSelect"], $_POST["typeSelect"],
 					$_POST["prioritySelect"], $_POST["statusSelect"]);
 			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=project.php?p=' . $_GET["proj"] .'" >';
-			header("Location: project.php?p=" . $_GET["proj"]);
+			die();
 		}
 		else {
 			$permDA->echoPermissionDeniedAndDie();
@@ -139,10 +167,22 @@
 		<form action="" method="get" style='display:inline;'>  
 			<input type="hidden" name="t" value="<?php echo $selectedTask["id"];?>" />
 			<input type="hidden" name="edit" value="true" />
-			<button type="submit" class="btn btn-default">Edit Task...</button>
+			<button type="submit" class="btn btn-default"><i class="fa fa-pencil"></i> Edit Task...</button>
 		</form>
-		<button type="button" class="btn btn-default">Assign to Me</button>
-		<button type="button" class="btn btn-default">Change Status</button>
+		<form action="" method="get" style='display:inline;'>  
+			<input type="hidden" name="t" value="<?php echo $selectedTask["id"];?>" />
+			<input type="hidden" name="assignToMe" value="true" />
+			<button type="submit" class="btn btn-default">Assign to Me...</button>
+		</form>
+		<?php if ($permDA->isAdminOnProjectAllowed($selectedTask["projectId"])) {
+			echo '<form action="" method="get" style=\'display:inline;\'>  
+					<input type="hidden" name="t" value="'.$selectedTask["id"].'" />
+					<input type="hidden" name="delete" value="true" />
+					<button type="submit" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete...</button>
+				  </form>';
+		}
+			
+		?>
 	</div>
 	<?php }?>
 	<div class="panel panel-primary" >
@@ -270,7 +310,7 @@ if (isset($_GET["new"]) && $permDA->isWriteOnProjectAllowed($_GET["proj"])) {
 				<textarea name="description" class="form-control" placeholder="Description here..." id="desc" onkeydown="resizeTextarea('desc')" ></textarea>
 			</div>
 		</div>
-		<button type="submit" class="btn btn-success">Create Task</button>
+		<button type="submit" class="btn btn-success" data-loading-text="Loading..." >Create Task</button>
 		<a href="task.php?t=<?php echo $selectedTask["id"];?>" style="margin-left: 20px" >Abort</a>
 	</form>
 </div>

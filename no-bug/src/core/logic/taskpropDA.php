@@ -49,48 +49,37 @@ class TaskpropDA {
 		
 		$projectID = $db->esc($projectID);
 		if ($menu == "all") {
-			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name,
-						`status`.color FROM task
-					INNER JOIN `status` ON task.status_id = `status`.id
-					WHERE project_id = ".$projectID . "
-					ORDER BY task.id DESC";
+			$sql = "SELECT task.id FROM task
+					WHERE project_id = ".$projectID . " AND task.active=1";
 			return $db->query($sql)->num_rows;
 		}
 		
-		if ($menu == "myopen") { //IMPLEMENT!!!!!!
+		if ($menu == "myopen") { 
 			$userId = $_SESSION['nobug'.RANDOMKEY.'userId'];
-			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name,
-						`status`.color FROM task
+			$sql = "SELECT task.id FROM task
 					INNER JOIN `status` ON task.status_id = `status`.id
-					WHERE project_id = ".$projectID . " AND `status`.isDone = 0 AND `task`.assignee_id = $userId
-							ORDER BY task.id DESC";
+					WHERE project_id = ".$projectID . " AND `status`.isDone = 0 AND `task`.assignee_id = $userId AND task.active=1";
 			return $db->query($sql)->num_rows;
 		}
 		
 		if ($menu == "open") {
-			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name,
-						`status`.color FROM task
+			$sql = "SELECT task.id FROM task
 					INNER JOIN `status` ON task.status_id = `status`.id
-					WHERE project_id = ".$projectID . " AND `status`.isDone = 0
-					ORDER BY task.id DESC";
+					WHERE project_id = ".$projectID . " AND `status`.isDone = 0 AND task.active=1";
 			return $db->query($sql)->num_rows;
 		}
 		
 		if ($menu == "closed") {
-			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name,
-						`status`.color FROM task
+			$sql = "SELECT task.id FROM task
 					INNER JOIN `status` ON task.status_id = `status`.id
-					WHERE project_id = ".$projectID . " AND `status`.isDone = 1
-					ORDER BY task.id DESC";
+					WHERE project_id = ".$projectID . " AND `status`.isDone = 1 AND task.active=1 ";
 			return $db->query($sql)->num_rows;
 		}
 		
 		if ($menu == "unassigned") {
-			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name,
-						`status`.color FROM task
+			$sql = "SELECT task.id FROM task
 					INNER JOIN `status` ON task.status_id = `status`.id
-					WHERE project_id = ".$projectID . " AND task.assignee_id is null
-					ORDER BY task.id DESC";
+					WHERE project_id = ".$projectID . " AND task.assignee_id is null AND task.active=1";
 			return $db->query($sql)->num_rows;
 		}
 		return null;
