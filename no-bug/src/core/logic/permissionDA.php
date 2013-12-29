@@ -153,10 +153,12 @@ class PermissionDA {
 		$allUsers = $db->query($allUsersSql);
 		while ($oneUser = $allUsers->fetch_assoc()) {
 			$allowedProjectOfUser = $this->getAllAllowedProjects($oneUser["id"]);
-			while ($oneProjectOfUser = $allowedProjectOfUser->fetch_assoc()) {
-				if ($oneProjectOfUser["id"] == $projectId) {
-					$userarray[] = $oneUser;
-					break 1;
+			if ($allowedProjectOfUser != null) {
+				while ($oneProjectOfUser = $allowedProjectOfUser->fetch_assoc()) {
+					if ($oneProjectOfUser["id"] == $projectId) {
+						$userarray[] = $oneUser;
+						break 1;
+					}
 				}
 			}
 		}
