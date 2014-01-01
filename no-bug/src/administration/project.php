@@ -26,6 +26,19 @@ if (isset($_POST["groups"])) {
 			<strong>Successfull</strong> changed Groups of the Project</div>';
 }
 
+if (isset($_POST["activate"])) {
+	$projDA->activateProject($_GET["p"]);
+	$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			<strong>Successfull</strong> activate Project </div>';
+}
+if (isset($_POST["deactivate"])) {
+	$projDA->deactivateProject($_GET["p"]);
+	$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			<strong>Successfull</strong> deactivate Project </div>';
+}
+
 
 $selectedProject = $projDA->getProject($_GET["p"]);
 if ($selectedProject == null) {
@@ -101,6 +114,19 @@ if ($selectedProject == null) {
 		</table>
 		<button type="submit" class="btn btn-warning">Change Groups</button>
 	</form>
+	
+	<form action="#" method="post">
+		<?php 
+		if ($projDA->isProjectActive($selectedProject["id"])) {
+			echo '<input type="hidden" name="deactivate" value="true" />';
+			echo '<button type="submit" class="btn btn-danger">Deactivate Project</button>';
+		}
+		else {
+			echo '<input type="hidden" name="activate" value="true" />';
+			echo '<button type="submit" class="btn btn-success">Activate Project</button>';
+		}
+		?>
+	</form> 
 </div>
 <?php 
 include '../core/footer.php';

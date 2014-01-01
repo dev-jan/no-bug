@@ -3,11 +3,17 @@ include_once 'db.php';
 include_once dirname(__FILE__).'/groupDA.php';
 
 class ProjectDA { 
-	public function printAllProjects () {
+	public function printAllProjects ($reallyAll = false) {
 		$db = new DB();
 		$db->connect();
 		
-		$getAllProjSql = "SELECT * FROM project WHERE active != 0";
+		if ($reallyAll) {
+			$getAllProjSql = "SELECT * FROM project";
+		}
+		else {
+			$getAllProjSql = "SELECT * FROM project WHERE active != 0";
+		}
+		
 		
 		$allProjQuery = $db->query($getAllProjSql);
 		while ($oneProj = $allProjQuery->fetch_assoc()) {
@@ -20,7 +26,12 @@ class ProjectDA {
 			$getWriteQuery = $db->query($getWriteSql)->fetch_assoc();
 			$getReadQuery = $db->query($getReadSql)->fetch_assoc();
 			
-			echo '<tr>
+			$deactivatedText = "";
+			if ($oneProj["active"] == 0) {
+				$deactivatedText = ' class="danger" ';
+			}
+			
+			echo '<tr'.$deactivatedText.'>
 					<td>'.$oneProj["key"].'</td>
 					<td>'.$oneProj["name"].'</td>
 					<td>'.$oneProj["description"].'</td>
@@ -42,7 +53,7 @@ class ProjectDA {
 		$db->connect();
 		
 		$projectID = $db->esc($projectID);
-		$sql = "SELECT * FROM project WHERE id=".$projectID;
+		$sql = "SELECT * FROM project WHERE active=1 AND id=".$projectID;
 		$query = $db->query($sql);
 		
 		return $query->fetch_assoc();
@@ -51,6 +62,19 @@ class ProjectDA {
 	public function printGroupSelect ($selectedGroupID) {
 		$groupDA = new GroupDA();
 		$groupDA->printGroupSelection($selectedGroupID);
+	}
+	
+	public function isProjectActive($projectId) {
+		$db = new DB();
+		$db->connect();
+	
+		$projectId = $db->esc($projectId);
+		$query = $db->query("SELECT active FROM project WHERE project.id=$projectId");
+		$result = $query->fetch_assoc();
+		if ($result["active"] == 1) {
+			return true;
+		}
+		return false;
 	}
 	
 	public function updateGeneral($groupID, $name, $description, $version) {
@@ -95,6 +119,22 @@ class ProjectDA {
 		else {
 			return false;
 		}
+	}
+	
+	public function deactivateProject($projectId) {
+		$db = new DB();
+		$db->connect();
+	
+		$projectId = $db->esc($projectId);
+		$db->query("UPDATE project SET active=0 WHERE project.id=$projectId");
+	}
+	
+	public function activateProject($projectId) {
+		$db = new DB();
+		$db->connect();
+	
+		$projectId = $db->esc($projectId);
+		$db->query("UPDATE project SET active=1 WHERE project.id=$projectId");
 	}
 	
 	public function createProject ($key, $name, $description, $version, $groupAdmID, $groupWriteID, $groupReadID) {

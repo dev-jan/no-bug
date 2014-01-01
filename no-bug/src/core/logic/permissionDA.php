@@ -138,7 +138,7 @@ class PermissionDA {
 			$groupsSql = $groupsSql . ",'".$groupsArray[$x]."'";
 		}
 		
-		$allowedProjectsSql = "SELECT * FROM project WHERE group_admin IN (" . $groupsSql . ") OR group_write IN (" . $groupsSql . ") OR group_read IN (" . $groupsSql . ")";
+		$allowedProjectsSql = "SELECT * FROM project WHERE active=1 AND (group_admin IN (" . $groupsSql . ") OR group_write IN (" . $groupsSql . ") OR group_read IN (" . $groupsSql . "))";
 		return $db->query($allowedProjectsSql);
 	}
 	
