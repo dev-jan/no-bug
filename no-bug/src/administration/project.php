@@ -39,10 +39,9 @@ if (isset($_POST["deactivate"])) {
 			<strong>Successfull</strong> deactivate Project </div>';
 }
 
-
-$selectedProject = $projDA->getProject($_GET["p"]);
+$selectedProject = $projDA->getProjectOnAdmin($_GET["p"]);
 if ($selectedProject == null) {
-	//header("Location: projects.php");
+	header("Location: projects.php");
 	die();
 }
 

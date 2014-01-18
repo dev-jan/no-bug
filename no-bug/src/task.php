@@ -311,7 +311,6 @@ if (isset($_GET["new"]) && $permDA->isWriteOnProjectAllowed($_GET["proj"])) {
 			</div>
 		</div>
 		<button type="submit" class="btn btn-success" data-loading-text="Loading..." >Create Task</button>
-		<a href="task.php?t=<?php echo $selectedTask["id"];?>" style="margin-left: 20px" >Abort</a>
 	</form>
 </div>
 <?php 

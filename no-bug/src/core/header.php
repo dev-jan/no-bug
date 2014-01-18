@@ -33,6 +33,7 @@ $logedInUser = $userDA->getUser($_SESSION['nobug'.RANDOMKEY.'userId']);
 		<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/global.js" ></script>
 		<link rel="shortcut icon" href="<?php echo ROOTPATH; ?>icon.ico" type="image/x-icon" />
 		<link rel="icon" href="<?php echo ROOTPATH; ?>icon.ico" type="image/x-icon" /> 
+		<?php echo $settingsDA->getTrackingCode(); ?>
 	</head>
 	<body>
 	

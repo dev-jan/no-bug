@@ -14,7 +14,7 @@ $settingsDA = new SettingsDA();
 $alerts = "";
 
 if (isset($_POST["edited"])) {
-	$settingsDA->setValues($_POST["admingroup"], $_POST["platformname"], $_POST["motd"]);
+	$settingsDA->setValues($_POST["admingroup"], $_POST["platformname"], $_POST["motd"], $_POST["tracker"]);
 	$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			<strong>Successfull</strong> changed Settings</div>';
@@ -50,9 +50,16 @@ if (isset($_POST["edited"])) {
 						onkeydown="resizeTextarea('motd')"><?php echo $settingsDA->getMotd(); ?></textarea>
 				</td>
 			</tr>
+			<tr>
+				<th>Custom Tracking Code:</th>
+				<td><textarea name="tracker" class="form-control" id="tracker"
+						onkeydown="resizeTextarea('tracker')"><?php echo $settingsDA->getTrackingCode(); ?></textarea>
+				</td>
+			</tr>
 		</table>
 		<script type="text/javascript">
 			resizeTextarea('motd');
+			resizeTextarea('tracker');
 		</script>
 		<button type="submit" class="btn btn-primary">Save Changes</button>
 	</form>
@@ -64,12 +71,10 @@ if (isset($_POST["edited"])) {
 		</table>
 	</form>
 	
-	<!-- Button trigger modal -->
 	<button class="btn btn-success" data-toggle="modal" data-target="#aboutModal">
 	  About...
 	</button>
 	
-	<!-- Modal -->
 	<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">
 	    <div class="modal-content">

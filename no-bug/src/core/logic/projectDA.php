@@ -59,6 +59,17 @@ class ProjectDA {
 		return $query->fetch_assoc();
 	}
 	
+	public function getProjectOnAdmin ($projectID) {
+		$db = new DB();
+		$db->connect();
+		
+		$projectID = $db->esc($projectID);
+		$sql = "SELECT * FROM project WHERE id=".$projectID;
+		$query = $db->query($sql);
+		
+		return $query->fetch_assoc();
+	}
+	
 	public function printGroupSelect ($selectedGroupID) {
 		$groupDA = new GroupDA();
 		$groupDA->printGroupSelection($selectedGroupID);

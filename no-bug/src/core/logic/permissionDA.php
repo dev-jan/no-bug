@@ -142,6 +142,26 @@ class PermissionDA {
 		return $db->query($allowedProjectsSql);
 	}
 	
+	public function getWriteAllowedProjects ($userId) {
+		$db = new DB();
+		$db->connect();
+		$userId = $db->esc($userId);
+		$groupsSql = "";
+		
+		$groupsArray = $this->getAllGroups($userId);
+		$groupCounter = count($groupsArray);
+		for ($x = 0; $x < $groupCounter; $x++)
+		{
+			if ($x == 0) {
+				$groupsSql = $groupsSql . "'".$groupsArray[$x]."'";
+			}
+			$groupsSql = $groupsSql . ",'".$groupsArray[$x]."'";
+		}
+		
+		$allowedProjectsSql = "SELECT * FROM project WHERE active=1 AND (group_admin IN (" . $groupsSql . ") OR group_write IN (" . $groupsSql . "))";
+		return $db->query($allowedProjectsSql);
+	}
+	
 	public function getUsersOfAProject ($projectId) {
 		$db = new DB();
 		$db->connect();
@@ -152,7 +172,7 @@ class PermissionDA {
 		$allUsersSql = "SELECT * FROM `user` WHERE active=1";
 		$allUsers = $db->query($allUsersSql);
 		while ($oneUser = $allUsers->fetch_assoc()) {
-			$allowedProjectOfUser = $this->getAllAllowedProjects($oneUser["id"]);
+			$allowedProjectOfUser = $this->getWriteAllowedProjects($oneUser["id"]);
 			if ($allowedProjectOfUser != null) {
 				while ($oneProjectOfUser = $allowedProjectOfUser->fetch_assoc()) {
 					if ($oneProjectOfUser["id"] == $projectId) {

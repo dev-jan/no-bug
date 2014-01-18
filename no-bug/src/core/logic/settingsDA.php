@@ -31,20 +31,31 @@ class SettingsDA {
 		return $db->query($sql)->fetch_assoc()["value"];
 	}
 	
-	public function setValues ($globalAdminGroupId, $globalName, $motd) {
+	public function getTrackingCode() {
+		$db = new DB();
+		$db->connect();
+		
+		$sql = "SELECT value FROM setting WHERE `key` = 'global.tracker'";
+		return $db->query($sql)->fetch_assoc()["value"];
+	}
+	
+	public function setValues ($globalAdminGroupId, $globalName, $motd, $tracker) {
 		$db = new DB();
 		$db->connect();
 		
 		$globalAdminGroupId = $db->esc($globalAdminGroupId);
 		$globalName = $db->esc($globalName);
 		$motd = $db->mySqlEsc($motd);
+		$tracker = $db->mySqlEsc($tracker);
 		
 		$sql1 = "UPDATE `setting` SET `value`='$globalAdminGroupId' WHERE `key`='global.admingroup'";
 		$sql2 = "UPDATE `setting` SET `value`='$globalName' WHERE `key`='global.name'";
 		$sql3 = "UPDATE `setting` SET `value`='$motd' WHERE `key`='main.motd';";
+		$sql4 = "UPDATE `setting` SET `value`='$tracker' WHERE `key`='global.tracker';";
 		$db->query($sql1);
 		$db->query($sql2);
 		$db->query($sql3);
+		$db->query($sql4);
 	}
 	
 	public function printServerInfos () {
