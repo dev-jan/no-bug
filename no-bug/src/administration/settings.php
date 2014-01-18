@@ -63,6 +63,37 @@ if (isset($_POST["edited"])) {
 			<?php $settingsDA->printServerInfos(); ?>
 		</table>
 	</form>
+	
+	<!-- Button trigger modal -->
+	<button class="btn btn-success" data-toggle="modal" data-target="#aboutModal">
+	  About...
+	</button>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        <h4 class="modal-title" id="aboutModalLabel"><i class="fa fa-code"></i> About the Developers of no-bug...</h4>
+	      </div>
+	      <div class="modal-body">
+	        Hello :)
+	        <p>We are two young developers from switzerland. "no-bug" was a project we build in our free time to train our
+	        php & mySQL skills. One of our goal was to build a simple, stylish and feature-richt bugtracking platform.
+	        We have chosen to pubish this platform as Open-Source (and of course <i class="fa fa-usd"></i>free<i class="fa fa-usd"></i>
+	        to use) on github, so other developers can use our bugtracking platform for free. If you can, you are allowed
+	        to fork this platform on github and make your own changes. </p>
+	        <p>
+	        </p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
 </div>
 <?php 
 include '../core/footer.php';
