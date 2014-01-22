@@ -45,6 +45,9 @@ include_once 'core/logic/settingsDA.php';
 			if (!$areTasksThere) {
 				echo '<span class="list-group-item">You have no open Tasks...</span>';
 			}
+			if ($taskDA->getOpenAssignedToMeCount() > 10) {
+				echo '<span class="list-group-item"><center>...</center></span>';
+			}
 			?>
 		</div>
 	</div>

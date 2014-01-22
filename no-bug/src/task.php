@@ -7,6 +7,7 @@
 	$permDA = new PermissionDA();
 
 	$selectedTask = null;
+	$dataEdited = false;
 	
 	if (isset($_GET["t"])) {
 		$selectedTask = $taskDA->getTaskByID($_GET["t"]);
@@ -43,6 +44,17 @@
 		}
 		else {
 			$permDA->echoPermissionDeniedAndDie();
+		}
+	}
+	
+	if (isset($_POST["changeStatus"])) {
+		if ($permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) {
+			$taskDA->changeStatus($_GET["t"], $_POST["statusSelect"]);
+			if (isset($_POST["comment"]) && $_POST["comment"] != "") {
+				$taskDA->createComment($_GET["t"], $_POST["comment"]);
+			}
+			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=task.php?t=' . $_GET["t"].'" >';
+			die();
 		}
 	}
 	
@@ -174,6 +186,44 @@
 			<input type="hidden" name="assignToMe" value="true" />
 			<button type="submit" class="btn btn-default">Assign to Me...</button>
 		</form>
+		<button class="btn btn-default" data-toggle="modal" data-target="#changeStatus">
+		  Change Status...
+		</button>
+		<div class="modal fade" id="changeStatus" tabindex="-1" role="dialog" aria-labelledby="changeStatusModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		    	<form method="POST" action="" name="loginform">
+		    	  <input type="hidden" name="t" value="<?php echo $selectedTask["id"];?>" />
+		    	  <input type="hidden" name="changeStatus" value="true" />
+ 			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        <h4 class="modal-title" id="changeStatusModalLabel">Change Status to...</h4>
+			      </div>
+			      <div class="modal-body">
+			        <table class="table">
+			        	<tr>
+			        		<td>New Status:</td>
+			        		<td>
+			        			<select class="form-control" name="statusSelect">
+									<?php $taskDA->printStatusSelect($selectedTask["status_id"]); ?>
+								</select>
+							</td>
+			        	</tr>
+			        	<tr>
+			        		<td>Comment:</td>
+			        		<td><textarea name="comment" class="form-control" placeholder="Your Comment here..." id="comment" onkeydown="resizeTextarea('comment')" ></textarea></td>
+			        	</tr>
+			        </table>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Abort</button>
+			        <button type="submit" class="btn btn-primary">Save changes</button>
+			      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>				
+		
 		<?php if ($permDA->isAdminOnProjectAllowed($selectedTask["projectId"])) {
 			echo '<form action="" method="get" style=\'display:inline;\'>  
 					<input type="hidden" name="t" value="'.$selectedTask["id"].'" />
@@ -210,11 +260,12 @@
 				<th><?php echo $selectedTask["statusname"]?></th>
 			</tr>
 			<tr>
-					<td>Creator: </td>
-					<th><?php echo $selectedTask["cPrename"] . " " . $selectedTask["cSurname"]; ?></th>
-					<td>Created Date: </td>
-					<th><?php echo $selectedTask["createDate"]?></th>
-				</tr>
+				<td>Creator: </td>
+				<th><?php echo $selectedTask["cPrename"] . " " . $selectedTask["cSurname"]; ?></th>
+				
+				<td>Created Date: </td>
+				<th><?php echo $selectedTask["createDate"]?></th>
+			</tr>
 		</table>
 	</div>
 	

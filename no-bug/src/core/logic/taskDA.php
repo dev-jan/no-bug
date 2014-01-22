@@ -266,13 +266,37 @@ class TaskDA {
 			}
 		}
 		
-		$sql = "SELECT task.id, task.summary, project.key, `status`.color, `status`.name AS status FROM `no-bug`.task 
+		$sql = "SELECT task.id, task.summary, project.key, `status`.color, `status`.name AS status FROM task 
 					INNER JOIN project ON project.id = task.project_id
 					INNER JOIN `status` ON `status`.id = task.status_id		
 				WHERE status_id IN ($openstatusTest) AND task.active !=0 AND assignee_id = " . $_SESSION['nobug'.RANDOMKEY.'userId'] . "
 				ORDER BY project.name, task.id DESC 
 				LIMIT 10";
 		return $db->query($sql);
+	}
+	
+	public function getOpenAssignedToMeCount() {
+		$db = new DB();
+		$db->connect();
+		
+		$openstatusTest = "";
+		$openStatus = "SELECT * FROM `status` WHERE isDone = 0 AND active != 0";
+		$openQuery = $db->query($openStatus);
+		while ($oneStatus = $openQuery->fetch_assoc()) {
+			if ($openstatusTest == "") {
+				$openstatusTest = $oneStatus["id"];
+			}
+			else {
+				$openstatusTest = $openstatusTest . ", " . $oneStatus["id"];
+			}
+		}
+		
+		$sql = "SELECT count(task.id) AS id FROM task
+		INNER JOIN project ON project.id = task.project_id
+		INNER JOIN `status` ON `status`.id = task.status_id
+		WHERE status_id IN ($openstatusTest) AND task.active !=0 AND assignee_id = " . $_SESSION['nobug'.RANDOMKEY.'userId'] . "
+		LIMIT 10";
+		return $db->query($sql)->fetch_assoc()["id"];
 	}
 	
 	public function updateAssignee($taskId, $newAssigneeId) {
@@ -283,6 +307,17 @@ class TaskDA {
 		$newAssigneeId = $db->esc($newAssigneeId);
 		
 		$sql = "UPDATE `task` SET `assignee_id`='$newAssigneeId' WHERE `id`='$taskId'";
+		$db->query($sql);
+	}
+	
+	public function changeStatus($taskId, $newStatusId) {
+		$db = new DB();
+		$db->connect();
+	
+		$taskId = $db->esc($taskId);
+		$newStatusId = $db->esc($newStatusId);
+	
+		$sql = "UPDATE `task` SET `status_id`='$newStatusId' WHERE `id`='$taskId'";
 		$db->query($sql);
 	}
 	
