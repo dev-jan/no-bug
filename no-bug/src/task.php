@@ -271,9 +271,26 @@
 	
 	<div class="panel panel-primary" >
 		<div class="panel-heading">Description</div>
-		<div class="panel-body">
+		<div id="description-view" class="panel-body">
 			<?php echo nl2br($selectedTask["description"]); ?>
 		</div>
+		
+		<script src="js/markdown-browser-0.6.0-beta1/markdown.min.js" type="text/javascript"></script>
+		<script type="text/javascript">
+
+			$(function () {
+				var mdhtml = "<?php echo preg_replace("/(\r\n|\n|\r)/", "<br />", $selectedTask["description"]); ?>";
+				var find = '<br />';
+				var re = new RegExp(find, 'g');
+
+				mdhtml = mdhtml.replace(re, '\n');
+		
+				$('#description-view').html(markdown.toHTML(mdhtml));
+			});
+			
+		</script>
+		
+		
 	</div>
 	
 	<div class="panel panel-info" >
