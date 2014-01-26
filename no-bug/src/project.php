@@ -24,10 +24,12 @@
 	</ol>
 
 	<h1><?php echo $selectedProject["name"];?> <small><?php echo $selectedProject["version"]?></small></h1>
-	<p style="float: right">
+	<p style="float: right; text-align: right">
 		<?php 
 			if ($permDA->isAdminOnProjectAllowed($selectedProject["id"])) {
-				echo '<i class="fa fa-rocket"></i> Administrator';
+				echo '<i class="fa fa-rocket"></i> Administrator <br />';
+				echo '<a href="projectmanager.php?p=' . $selectedProject["id"] . '">
+						<i class="fa fa-tachometer"></i> Project Settings</a>';
 			}
 			else {
 				if ($permDA->isWriteOnProjectAllowed($selectedProject["id"])) {

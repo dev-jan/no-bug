@@ -88,17 +88,17 @@ class ProjectDA {
 		return false;
 	}
 	
-	public function updateGeneral($groupID, $name, $description, $version) {
+	public function updateGeneral($projectID, $name, $description, $version) {
 		$db = new DB();
 		$db->connect();
 		
 		$name = $db->esc($name);
-		$description = $db->esc($description);
+		$description = $db->fixDoubleSpace($db->esc($description));
 		$version = $db->esc($version);
-		$groupID = $db->esc($groupID);
+		$projectID = $db->esc($projectID);
 		
 		$sql = "UPDATE project SET `name`= '$name', description = '$description', version = '$version'
-				WHERE id = $groupID";
+				WHERE id = $projectID";
 		$db->query($sql);
 	}
 	
@@ -154,14 +154,14 @@ class ProjectDA {
 		
 		$key = $db->esc($key);
 		$name = $db->esc($name);
-		$description = $db->esc($description);
+		$description = $db->fixDoubleSpace($db->esc($description));
 		$version = $db->esc($version);
 		$groupAdmID = $db->esc($groupAdmID);
 		$groupWriteID = $db->esc($groupWriteID);
 		$groupReadID = $db->esc($groupReadID);
 		
 		$sql = "INSERT INTO project (`key`, `name`, `description`, `version`, `active`, `group_admin`, `group_write`, `group_read`, `meta_creatorID`, `meta_createDate`) 
-				VALUES ('$key', '$name', '$description', '$version', 1, '$groupAdmID', '$groupWriteID', '$groupReadID', '".$_SESSION['nobug'.RANDOMKEY.'userId']."', '14.11.13')";
+				VALUES ('$key', '$name', '$description', '$version', 1, '$groupAdmID', '$groupWriteID', '$groupReadID', '".$_SESSION['nobug'.RANDOMKEY.'userId']."', '".$db->toDate(time())."')";
 		$query = $db->query($sql);
 	}
 	

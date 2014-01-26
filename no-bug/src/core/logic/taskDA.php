@@ -2,6 +2,7 @@
 include_once 'db.php';
 include_once dirname(__FILE__).'/permissionDA.php';
 include_once dirname(__FILE__).'/taskpropDA.php';
+include_once dirname(__FILE__).'/componentDA.php';
 
 class TaskDA {
 	public function getTaskByID($absoluteId) {
@@ -14,11 +15,12 @@ class TaskDA {
 				     task.createDate AS createDate, status.name AS statusname, status.id AS status_id,
 				     tasktype.name AS tasktypname, `user`.prename AS prename, `user`.surname AS surname,
 					 task.priority AS priority, `user`.id AS assigneeId, tasktype.id AS tasktypId,
-					 project.name AS projectname,
+					 project.name AS projectname, `component`.name AS componentName, `component`.id AS componentID,
 					 project.id AS projectId, project.key AS projectkey, creator.prename AS cPrename, creator.surname AS cSurname
 				FROM task
 				INNER JOIN status ON task.status_id = status.id
 				INNER JOIN tasktype ON task.tasktype_id = tasktype.id
+				LEFT JOIN `component` ON task.component_id = `component`.id
 				LEFT JOIN `user` ON task.assignee_id = `user`.id
 				INNER JOIN `user` AS `creator` ON `creator`.id = task.creator_id
 				INNER JOIN project ON task.project_id = project.id
@@ -81,17 +83,18 @@ class TaskDA {
 		return null;
 	}
 	
-	public function createTask ($summary, $description, $project, $assignee, $type, $priority, $status) {
+	public function createTask ($summary, $description, $project, $assignee, $type, $priority, $status, $component) {
 		$db = new DB();
 		$db->connect();
 		
 		$summary = $db->esc($summary);
-		$description = $db->esc($description);
+		$description = $db->fixDoubleSpace($db->esc($description));
 		$project = $db->esc($project);
 		$assignee = $db->esc($assignee);
 		$type = $db->esc($type);
 		$priority = $db->esc($priority);
 		$status = $db->esc($status);
+		$component = $db->esc($component);
 		
 		if ($assignee == 0) {
 			$assignee = "null";
@@ -101,24 +104,25 @@ class TaskDA {
 		}
 		
 		$sql = "INSERT INTO `task` (`summary`, `description`, `status_id`, `project_id`, `creator_id`, 
-				      `assignee_id`, `createDate`, `tasktype_id`, `priority`, `active`) 
+				      `assignee_id`, `createDate`, `tasktype_id`, `priority`, `active`, `component_id`) 
 				VALUES ('$summary', '$description', '$status', '$project', '".$_SESSION['nobug'.RANDOMKEY.'userId']."',
-				$assignee, '".$db->toDate(time())."', '$type', '$priority', '1');";
+				$assignee, '".$db->toDate(time())."', '$type', '$priority', '1', $component);";
 		$db->query($sql);	
 	}
 	
-	public function updateTask($taskid, $summary, $project, $assignee, $type, $priority, $status, $description) {
+	public function updateTask($taskid, $summary, $project, $assignee, $type, $priority, $status, $description, $component) {
 		$db = new DB();
 		$db->connect();
 		
 		$taskid = $db->esc($taskid);
 		$summary = $db->esc($summary);
-		$description = $db->esc($description);
+		$description = $db->fixDoubleSpace($db->esc($description));
 		$project = $db->esc($project);
 		$assignee = $db->esc($assignee);
 		$type = $db->esc($type);
 		$priority = $db->esc($priority);
 		$status = $db->esc($status);
+		$component = $db->esc($component);
 		
 		if ($assignee == 0) {
 			$assignee = "null";
@@ -130,7 +134,7 @@ class TaskDA {
 		$sql = "UPDATE `task` 
 				SET `summary`='$summary', `description`='$description', `status_id`='$status', 
 				`project_id`='$project', `assignee_id`=$assignee, `tasktype_id`='$type', 
-				`priority`='2' WHERE `id`='$taskid';
+				`priority`='2', `component_id`=$component WHERE `id`='$taskid';
 		";
 		$db->query($sql);
 	}
@@ -140,7 +144,7 @@ class TaskDA {
 		$db->connect();
 		
 		$taskId = $db->esc($taskId);
-		$value = $db->esc($value);
+		$value = $db->fixDoubleSpace($db->esc($value));
 		
 		$sql = "INSERT INTO `no-bug`.`changelog` 
 				(`task_id`, `changedField`, `date`, `value`, `user_id`) 
@@ -148,7 +152,7 @@ class TaskDA {
 		$db->query($sql);
 	}
 	
-	public function printProjectSelect ($selectedProject) {
+	public function printProjectSelect ($selectedProject = "") {
 		$db = new DB();
 		$db->connect();
 				
@@ -164,7 +168,7 @@ class TaskDA {
 		}
 	}
 	
-	public function printAssigneeSelect ($selectedAssignee, $projectId) {
+	public function printAssigneeSelect ($selectedAssignee = "", $projectId) {
 		$db = new DB();
 		$db->connect();
 		
@@ -184,7 +188,7 @@ class TaskDA {
 		}
 	}
 	
-	public function printTypeSelect ($selectedType) {
+	public function printTypeSelect ($selectedType = "") {
 		$db = new DB();
 		$db->connect();
 	
@@ -200,7 +204,7 @@ class TaskDA {
 		}
 	}
 	
-	public function printStatusSelect ($selectedStatus) {
+	public function printStatusSelect ($selectedStatus = "") {
 		$db = new DB();
 		$db->connect();
 	
@@ -213,6 +217,23 @@ class TaskDA {
 				$selectedText = ' selected="selected" ';
 			}
 			echo '<option value="'.$oneRow["id"].'" '.$selectedText.'>'.$oneRow["name"].'</option>';
+		}
+	}
+	
+	public function printComponentSelect ($selectedComponent = "", $projectId) {
+		$db = new DB();
+		$db->connect();
+		
+		$componentDA = new ComponentDA();
+		$components = $componentDA->getComponents($projectId);
+		
+		echo '<option value="0">-- none --</option>';
+		while ($oneComponent = $components->fetch_assoc()) {
+			$selectedText = "";
+			if ($selectedComponent == $oneComponent["id"]) {
+				$selectedText = ' selected="selected" ';
+			}
+			echo '<option value="'.$oneComponent["id"].'" '.$selectedText.'>'.$oneComponent["name"].'</option>';
 		}
 	}
 	
@@ -235,7 +256,7 @@ class TaskDA {
 					</a>
 					<div class="media-body">
 						<h4 class="media-heading">'.$oneRow["prename"].' '.$oneRow["surname"].'</h4>
-						'.$oneRow["value"].'
+						'.nl2br($oneRow["value"]).'
 					</div>
 				</div>';
 		}

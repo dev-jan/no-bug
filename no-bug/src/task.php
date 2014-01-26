@@ -27,7 +27,7 @@
 	if (isset($_POST["edited"])) {
 		if ($permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) {
 			$taskDA->updateTask($_GET["t"], $_POST["summary"], $_POST["projectSelect"], $_POST["assigneeSelect"],
-					$_POST["typeSelect"], $_POST["prioritySelect"], $_POST["statusSelect"], $_POST["description"]);
+					$_POST["typeSelect"], $_POST["prioritySelect"], $_POST["statusSelect"], $_POST["description"], $_POST["componentSelect"]);
 			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=task.php?t=' . $_GET["t"].'" >';  
 			die();
 		}
@@ -82,7 +82,7 @@
 		if ($permDA->isWriteOnProjectAllowed($_GET["proj"])) {
 			$taskDA->createTask($_POST["summary"], $_POST["description"],
 					$_GET["proj"], $_POST["assigneeSelect"], $_POST["typeSelect"],
-					$_POST["prioritySelect"], $_POST["statusSelect"]);
+					$_POST["prioritySelect"], $_POST["statusSelect"], $_POST["componentSelect"]);
 			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=project.php?p=' . $_GET["proj"] .'" >';
 			die();
 		}
@@ -143,6 +143,17 @@
 						</select>
 					</th>
 				</tr>
+				<tr>
+					<td>Component: </td>
+					<th>
+						<select class="form-control" name="componentSelect">
+							<?php $taskDA->printComponentSelect($selectedTask["componentID"], $selectedTask["projectId"]); ?>
+						</select>
+					</th>
+					
+					<td>Fixed Version: </td>
+					<th>-</th>
+				</tr>
 			</table>
 		</div>
 		
@@ -181,11 +192,13 @@
 			<input type="hidden" name="edit" value="true" />
 			<button type="submit" class="btn btn-default"><i class="fa fa-pencil"></i> Edit Task...</button>
 		</form>
+		<?php if ($selectedTask["assigneeId"] != $_SESSION['nobug'.RANDOMKEY.'userId']) {?>
 		<form action="" method="get" style='display:inline;'>  
 			<input type="hidden" name="t" value="<?php echo $selectedTask["id"];?>" />
 			<input type="hidden" name="assignToMe" value="true" />
 			<button type="submit" class="btn btn-default">Assign to Me...</button>
 		</form>
+		<?php  } ?>
 		<button class="btn btn-default" data-toggle="modal" data-target="#changeStatus">
 		  Change Status...
 		</button>
@@ -266,14 +279,45 @@
 				<td>Created Date: </td>
 				<th><?php echo $selectedTask["createDate"]?></th>
 			</tr>
+			<tr>
+				<td>Component: </td>
+				<th><?php 
+					if (isset($selectedTask["componentName"])) {
+						echo $selectedTask["componentName"];
+					}
+					else {
+						echo "none";
+					}
+				?></th>
+				
+				<td>Fixed Version: </td>
+				<th>-</th>
+			</tr>
 		</table>
 	</div>
 	
 	<div class="panel panel-primary" >
 		<div class="panel-heading">Description</div>
-		<div class="panel-body">
+		<div id="description-view" class="panel-body">
 			<?php echo nl2br($selectedTask["description"]); ?>
 		</div>
+		
+		<script src="js/markdown-browser-0.6.0-beta1/markdown.min.js" type="text/javascript"></script>
+		<script type="text/javascript">
+
+			$(function () {
+				var mdhtml = "<?php echo preg_replace("/(\r\n|\n|\r)/", "<br />", $selectedTask["description"]); ?>";
+				var find = '<br />';
+				var re = new RegExp(find, 'g');
+
+				mdhtml = mdhtml.replace(re, '\n');
+		
+				$('#description-view').html(markdown.toHTML(mdhtml));
+			});
+			
+		</script>
+		
+		
 	</div>
 	
 	<div class="panel panel-info" >
@@ -351,6 +395,17 @@ if (isset($_GET["new"]) && $permDA->isWriteOnProjectAllowed($_GET["proj"])) {
 							<?php $taskDA->printStatusSelect(); ?>
 						</select>
 					</th>
+				</tr>
+				<tr>
+					<td>Component: </td>
+					<th>
+						<select class="form-control" name="componentSelect">
+							<?php $taskDA->printComponentSelect("", $_GET["proj"]); ?>
+						</select>
+					</th>
+					
+					<td>Fixed Version: </td>
+					<th>-</th>
 				</tr>
 			</table>
 		</div>

@@ -26,6 +26,10 @@ class DB {
 		return mysqli_real_escape_string($this->db, $par);
 	}
 	
+	public function fixDoubleSpace ($text) {
+		return str_replace("  ", "&nbsp;&nbsp;", $text);
+	}
+	
 	public function createSalt() {
 		return $this->random_string(29,false,true);
 	}
