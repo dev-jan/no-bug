@@ -44,7 +44,7 @@ class TaskDA {
 			return $db->query($sql);
 		}
 		
-		if ($shownMenu == "myopen") { //IMPLEMENT!!!!!!
+		if ($shownMenu == "myopen") {
 			$userId = $_SESSION['nobug'.RANDOMKEY.'userId'];
 			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name, 
 						`status`.color FROM task
@@ -88,7 +88,7 @@ class TaskDA {
 		$db->connect();
 		
 		$summary = $db->esc($summary);
-		$description = $db->fixDoubleSpace($db->esc($description));
+		$description = $db->esc($description);
 		$project = $db->esc($project);
 		$assignee = $db->esc($assignee);
 		$type = $db->esc($type);
@@ -116,7 +116,7 @@ class TaskDA {
 		
 		$taskid = $db->esc($taskid);
 		$summary = $db->esc($summary);
-		$description = $db->fixDoubleSpace($db->esc($description));
+		$description = $db->esc($description);
 		$project = $db->esc($project);
 		$assignee = $db->esc($assignee);
 		$type = $db->esc($type);
@@ -130,11 +130,14 @@ class TaskDA {
 		else {
 			$assignee = "'".$assignee."'";
 		}
+		if ($component == 0) {
+			$component = "null";
+		}
 		
 		$sql = "UPDATE `task` 
 				SET `summary`='$summary', `description`='$description', `status_id`='$status', 
 				`project_id`='$project', `assignee_id`=$assignee, `tasktype_id`='$type', 
-				`priority`='2', `component_id`=$component WHERE `id`='$taskid';
+				`priority`='$priority', `component_id`=$component WHERE `id`='$taskid';
 		";
 		$db->query($sql);
 	}
@@ -262,12 +265,38 @@ class TaskDA {
 		}
 	}
 	
-	public function printPrioritySelect () {
-		echo '  <option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>';
+	public function printPrioritySelect ($selectedPriority = "") {
+		$selectedText = ' selected="selected" ';
+		if ($selectedPriority == "1") {
+			echo '<option value="1"' . $selectedText . '>1</option>';
+		}
+		else {
+			echo '<option value="1">1</option>';
+		}
+		if ($selectedPriority == "2") {
+			echo '<option value="2"' . $selectedText . '>2</option>';
+		}
+		else {
+			echo '<option value="2">2</option>';
+		}
+		if ($selectedPriority == "3") {
+			echo '<option value="3"' . $selectedText . '>3</option>';
+		}
+		else {
+			echo '<option value="3">3</option>';
+		}
+		if ($selectedPriority == "4") {
+			echo '<option value="4"' . $selectedText . '>4</option>';
+		}
+		else {
+			echo '<option value="4">4</option>';
+		}
+		if ($selectedPriority == "5") {
+			echo '<option value="5"' . $selectedText . '>5</option>';
+		}
+		else {
+			echo '<option value="5">5</option>';
+		}
 	}
 	
 	

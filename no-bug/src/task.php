@@ -309,10 +309,16 @@
 				var mdhtml = "<?php echo preg_replace("/(\r\n|\n|\r)/", "<br />", $selectedTask["description"]); ?>";
 				var find = '<br />';
 				var re = new RegExp(find, 'g');
-
 				mdhtml = mdhtml.replace(re, '\n');
-		
 				$('#description-view').html(markdown.toHTML(mdhtml));
+
+				var realhtml = $('#description-view').html();
+
+				//var re1 = new RegExp('\n', 'g');
+				//var realhtml = realhtml.replace(re1, '<br />');
+				var re2 = new RegExp('&amp;', 'g');
+				var realhtml = realhtml.replace(re2, '&');
+				$('#description-view').html(realhtml);
 			});
 			
 		</script>
