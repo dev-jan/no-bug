@@ -103,6 +103,10 @@ class TaskDA {
 			$assignee = "'".$assignee."'";
 		}
 		
+		if ($component == 0) {
+			$component = "null";
+		}
+		
 		$sql = "INSERT INTO `task` (`summary`, `description`, `status_id`, `project_id`, `creator_id`, 
 				      `assignee_id`, `createDate`, `tasktype_id`, `priority`, `active`, `component_id`) 
 				VALUES ('$summary', '$description', '$status', '$project', '".$_SESSION['nobug'.RANDOMKEY.'userId']."',
@@ -149,9 +153,9 @@ class TaskDA {
 		$taskId = $db->esc($taskId);
 		$value = $db->fixDoubleSpace($db->esc($value));
 		
-		$sql = "INSERT INTO `no-bug`.`changelog` 
-				(`task_id`, `changedField`, `date`, `value`, `user_id`) 
-				VALUES ('$taskId', 'comment', '".$db->toDate(time())."', '$value', '".$_SESSION['nobug'.RANDOMKEY.'userId']."')";
+		$sql = "INSERT INTO `comment` 
+				(`task_id`, `date`, `value`, `user_id`) 
+				VALUES ('$taskId', '".$db->toDate(time())."', '$value', '".$_SESSION['nobug'.RANDOMKEY.'userId']."')";
 		$db->query($sql);
 	}
 	
@@ -246,9 +250,9 @@ class TaskDA {
 		
 		$taskid = $db->esc($taskid);
 		
-		$sql = "SELECT * FROM changelog
-				INNER JOIN `user` ON `user`.id = changelog.user_id
-				WHERE changelog.task_id = " . $taskid . "  AND changelog.changedField = 'comment'";
+		$sql = "SELECT * FROM comment
+				INNER JOIN `user` ON `user`.id = comment.user_id
+				WHERE comment.task_id = " . $taskid;
 		$query = $db->query($sql);
 		
 		while ($oneRow = $query->fetch_assoc()) {
