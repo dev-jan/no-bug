@@ -1,5 +1,5 @@
 <?php
-include_once dirname(__FILE__).'/../nobug-config.php';
+include_once dirname(__FILE__).'/../../nobug-config.php';
 
 class DB {
 	public $db;
