@@ -1,12 +1,27 @@
 <?php
 include_once dirname(__FILE__).'/../core/logic/db.php';		// For Database Connection
-include_once dirname(__FILE__).'/../nobug-config.php'; 		// Configuration for the Logger
 include_once dirname(__FILE__).'/../core/logic/userDA.php'; // To get The Username
+
 
 /**
  * To Log the application
  */
 class Logger {
+	
+	private static $db;
+	/**
+	 * Gets the DB Connection
+	 * @return DB
+	 *   The Database
+	 */
+	private static function getDB() {
+		// return the Database
+		if (!isset(self::$db)) {
+			self::$db = new DB();
+		}
+		return self::$db;
+	}
+	
 	
 	/**
 	 * Logs Debug level
@@ -85,7 +100,7 @@ class Logger {
 	private static function logOnLevel($message, $ex, $loglevel) {
 		
 		// Connect to Database
-		$db = new DB();
+		$db = self::getDB();
 		$db->connect();
 		
 		// Get Username
@@ -121,11 +136,20 @@ class Logger {
 		// When not defined use: DEBUG
 		$logLevel = LogLevel::DEBUG;
 		
+		// Get the Database Configuration
+		// Connect to Database
+		$db = self::getDB();
+		$db->connect();
+		
+		$sql = "SELECT `value` FROM setting WHERE `key` = 'global.loglevel'";
+		$querry = $db->query($sql);
+		$result = $querry->fetch_assoc();
+
 		// When The Log Level is defined 
 		// return the Log Level (standard : DEBUG)
-		if (defined('LOG_LEVEL')) {
+		if (isset($result["value"])) {
 			
-			switch (LOG_LEVEL) {
+			switch ($result["value"]) {
 				case 'DEBUG':
 					$logLevel = LogLevel::DEBUG;
 					break;
