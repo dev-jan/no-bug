@@ -90,9 +90,25 @@
       		$areTaskAvailable = false;
       		if ($projectsTask != null) {
       			while ($oneTask = $projectsTask->fetch_assoc()) {
-					echo '<a href="task.php?t='.$oneTask["id"].'" class="list-group-item"><b>'
-							.$selectedProject["key"].'-'.$oneTask["id"].'</b>: '.$oneTask["summary"].
-							' <span class="badge pull-right" style="background-color: '.$oneTask["color"].'">'.$oneTask["name"].'</span> </a>';
+					$component = $oneTask["componentName"];
+					if ($component != "") {
+						$component = '<span class="text-success pull-center" style="margin-left: 20px;">Component: '.$oneTask["componentName"].'</span>';
+					}
+					$assignee = $oneTask["assigneePrename"];
+					if ($assignee == "") {
+						$assignee = "none";
+					}
+					echo '<a href="task.php?t='.$oneTask["id"].'" class="list-group-item">
+							<div>
+				              <b>'.$selectedProject["key"].'-'.$oneTask["id"].'</b>: '.
+				              $oneTask["summary"]. '' .
+				                ' <span class="badge pull-right" style="background-color: '.$oneTask["color"].'">'.$oneTask["name"].'</span>
+	  		                </div>
+							<div style="margin-left: 10px;"><em>
+	  							<span class="text-info">Assignee: '.$assignee.' '.$oneTask["assigneeSurname"].'</span>
+	  							'.$component.'
+						    </em></div>
+						  </a>';
 					$areTaskAvailable = true;
 				}
       		}

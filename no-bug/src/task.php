@@ -306,18 +306,25 @@
 		<script type="text/javascript">
 
 			$(function () {
-				var mdhtml = "<?php echo preg_replace("/(\r\n|\n|\r)/", "<br />", $selectedTask["description"]); ?>";
-				var find = '<br />';
-				var re = new RegExp(find, 'g');
-				mdhtml = mdhtml.replace(re, '\n');
+				var mdhtml = "<?php 
+					$desc = str_replace("\r\n","<br />", $selectedTask["description"]);
+					$desc = str_replace("<br /><br />","!!!§DL§!!!", $desc); // prevent double new line Bug 
+					echo $desc; ?>";
+				// convert the <br /> for the markdown interpreter
+				var re = new RegExp('<br />', 'g');
+				mdhtml = mdhtml.replace(re, '\n\n');
 				$('#description-view').html(markdown.toHTML(mdhtml));
-
+				
 				var realhtml = $('#description-view').html();
 
-				//var re1 = new RegExp('\n', 'g');
-				//var realhtml = realhtml.replace(re1, '<br />');
+				// Convert the escaped & to real & 
 				var re2 = new RegExp('&amp;', 'g');
 				var realhtml = realhtml.replace(re2, '&');
+
+				// prevent double new line bug
+				var reDoubleLine = new RegExp("!!!§DL§!!!", 'g');
+				realhtml = realhtml.replace(reDoubleLine, '<br /><br />');
+				
 				$('#description-view').html(realhtml);
 			});
 			
