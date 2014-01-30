@@ -1,6 +1,7 @@
 <?php
 include_once 'db.php';
 include_once dirname(__FILE__).'/groupDA.php';
+include_once dirname(__FILE__).'/../logger.php';
 
 class ProjectDA { 
 	public function printAllProjects ($reallyAll = false) {
@@ -99,20 +100,22 @@ class ProjectDA {
 		
 		$sql = "UPDATE project SET `name`= '$name', description = '$description', version = '$version'
 				WHERE id = $projectID";
+		Logger::info("Update General Settings for Project { id = $projectID, newName=$name, desc=$description }", null);
 		$db->query($sql);
 	}
 	
-	public function updateGroups ($groupID, $adminGroupID, $writeGroupID, $readGroupID) {
+	public function updateGroups ($projectID, $adminGroupID, $writeGroupID, $readGroupID) {
 		$db = new DB();
 		$db->connect();
 		
 		$adminGroupID = $db->esc($adminGroupID);
 		$writeGroupID = $db->esc($writeGroupID);
 		$readGroupID = $db->esc($readGroupID);
-		$groupID = $db->esc($groupID);
+		$projectID = $db->esc($projectID);
 		
 		$sql = "UPDATE project SET group_admin = '$adminGroupID', group_write = '$writeGroupID', group_read = '$readGroupID'
-				WHERE id = $groupID";
+				WHERE id = $projectID";
+		Logger::info("Update Permisson Groups for Project { id = $projectID }", null);
 		$db->query($sql);
 	}
 	
@@ -138,6 +141,7 @@ class ProjectDA {
 	
 		$projectId = $db->esc($projectId);
 		$db->query("UPDATE project SET active=0 WHERE project.id=$projectId");
+		Logger::info("Project { id = $projectId } deactivated", null);
 	}
 	
 	public function activateProject($projectId) {
@@ -146,6 +150,7 @@ class ProjectDA {
 	
 		$projectId = $db->esc($projectId);
 		$db->query("UPDATE project SET active=1 WHERE project.id=$projectId");
+		Logger::info("Project { id = $projectId } activated", null);
 	}
 	
 	public function createProject ($key, $name, $description, $version, $groupAdmID, $groupWriteID, $groupReadID) {
@@ -163,6 +168,7 @@ class ProjectDA {
 		$sql = "INSERT INTO project (`key`, `name`, `description`, `version`, `active`, `group_admin`, `group_write`, `group_read`, `meta_creatorID`, `meta_createDate`) 
 				VALUES ('$key', '$name', '$description', '$version', 1, '$groupAdmID', '$groupWriteID', '$groupReadID', '".$_SESSION['nobug'.RANDOMKEY.'userId']."', '".$db->toDate(time())."')";
 		$query = $db->query($sql);
+		Logger::info("New Project { name = $name, desc = $description } created", null);
 	}
 	
 	public function printProjectsOnMainPage () {

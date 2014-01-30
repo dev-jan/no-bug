@@ -1,5 +1,6 @@
 <?php
 include_once dirname(__FILE__).'/../../nobug-config.php';
+include_once dirname(__FILE__).'/../logger.php';
 
 class DB {
 	public $db;
@@ -7,13 +8,21 @@ class DB {
 	public function connect() {
 		$this->db = mysqli_connect(DATABASE_HOSTNAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_NAME);
 		if (mysqli_connect_errno($this->db)) {
-			echo "Connection lost! ^^";
+			echo '<div class="alert alert-danger alert-dismissable" style="margin: 50px;">
+			  	<strong><i class="fa fa-puzzle-piece"></i> Database Error!</strong> <p>'. mysqli_connect_error($this->db).'</p></div>';
 		}
 		$this->db->set_charset("utf8");
 	}
 	
 	public function query($sql) {
-		return $this->db->query($sql);
+		$result = $this->db->query($sql);
+				
+		if($result !== false ) {
+			return $result;
+		} else {
+			Logger::error("SQL query Failed!", "query= { $sql }");
+			return null;
+		}
 	}
 	
 	public function esc($par) {
