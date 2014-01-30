@@ -1,5 +1,6 @@
 <?php
 include_once 'db.php';
+include_once dirname(__FILE__).'/../logger.php';
 
 class TaskpropDA {
 	public function getAllStatus () {
@@ -28,6 +29,7 @@ class TaskpropDA {
 		$sql = "UPDATE `tasktype` SET `name`='$name'  ".
 				"WHERE `id`='$id'";
 		$db->query($sql);
+		Logger::info("Tasktype { id = $id, name = $name } updated", null);
 	}
 	
 	public function updateStatus ($id, $name, $color) {
@@ -41,6 +43,7 @@ class TaskpropDA {
 		$sql = "UPDATE `status` SET `name`='$name', `color`='#$color'   ".
 				"WHERE `id`='$id'";
 		$db->query($sql);
+		Logger::info("Status { id = $id, name = $name, color = $color} updated", null);
 	}
 	
 	public function getNumberOfTasksByMenu ($projectID, $menu) {

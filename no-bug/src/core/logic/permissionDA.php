@@ -1,6 +1,7 @@
 <?php
 include_once 'db.php';
 include_once dirname(__FILE__).'/groupDA.php';
+include_once dirname(__FILE__).'/../logger.php';
 
 class PermissionDA {	
 
@@ -118,6 +119,7 @@ class PermissionDA {
 	public function echoPermissionDeniedAndDie() {
 		echo '<div class="alert alert-danger alert-dismissable" style="margin: 50px;">
 			  <strong><i class="fa fa-lock"></i> Access Denied!</strong> You don\'t have the Permission to access this Page! </div>';
+		Logger::warn("Site Access denied { " . $_SERVER['REQUEST_URI'] . " }", null);
 		include dirname(__FILE__).'/../footer.php';
 		die();
 	}

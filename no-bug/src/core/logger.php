@@ -1,7 +1,7 @@
 <?php
-include_once dirname(__FILE__).'/../core/logic/db.php';		// For Database Connection
-include_once dirname(__FILE__).'/../nobug-config.php'; 		// Configuration for the Logger
-include_once dirname(__FILE__).'/../core/logic/userDA.php'; // To get The Username
+include_once dirname(__FILE__).'/logic/db.php';		// For Database Connection
+include_once dirname(__FILE__).'/../nobug-config.php'; // Configuration for the Logger
+include_once dirname(__FILE__).'/logic/userDA.php'; // To get The Username
 
 /**
  * To Log the application

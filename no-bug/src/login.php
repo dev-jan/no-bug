@@ -1,9 +1,7 @@
 <?php 
 session_start(); 
-
 include_once dirname(__FILE__).'/core/logic/loginDA.php';
-include_once dirname(__FILE__).'/log/logger.php';
-
+include_once dirname(__FILE__).'/core/logger.php';
 define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/', strlen($_SERVER['DOCUMENT_ROOT'])));
 
 $error = null;
@@ -12,7 +10,7 @@ if (isset($_POST['loginusername']) && isset($_POST['loginpassword'])) {
 	
 	if (($uid = $loginDA->getUser($_POST['loginusername'], $_POST['loginpassword'])) != null) {
 		$_SESSION['nobug'.RANDOMKEY.'userId'] = $uid;
-		Logger::debug("Session opend for user: { ".$_POST['loginusername']." }", null);
+		Logger::debug("Successfull Login for user: { ".$_POST['loginusername']." }", null);
 		header("Location: index.php");
 		die();
 	} else {

@@ -1,6 +1,7 @@
 <?php
 include_once 'db.php';
 include_once dirname(__FILE__).'/permissionDA.php';
+include_once dirname(__FILE__).'/../logger.php';
 
 
 class ComponentDA { 
@@ -27,6 +28,7 @@ class ComponentDA {
 			$sql = "INSERT INTO `component` (`name`, `description`, `project_id`, `active`)
 			VALUES ('$name', '$description', $projectId, '1');";
 			$db->query($sql);
+			Logger::info("Component Created for Project { id = $projectId, name = $name}", null);
 		}
 		else {
 			$permDA->echoPermissionDeniedAndDie();
@@ -61,6 +63,7 @@ class ComponentDA {
 		if ($permDA->isAdminOnProjectAllowed($projectId)) {
 			$sql = "UPDATE `component` SET `active`= 0 WHERE `id`='$componentid'";
 			$db->query($sql);
+			Logger::info("Component Deactivated for Project { id = $projectId, component = $componentId}", null);
 		}
 		else {
 			$permDA->echoPermissionDeniedAndDie();

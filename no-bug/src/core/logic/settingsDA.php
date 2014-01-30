@@ -1,6 +1,7 @@
 <?php
 include_once 'db.php';
 include_once dirname(__FILE__).'/groupDA.php';
+include_once dirname(__FILE__).'/../logger.php';
 
 class SettingsDA { 
 	public function printGlobalAdminGroupSelect () {
@@ -56,6 +57,7 @@ class SettingsDA {
 		$db->query($sql2);
 		$db->query($sql3);
 		$db->query($sql4);
+		Logger::info("General settings updated", null);
 	}
 	
 	public function printServerInfos () {

@@ -2,6 +2,7 @@
 include_once 'db.php';
 include_once dirname(__FILE__).'/permissionDA.php';
 include_once dirname(__FILE__).'/loginDA.php';
+include_once dirname(__FILE__).'/../logger.php';
 
 class UserDA {	
 	public function printAllUsersTable($reallyAll) {
@@ -94,6 +95,7 @@ class UserDA {
 		$updateSql = "UPDATE user SET password=SHA2('$newValue',256), salt='$salt'
 						WHERE id=$userId";
 		$db->query($updateSql);
+		Logger::info("Password updated for User { id = $userId }", null);
 	}
 	
 	public function updateSurname($userId, $newSurname) {
@@ -154,6 +156,7 @@ class UserDA {
 						VALUES ('$username', '$email', '$prename', '$surname', SHA2('$password', 256), '$salt', 1, ".$_SESSION['nobug'.RANDOMKEY.'userId'].", '".$db->toDate(time())."', '".$_SESSION['nobug'.RANDOMKEY.'userId']."', '".$db->toDate(time())."');";
 			$db->query($insertSql);
 		}
+		Logger::info("New user { $username } created", null);
 	}
 	
 	public function deactivateUser($userId) {
@@ -162,6 +165,7 @@ class UserDA {
 		
 		$userId = $db->esc($userId);
 		$db->query("UPDATE user SET active=0 WHERE user.id=$userId");
+		Logger::info("User { id = $userId } deactivated", null);
 	}
 	
 	public function activateUser($userId) {
@@ -170,6 +174,7 @@ class UserDA {
 	
 		$userId = $db->esc($userId);
 		$db->query("UPDATE user SET active=1 WHERE user.id=$userId");
+		Logger::info("User { id = $userId } activated", null);
 	}
 	
 	public function isUserActive($userId) {
