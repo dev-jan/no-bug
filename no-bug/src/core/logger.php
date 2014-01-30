@@ -1,12 +1,78 @@
 <?php
 include_once dirname(__FILE__).'/logic/db.php';		// For Database Connection
-include_once dirname(__FILE__).'/../nobug-config.php'; // Configuration for the Logger
 include_once dirname(__FILE__).'/logic/userDA.php'; // To get The Username
+
 
 /**
  * To Log the application
  */
 class Logger {
+	
+	private static $db;
+	private static $logLevel;
+	
+	/**
+	 * Gets the DB Connection
+	 * @return DB
+	 *   The Database
+	 */
+	private static function getDB() {
+		// return the Database
+		if (!isset(self::$db)) {
+			self::$db = new DB();
+		}
+		return self::$db;
+	}
+	
+	
+	/**
+	 * Returns the log Level
+	 * @return LogLevel
+	 */
+	private static function getLogLevel() {
+	
+		if (!isset(self::$logLevel)) {
+	
+			// When not defined use: DEBUG
+			self::$logLevel = LogLevel::DEBUG;
+			// Get the Database Configuration
+			// Connect to Database
+			$db = self::getDB();
+			$db->connect();
+				
+			$sql = "SELECT `value` FROM setting WHERE `key` = 'global.loglevel'";
+			$querry = $db->query($sql);
+			$result = $querry->fetch_assoc();
+				
+			// When The Log Level is defined
+			// return the Log Level (standard : DEBUG)
+			if (isset($result["value"])) {
+					
+				switch ($result["value"]) {
+					case 'DEBUG':
+						self::$logLevel = LogLevel::DEBUG;
+						break;
+					case 'INFO':
+						self::$logLevel = LogLevel::INFO;
+						break;
+					case 'WARN':
+						self::$logLevel = LogLevel::WARN;
+						break;
+					case 'ERROR':
+						self::$logLevel = LogLevel::ERROR;
+						break;
+					case 'FATAL':
+						self::$logLevel = LogLevel::FATAL;
+						break;
+					default:
+						self::$logLevel = LogLevel::DEBUG;
+						break;
+				}
+			}
+		}
+	
+		return self::$logLevel;
+	}
 	
 	/**
 	 * Logs Debug level
@@ -85,7 +151,7 @@ class Logger {
 	private static function logOnLevel($message, $ex, $loglevel) {
 		
 		// Connect to Database
-		$db = new DB();
+		$db = self::getDB();
 		$db->connect();
 		
 		// Get Username
@@ -110,43 +176,6 @@ class Logger {
 		// Save Log to Database
 		$sql = "INSERT INTO log (message, exception, `date`, `level`, user) VALUE ('$message', '$ex', NOW(), '$loglevel', '$user')";
 		$db->query($sql);
-	}
-	
-	/**
-	 * Returns the log Level
-	 * @return LogLevel
-	 */
-	private static function getLogLevel() {
-		
-		// When not defined use: DEBUG
-		$logLevel = LogLevel::DEBUG;
-		
-		// When The Log Level is defined 
-		// return the Log Level (standard : DEBUG)
-		if (defined('LOG_LEVEL')) {
-			
-			switch (LOG_LEVEL) {
-				case 'DEBUG':
-					$logLevel = LogLevel::DEBUG;
-					break;
-				case 'INFO':
-					$logLevel = LogLevel::INFO;
-					break;
-				case 'WARN':
-					$logLevel = LogLevel::WARN;
-					break;
-				case 'ERROR':
-					$logLevel = LogLevel::ERROR;
-					break;
-				case 'FATAL':
-					$logLevel = LogLevel::FATAL;
-					break;
-				default:
-					$logLevel = LogLevel::DEBUG;
-					break;
-			}
-		}
-		return $logLevel;
 	}
 }
 
