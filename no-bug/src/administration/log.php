@@ -20,6 +20,39 @@ if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	?>
 	<h1><i class="fa fa-file-text-o"></i> Log</h1>
 	
+	<?php 
+	$logDA = new logDA();
+	$count = 1000;
+	$dateFrom = date("Y-m-d",strtotime("-1 week"));
+	$dateTo = date("Y-m-d");
+	// Read configuration
+	if (isset($_POST['count'])) {
+		$count = $_POST['count'];
+	}
+	if (isset($_POST['dateFrom'])) {
+		$dateFrom = $_POST['dateFrom'];
+	}
+	if (isset($_POST['dateTo'])) {
+		$dateTo = $_POST['dateTo'];
+	}
+	?>
+	
+	<form action="#" class="form-inline" method="POST">
+		<div class="form-group">
+		    <label class="sr-only" for="count">count: </label>
+		    <input type="number" class="form-control" name="count" value="<?php echo $count; ?>" />
+		</div>
+		<div class="form-group">
+		    <label class="sr-only" for="count">from: </label>
+		    <input type="date" class="form-control" name="dateFrom" value="<?php echo $dateFrom; ?>" />
+		</div>
+		<div class="form-group">
+		    <label class="sr-only" for="count">to: </label>
+		    <input type="date" class="form-control" name="dateTo" value="<?php echo $dateTo; ?>" />
+		</div>
+		<input type="submit" name="submit" class="btn btn-default" value="show" />
+	</form>
+	
 	<table class="table log-table">
 		<thead>
 			<tr>
@@ -33,10 +66,7 @@ if (!$permDA->isGeneralAdmininstrationAllowed()) {
 		</thead>
 		<tbody id="log-table-content">
 			<?php 
-			$logDA = new logDA();
-			$count = 1000;
-			$dateFrom = date("Y-m-d",strtotime("-1 week"));
-			$dateTo = date("Y-m-d");
+
 			foreach ($logDA->getLog($count, $dateFrom, $dateTo) as $logentry) {
 			?>
 			<tr>
