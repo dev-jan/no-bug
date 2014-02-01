@@ -8,6 +8,7 @@ class AdminDA {
 		$projectsActive = '';
 		$taskpropActive = '';
 		$settingsActive = '';
+		$logActive = '';
 		
 		$activeCode = '  class="active"  ';
 		
@@ -26,6 +27,9 @@ class AdminDA {
 		if ($active == "settings.php") {
 			$settingsActive = $activeCode;
 		}
+		if ($active == "log.php") {
+			$logActive = $activeCode;
+		}
 		
 		
 		echo '<ul class="nav nav-tabs">
@@ -33,6 +37,7 @@ class AdminDA {
 		<li '.$groupsActive.'><a href="groups.php"><i class="fa fa-users"></i> Groups</a></li>
 		<li '.$projectsActive.'><a href="projects.php"><i class="fa fa-folder-open"></i> Projects</a></li>
 		<li '.$taskpropActive.'><a href="taskproperties.php"><i class="fa fa-tasks"></i> Taskproperties</a></li>
+		<li '.$logActive.'><a href="log.php"><i class="fa fa-file-text-o"></i> Log</a></li>
 		<li '.$settingsActive.'><a href="settings.php"><i class="fa fa-globe"></i> Global Settings</a></li>
 		</ul>';
 	}
