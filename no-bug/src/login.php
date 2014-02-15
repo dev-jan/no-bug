@@ -4,6 +4,21 @@ include_once dirname(__FILE__).'/core/logic/loginDA.php';
 include_once dirname(__FILE__).'/core/logger.php';
 define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/', strlen($_SERVER['DOCUMENT_ROOT'])));
 
+if (!defined('ISCONFIGURATED')) {
+	echo '<!DOCTYPE html><html>
+			<head>
+				<title>Error: 500</title>
+				<link rel="stylesheet" href="'.ROOTPATH.'style/bootstrap.min.css" />
+				<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+			</head>
+			<body><div id=main> <div class="alert alert-danger" style="margin: 50px;"><strong>Setup not finished!</strong> <br />
+			          The setup of this platform is not finished. If you want to go to the setup, click
+					  <a href="setup.php">here</a>.
+			          </div></div>
+			</body></html>';
+	die();
+}
+
 $error = null;
 if (isset($_POST['loginusername']) && isset($_POST['loginpassword'])) {
 	$loginDA = new LoginDA();

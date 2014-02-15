@@ -1,17 +1,52 @@
 <?php
-include_once dirname(__FILE__).'/../../nobug-config.php';
+if (file_exists(dirname(__FILE__).'/../../nobug-config.php')) {
+	include_once dirname(__FILE__).'/../../nobug-config.php';
+}
+else {
+	$rootpath = "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/../../', strlen($_SERVER['DOCUMENT_ROOT']));
+	echo '<!DOCTYPE html><html>
+			<head>
+				<title>Error: 500</title>
+				<link rel="stylesheet" href="'.$rootpath.'style/bootstrap.min.css" />
+				<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+			</head>
+			<body><div class="alert alert-danger" style="margin: 50px;">
+			  	<strong><i class="fa fa-puzzle-piece"></i> Configuration File not found!</strong> 
+			    <p>The configuration File (nobug-config.php) is not found on this Installation!</p>
+				<p>Create this file and run the <a href="'.$rootpath.'setup.php">Setup</a></p>
+			</p></div></body></html>';
+	die();
+}
 include_once dirname(__FILE__).'/../logger.php';
 
 class DB {
 	public $db;
 	
 	public function connect() {
-		$this->db = mysqli_connect(DATABASE_HOSTNAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_NAME);
+		$this->db = @mysqli_connect(DATABASE_HOSTNAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_NAME);
 		if (mysqli_connect_errno($this->db)) {
 			echo '<div class="alert alert-danger alert-dismissable" style="margin: 50px;">
 			  	<strong><i class="fa fa-puzzle-piece"></i> Database Error!</strong> <p>'. mysqli_connect_error($this->db).'</p></div>';
 		}
 		$this->db->set_charset("utf8");
+	}
+	
+	public function check_connection() {
+		$this->db = mysqli_connect(DATABASE_HOSTNAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_NAME);
+		if (mysqli_connect_errno($this->db)) {
+			echo '<div class="alert alert-danger alert-dismissable" style="margin: 50px;">
+			  	<strong><i class="fa fa-puzzle-piece"></i> Database Error!</strong> <p>'. mysqli_connect_error($this->db).'</p></div>';
+			return false;
+		}
+		else {
+			echo '<div class="alert alert-success alert-dismissable" style="margin: 50px;">
+			  			<strong><i class="fa fa-puzzle-piece"></i> Database Successfull connected!</strong></div>';
+			return true;
+		}
+	}
+	
+	public function close_connection() {
+		$this->db->close();
 	}
 	
 	public function query($sql) {
@@ -22,6 +57,21 @@ class DB {
 		} else {
 			Logger::error("SQL query Failed!", "query= { $sql }");
 			return null;
+		}
+	}
+	
+	public function multiQuery ($sql) {
+		if ($return = $this->db->multi_query($sql)) {
+			do {
+				$this->db->next_result();
+				if ($result = $this->db->store_result()) {
+					$result->free();
+				}
+			} while ($this->db->more_results());
+			return true;
+		}else{
+			Logger::error("SQL multiQuery Failed!", "query= { $sql }");
+			return false;
 		}
 	}
 	
