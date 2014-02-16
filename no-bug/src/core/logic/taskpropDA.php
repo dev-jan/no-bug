@@ -32,18 +32,60 @@ class TaskpropDA {
 		Logger::info("Tasktype { id = $id, name = $name } updated", null);
 	}
 	
-	public function updateStatus ($id, $name, $color) {
+	public function updateStatus ($id, $name, $color, $isDone) {
 		$db = new DB();
 		$db->connect();
 		
 		$id = $db->esc($id);
 		$name = $db->esc($name);
 		$color = $db->esc($color);
+		$isDone = $db->esc($isDone);
 		
-		$sql = "UPDATE `status` SET `name`='$name', `color`='#$color'   ".
+		$sql = "UPDATE `status` SET `name`='$name', `color`='#$color', `isDone`='$isDone'   ".
 				"WHERE `id`='$id'";
 		$db->query($sql);
 		Logger::info("Status { id = $id, name = $name, color = $color} updated", null);
+	}
+	
+	public function newTasktyp ($name) {
+		$db = new DB();
+		$db->connect();
+		
+		$name = $db->esc($name);
+		$sql = "INSERT INTO `tasktype` (`name`) VALUES ('$name')";
+		$db->query($sql);
+		Logger::info("New Tasktyp { name = $name}", null);
+	}
+	
+	public function newStatus ($name, $color, $isDone) {
+		$db = new DB();
+		$db->connect();
+	
+		$name = $db->esc($name);
+		$color = $db->esc($color);
+		$isDone = $db->esc($isDone);
+		
+		$sql = "INSERT INTO `status` (`name`, `color`, `isDone`, `active`) VALUES ('$name', '$color', '$isDone', '1')";
+		$db->query($sql);
+		Logger::info("New Status { name = $name, color = $color, isDone = $isDone }", null);
+	}
+	
+	public function deleteTasktype ($id) {
+		$db = new DB();
+		$db->connect();
+		
+		$id = $db->esc($id);
+		$sql = "DELETE FROM `tasktype` WHERE `id`='$id'";
+		$db->query($sql);
+	}
+	
+	public function deleteStatus ($id) {
+		$db = new DB();
+		$db->connect();
+	
+		$id = $db->esc($id);
+		$sql = "DELETE FROM `status` WHERE `id`='$id'";
+		$db->query($sql);
 	}
 	
 	public function getNumberOfTasksByMenu ($projectID, $menu) {

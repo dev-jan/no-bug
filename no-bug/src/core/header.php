@@ -67,6 +67,7 @@ $logedInUser = $userDA->getUser($_SESSION['nobug'.RANDOMKEY.'userId']);
 			        	<li><a href="<?php echo ROOTPATH; ?>administration/groups.php">Groups</a></li>
 			        	<li><a href="<?php echo ROOTPATH; ?>administration/projects.php">Projects</a></li>
 			        	<li><a href="<?php echo ROOTPATH; ?>administration/taskproperties.php">Taskproperties</a></li>
+			        	<li><a href="<?php echo ROOTPATH; ?>administration/log.php">Log</a></li>
 			        	<li class="divider"></li>
 			        	<li><a href="<?php echo ROOTPATH; ?>administration/settings.php"><i class="fa fa-globe"></i> Global Settings</a></li>
 			        </ul>

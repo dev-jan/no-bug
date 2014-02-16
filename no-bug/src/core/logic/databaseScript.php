@@ -21,7 +21,7 @@ function createAdminSql ($username, $name, $email, $password) {
 		INSERT INTO `setting` (`key`, `value`) VALUES ('main.motd', '');
 		
 		INSERT INTO `log` (`message`, `date`, `level`, `user`) 
-		   VALUES ('Platform Setup Successfull', 'NOW()', 'INFO', 'SETUP');
+		   VALUES ('Platform Setup Successfull', NOW(), 'INFO', 'SETUP');
 		
 		INSERT INTO `status` (`name`, `color`, `isDone`, `active`) VALUES ('New', '#2e8fcd', '0', '1');
 		INSERT INTO `status` (`name`, `color`, `isDone`, `active`) VALUES ('Progress', '#ffc000', '0', '1');
