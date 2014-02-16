@@ -15,8 +15,9 @@ The no-bug Platform is currently in early Developement!
 
 ## Requirements
 
-* Apache Server
-* MySQL Server (5.5)
+* A webserver (We are using Apache 2.2, but any other also work)
+* PHP (Version: higher as 5) 
+* mySQL Server
 
 ## Frameworks
 
