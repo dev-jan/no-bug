@@ -63,22 +63,26 @@ class SettingsDA {
 	public function printServerInfos () {
 		// Fetch Informations...
 		$informations = array();
-
+		
 		$informations[0] = array();
-		$informations[0]['name'] = 'Serverinformations';
-		$informations[0]['value'] = php_uname();
+		$informations[0]['name'] = 'Version';
+		$informations[0]['value'] = $this->getVersionString();
 		
 		$informations[1] = array();
-		$informations[1]['name'] = 'PHP Version';
-		$informations[1]['value'] = phpversion();
+		$informations[1]['name'] = 'Serverinformations';
+		$informations[1]['value'] = php_uname();
 		
 		$informations[2] = array();
-		$informations[2]['name'] = 'mySQL Version';
-		$informations[2]['value'] = mysqli_get_client_info();
+		$informations[2]['name'] = 'PHP Version';
+		$informations[2]['value'] = phpversion();
 		
 		$informations[3] = array();
-		$informations[3]['name'] = 'Database Size';
-		$informations[3]['value'] = $this->getBytesWithPrefix($this->getDatabasesize());
+		$informations[3]['name'] = 'mySQL Version';
+		$informations[3]['value'] = mysqli_get_client_info();
+		
+		$informations[4] = array();
+		$informations[4]['name'] = 'Database Size';
+		$informations[4]['value'] = $this->getBytesWithPrefix($this->getDatabasesize());
 		
 		$numberOfInformations = count($informations) - 1;
 		
@@ -90,6 +94,11 @@ class SettingsDA {
 				  </tr>';
 			$x++;
 		}
+	}
+	
+	private function getVersionString() {
+		include dirname(__FILE__).'/../version.php';
+		return $versionname . " (" . $compileDate .")";
 	}
 	
 	private function getDatabasesize () {
