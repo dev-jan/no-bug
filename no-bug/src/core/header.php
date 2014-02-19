@@ -4,6 +4,7 @@ include_once dirname(__FILE__).'/logic/userDA.php';
 include_once dirname(__FILE__).'/logic/permissionDA.php';
 include_once dirname(__FILE__).'/logic/settingsDA.php';
 define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/../', strlen($_SERVER['DOCUMENT_ROOT'])));
+include_once dirname(__FILE__).'/version.php';
 
 if (!isset($_SESSION['nobug'.RANDOMKEY.'userId'])) {
 	header("Location: " . ROOTPATH . "login.php");
@@ -29,8 +30,8 @@ $logedInUser = $userDA->getUser($_SESSION['nobug'.RANDOMKEY.'userId']);
 		<link rel="stylesheet/less" type="text/css" href="<?php echo ROOTPATH; ?>style/administration.less" />
 		<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/jquery-1.10.2.min.js" ></script>
 		<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/less.js" ></script>
 		<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/global.js" ></script>
+		<?php echo $lessLoader; ?>
 		<link rel="shortcut icon" href="<?php echo ROOTPATH; ?>icon.ico" type="image/x-icon" />
 		<link rel="icon" href="<?php echo ROOTPATH; ?>icon.ico" type="image/x-icon" /> 
 		<?php echo $settingsDA->getTrackingCode(); ?>
