@@ -23,6 +23,8 @@ The no-bug Platform is currently in early Developement!
 
 * PHP (For the Code Behind)
 * mySQL (The Database Engine)
-* Bootstrap (UI Components)
-* Font Awesome (Symboles in the UI)
-* JScolor (Colorpicker)
+* Bootstrap (UI Components) [by Bootstrap](http://getbootstrap.com/)
+* Font Awesome (Symboles in the UI) [by Dave Gandy](http://fontawesome.io/)
+* JSColor (Colorpicker) [by JSColor](http://jscolor.com/)
+* YUIcompressor (JS/CSS minifier) [by Yahoo](http://yui.github.io/yuicompressor/)
+* jCruncher (LESS -> CSS compiler) [by Britesnow](http://britesnow.com/html5/jcruncher)
