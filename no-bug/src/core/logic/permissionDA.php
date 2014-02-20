@@ -206,7 +206,9 @@ class PermissionDA {
 		$userId = $db->esc($userId);
 		$allGroups = array();
 		
-		$sqlGetDirectUserGroups = "SELECT * FROM user_group WHERE user_id = " . $userId; 
+		$sqlGetDirectUserGroups = "SELECT * FROM user_group 
+			  LEFT JOIN `group` ON `group`.id = user_group.group_id
+			  WHERE active = 1 AND user_id = " . $userId; 
 		$directGroupsResult = $db->query($sqlGetDirectUserGroups);
 		while ($oneGroup = $directGroupsResult->fetch_assoc()) {
 			$allGroups[] = $oneGroup["group_id"];
@@ -217,7 +219,9 @@ class PermissionDA {
 	
 	private function getParentGroups ($groupId, $db, $allGroupsArray) {
 		$groupId = $db->esc($groupId);
-		$getParentsSql = "SELECT * FROM group_group WHERE group_group.group_child = " . $groupId;
+		$getParentsSql = "SELECT * FROM group_group 
+			  LEFT JOIN `group` ON `group`.id = group_group.group_parent
+			  WHERE group_group.group_child = " . $groupId;
 		$parentQuery = $db->query($getParentsSql);
 		
 		while ($oneGroup = $parentQuery->fetch_assoc()) {

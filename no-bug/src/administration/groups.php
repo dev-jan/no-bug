@@ -16,6 +16,14 @@ if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$adminDA->getAdminMenu("groups.php");
 	?>
 	<h1><i class="fa fa-users"></i> Groups</h1>
+	<?php 
+	if (isset($_GET["showDeactivated"])) {
+		echo '<form action="#" method="get" style="float: left;"><button type="submit" class="btn btn-default"><i class="fa fa-eye-slash"></i> Show activated Groups</button></form>';
+	}
+	else {
+		echo '<form action="groups.php" method="get" style="float: left;"><input type="hidden" name="showDeactivated" value="true" /><button type="submit" class="btn btn-default" ><i class="fa fa-eye"></i> Show all Groups</button></form>';
+	}
+	?>
 	<form action="newGroup.php">
 		<button type="submit" class="btn btn-success"
 			style="float: right; margin-bottom: 10px;"><i class="fa fa-plus-square"></i> New Group</button>
@@ -29,7 +37,11 @@ if (!$permDA->isGeneralAdmininstrationAllowed()) {
 		</tr>
 		<?php 
 		$groupDA = new GroupDA();
-		$groupDA->printAllGroupsTable(false);
+		$allGroups = false;
+		if (isset($_GET["showDeactivated"])) {
+			$allGroups = true;
+		}
+		$groupDA->printAllGroupsTable($allGroups);
 		?>
 	</table>
 </div>

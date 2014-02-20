@@ -22,8 +22,7 @@ class GroupDA {
 			else {
 				echo '<tr class="danger">';
 			}
-			echo '	<tr>
-						<td>'.$oneGroup["name"].'</td>
+			echo '		<td>'.$oneGroup["name"].'</td>
 						<td>'.$this->printParentEntitys($oneGroup["id"]).'</td>
 						<td>'.$this->printChildEntitys($oneGroup["id"]).'</td>
 						<td><form action="group.php?" method="GET">
@@ -96,6 +95,19 @@ class GroupDA {
 		}
 	}
 	
+	public function isGroupActive ($groupID) {
+		$db = new DB();
+		$db->connect();
+		
+		$groupID = $db->esc($groupID);
+		$query = $db->query("SELECT active FROM `group` WHERE id=$groupID");
+		$result = $query->fetch_assoc();
+		if ($result["active"] == 1) {
+			return true;
+		}
+		return false;
+	}
+	
 	public function printGroupSelect() {
 		echo '<option id="0">--- Select Group ---</option>';
 		$db = new DB();
@@ -162,6 +174,26 @@ class GroupDA {
 		}
 		
 		return $return;
+	}
+	
+	public function deactivateGroup ($groupId) {
+		$db = new DB();
+		$db->connect();
+		
+		$groupId = $db->esc($groupId);
+		$sql = "UPDATE `group` SET active='0'
+						WHERE id=$groupId";
+		$db->query($sql);
+	}
+	
+	public function activateGroup ($groupId) {
+		$db = new DB();
+		$db->connect();
+	
+		$groupId = $db->esc($groupId);
+		$sql = "UPDATE `group` SET active='1'
+		WHERE id=$groupId";
+		$db->query($sql);
 	}
 	
 	public function updateGroupname ($groupId, $newGroupname) {

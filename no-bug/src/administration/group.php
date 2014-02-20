@@ -32,6 +32,13 @@ if (isset($_POST["userId"])) {
 	$groupDA->removeUsermember($_GET["g"], $_POST["userId"]);
 }
 
+if (isset($_POST["deactivate"])) {
+	$groupDA->deactivateGroup($_GET["g"]);
+}
+if (isset($_POST["activate"])) {
+	$groupDA->activateGroup($_GET["g"]);
+}
+
 
 $selectedGroup = $groupDA->getGroup($_GET["g"]);
 if ($selectedGroup == null) {
@@ -97,6 +104,19 @@ if ($selectedGroup == null) {
 			<?php echo $groupDA->printGroupMembersAsTable($selectedGroup["id"]); ?>
 		</table>
 	</form>
+	
+	<form action="#" method="post">
+		<?php 
+		if ($groupDA->isGroupActive($selectedGroup["id"])) {
+			echo '<input type="hidden" name="deactivate" value="true" />';
+			echo '<button type="submit" class="btn btn-danger">Deactivate Group</button>';
+		}
+		else {
+			echo '<input type="hidden" name="activate" value="true" />';
+			echo '<button type="submit" class="btn btn-success">Activate Group</button>';
+		}
+		?>
+	</form>	
 </div>
 <?php 
 include '../core/footer.php';

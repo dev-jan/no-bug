@@ -9,10 +9,10 @@ function createAdminSql ($username, $name, $email, $password) {
 		INSERT INTO `user` (`username`, `email`, `prename`, `password`, 
 			`salt`, `active`, `meta_creatorID`, `meta_createDate`, 
 			`meta_changeUserID`, `meta_changeDate`) 
-		   VALUES ('$username', '$email', '$name', SHA2('$password', 256), '$salt', '1', '1', 'NOW()', '1', 'NOW()');
+		   VALUES ('$username', '$email', '$name', SHA2('$password', 256), '$salt', '1', '1', NOW(), '1', NOW());
 		
 		INSERT INTO `group` (`name`, `active`, `meta_creator_id`, `meta_creatDate`) 
-		   VALUES ('global-admin', '1', '1', 'NOW()');
+		   VALUES ('global-admin', '1', '1', NOW());
 		
 		INSERT INTO `setting` (`key`, `value`) VALUES ('global.admingroup', '1');
 		INSERT INTO `setting` (`key`, `value`) VALUES ('global.loglevel', 'ERROR');
