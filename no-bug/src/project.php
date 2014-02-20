@@ -40,8 +40,18 @@
 				}
 			}
 		?>
-	</p>
-	<p><?php echo nl2br($selectedProject["description"]);?></p> 
+	</p >
+	<p><?php 
+	   $desc = $selectedProject["description"];
+	   $wordsInDesc = explode(" ", $desc);
+	   $count = count($wordsInDesc);
+	   for ($i = 0; $i < $count; $i++) {
+	   	if (substr($wordsInDesc[$i], 0, 4) == "http") {
+			$desc = str_replace($wordsInDesc[$i], "<a target=\"_blank\" href=\"".$wordsInDesc[$i]."\">".$wordsInDesc[$i]."</a>", $desc);
+		}
+	   }
+	  echo nl2br($desc);
+	?></p> 
 	
 	<span style="clear: both">&nbsp;<br /></span>
 	<?php if ($permDA->isWriteOnProjectAllowed($selectedProject["id"])) { ?>

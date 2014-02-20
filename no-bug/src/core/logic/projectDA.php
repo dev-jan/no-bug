@@ -33,7 +33,7 @@ class ProjectDA {
 			}
 			
 			echo '<tr'.$deactivatedText.'>
-					<td>'.$oneProj["key"].'</td>
+					<td><a href="../projectmanager.php?p='.$oneProj["id"].'">'.$oneProj["key"].'</a></td>
 					<td>'.$oneProj["name"].'</td>
 					<td>'.$oneProj["description"].'</td>
 					<td>
