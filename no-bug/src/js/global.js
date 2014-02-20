@@ -19,3 +19,7 @@ function realresizeTextarea (textarea) {
 	var rowsArray = document.getElementById(textarea).value.split('\n');
 	document.getElementById(textarea).rows = rowsArray.length + 2;
 }
+
+function askBeforSending ($message) {
+	return window.confirm($message);
+}

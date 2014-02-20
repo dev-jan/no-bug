@@ -61,7 +61,7 @@
 	if (isset($_GET["delete"])) {
 		if ($permDA->isAdminOnProjectAllowed($selectedTask["projectId"])) {
 			$taskDA->deleteTask($_GET["t"]);
-			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=project.php?p=' . $_GET["proj"] .'" >'; 
+			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=project.php?p=' . $selectedTask["projectId"] .'" >'; 
 			die();
 		}
 	}
@@ -241,7 +241,7 @@
 			echo '<form action="" method="get" style=\'display:inline;\'>  
 					<input type="hidden" name="t" value="'.$selectedTask["id"].'" />
 					<input type="hidden" name="delete" value="true" />
-					<button type="submit" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete...</button>
+					<button type="submit" class="btn btn-danger" onclick="return askBeforSending(\'Delete this task?\')" ><i class="fa fa-trash-o"></i> Delete...</button>
 				  </form>';
 		}
 			
