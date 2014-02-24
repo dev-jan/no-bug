@@ -1,61 +1,74 @@
 <?php
-define( 'ACTIVE_MENU', 'administration');
+/* Description: Show details of a group and edit them (e.g. groupname, members)  */
+
+// Include core files
+define( 'ACTIVE_MENU', 'administration'); 
 include_once '../core/header.php';
 include_once '../core/logic/groupDA.php';
 include_once '../core/logic/permissionDA.php';
 include_once '../core/logic/adminDA.php';
 
+// DataAccess initialisation
 $permDA = new PermissionDA();
+$groupDA = new GroupDA();
+$adminDA = new AdminDA();
+$alerts = "";
+
+// Check if the user is allowed to access this page
 if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$permDA->echoPermissionDeniedAndDie();
 }
 
-$groupDA = new GroupDA();
-$alerts = "";
-
+// Checkt if the request shout handle a groupname change
 if (isset($_POST["editGroupname"])) {
 	$groupDA->updateGroupname($_GET["g"], $_POST["editGroupname"]);
 	$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			<strong>Successfull</strong> changed Group "'.$_POST["editGroupname"].'"</div>';
 }
+// Check if the user want to add a group
 if (isset($_POST["addGroup"])) {
 	$groupDA->addGroupmember($_GET["g"], $_POST["newGroup"]);
 }
+// Check if the request is to add a user to a group
 if (isset($_POST["addUser"])) {
 	$groupDA->addUsermember($_GET["g"], $_POST["newUser"]);
 }
+// Check if the user want to remove a group from a group
 if (isset($_POST["groupId"])) {
 	$groupDA->removeGroupmember($_GET["g"], $_POST["groupId"]);
 }
+// Check if the user want to remove a user from a group
 if (isset($_POST["userId"])) {
 	$groupDA->removeUsermember($_GET["g"], $_POST["userId"]);
 }
 
+// Check if the user want to deactivate a group
 if (isset($_POST["deactivate"])) {
 	$groupDA->deactivateGroup($_GET["g"]);
 }
+// Check if the user want to activate a group
 if (isset($_POST["activate"])) {
 	$groupDA->activateGroup($_GET["g"]);
 }
 
-
-$selectedGroup = $groupDA->getGroup($_GET["g"]);
+// Get the requested group from the database
+@$selectedGroup = $groupDA->getGroup($_GET["g"]);
 if ($selectedGroup == null) {
-	//header("Location: groups.php");
+	echo '<div class="alert alert-warning alert-dismissable" style="margin: 50px;">
+			  <strong><i class="fa fa-question"></i> Not Found!</strong> This Group not found, you maybe misstype? 
+				Chuck Norris doesn\'t call the wrong number. You answer the wrong phone.';
+	include_once '../core/footer.php';
 	die();
 }
 ?>
 <div id="main">
-	<?php echo $alerts;?>
 	<?php 
-	$adminDA = new AdminDA();
+	echo $alerts; // show alerts if somethings happen
 	$adminDA->getAdminMenu("groups.php");
 	?>
 	<h1>
-		<i class="fa fa-users"></i> Edit
-		<?php echo $selectedGroup["name"]; ?>
-		...
+		<i class="fa fa-users"></i> Edit <?php echo $selectedGroup["name"]; ?>...
 	</h1>
 	<form action="?g=<?php echo $selectedGroup["id"]; ?>" class="userEditForm" method="post">
 		<table class="table">
@@ -120,4 +133,3 @@ if ($selectedGroup == null) {
 </div>
 <?php 
 include '../core/footer.php';
-?>

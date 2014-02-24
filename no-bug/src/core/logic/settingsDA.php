@@ -83,6 +83,14 @@ class SettingsDA {
 		$informations[4] = array();
 		$informations[4]['name'] = 'Database Size';
 		$informations[4]['value'] = $this->getBytesWithPrefix($this->getDatabasesize());
+
+		$informations[5] = array();
+		$informations[5]['name'] = 'PHP user';
+		$informations[5]['value'] = exec('whoami');
+		
+		$informations[6] = array();
+		$informations[6]['name'] = 'Absolute Path';
+		$informations[6]['value'] = getcwd();
 		
 		$numberOfInformations = count($informations) - 1;
 		

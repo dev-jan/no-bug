@@ -82,7 +82,7 @@ $logedInUser = $userDA->getUser($_SESSION['nobug'.RANDOMKEY.'userId']);
 		      	<li class="dropdown">
 		        	<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-user"></i> <?php echo $logedInUser["prename"] . " " . $logedInUser["surname"]?> <b class="caret"></b></a>
 			        <ul class="dropdown-menu" id="menuUserDropdown" role="menu" aria-labelledby="dLabel">
-			        	<li><a href="<?php echo ROOTPATH; ?>profil.php"><i class="fa fa-user"></i> Profil</a></li>
+			        	<li><a href="<?php echo ROOTPATH; ?>profil.php"><i class="fa fa-user"></i> Profile</a></li>
 			        	<li class="divider"></li>
 			        	<li><a href="<?php echo ROOTPATH; ?>core/logout.php"><i class="fa fa-sign-out"></i> Logout</a></li>
 			        </ul>

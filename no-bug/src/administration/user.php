@@ -2,21 +2,19 @@
 define( 'ACTIVE_MENU', 'administration');
 include_once '../core/header.php';
 include_once '../core/logic/userDA.php';
-$userDA = new UserDA();
 include_once '../core/logic/groupDA.php';
-$groupDA = new GroupDA();
 include_once '../core/logic/permissionDA.php';
 include_once '../core/logic/adminDA.php';
+
+$userDA = new UserDA();
+$groupDA = new GroupDA();
+$permDA = new PermissionDA();
 $alerts = "";
 
-$permDA = new PermissionDA();
+
+
 if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$permDA->echoPermissionDeniedAndDie();
-}
-
-if(!isset($_GET["u"])) {
-	//header("Location: users.php");
-	die();
 }
 
 // Event General->Save Changes
@@ -78,9 +76,11 @@ if (isset($_POST["deactivate"])) {
 
 
 $selectedUser = $userDA->getUser($_GET["u"]);
-
 if ($selectedUser == null) {
-	//header("Location: users.php");
+	echo '<div class="alert alert-warning alert-dismissable" style="margin: 50px;">
+			  <strong><i class="fa fa-question"></i> Not Found!</strong> This user not found, but remember: 
+			Some magicians can make people disappear. Chuck Norris can make magicians disappear... </div>';
+	include_once '../core/footer.php';
 	die();
 }
 

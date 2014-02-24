@@ -188,6 +188,19 @@ class ProjectDA {
 		else {
 			echo '<p class="list-group-item" >No Projects found...</p>';
 		}
+	}
+	
+	public function getVersionsOfProject ($projectId, $released) {
+		$db = new DB();
+		$db->connect();
 		
+		$projectId = $db->esc($projectId);
+		$releasedString = 0;
+		if ($released) {
+			$releasedString = 1;
+		}
+		
+		$sql = "SELECT * FROM `version` WHERE project_id = " . $projectId . " AND isReleased = " . $releasedString . " ORDER BY doneDate";
+		return $db->query($sql);
 	}
 }

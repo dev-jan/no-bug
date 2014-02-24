@@ -1,20 +1,25 @@
 <?php
+/* Description: Show a overview of the available groups */
+
+// Include core files
 define( 'ACTIVE_MENU', 'administration');
 include_once '../core/header.php';
 include_once '../core/logic/groupDA.php';
 include_once '../core/logic/permissionDA.php';
 include_once '../core/logic/adminDA.php';
 
+// DataAccess initialisation
+$adminDA = new AdminDA();
 $permDA = new PermissionDA();
+$groupDA = new GroupDA();
+
+// Check if the user is allowed to access this page
 if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$permDA->echoPermissionDeniedAndDie();
 }
 ?>
 <div id="main">
-	<?php 
-	$adminDA = new AdminDA();
-	$adminDA->getAdminMenu("groups.php");
-	?>
+	<?php $adminDA->getAdminMenu("groups.php");	?>
 	<h1><i class="fa fa-users"></i> Groups</h1>
 	<?php 
 	if (isset($_GET["showDeactivated"])) {
@@ -36,7 +41,6 @@ if (!$permDA->isGeneralAdmininstrationAllowed()) {
 			<th>actions</th>
 		</tr>
 		<?php 
-		$groupDA = new GroupDA();
 		$allGroups = false;
 		if (isset($_GET["showDeactivated"])) {
 			$allGroups = true;
@@ -47,4 +51,3 @@ if (!$permDA->isGeneralAdmininstrationAllowed()) {
 </div>
 <?php 
 include '../core/footer.php';
-?>

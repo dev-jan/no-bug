@@ -30,7 +30,7 @@ if (isset($_POST["newpw"])) {
 <div id="main">
 	<?php echo $alerts; ?>
 	<h1>
-		<i class="fa fa-user"></i> My Profil
+		<i class="fa fa-user"></i> My profile
 	</h1>
 	<p>On this site you can change your Profile Settings.</p>
 	<h3 class="text-primary"><i class="fa fa-key"></i> Change my Password</h3>

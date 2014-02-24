@@ -1,13 +1,18 @@
 <?php 
-// Define the active menu
-define( 'ACTIVE_MENU', 'administration');
+/* Description: Show the log of the platform */
 
+// Include core files
+define( 'ACTIVE_MENU', 'administration');
 include_once '../core/header.php';
 include_once '../core/logic/logDA.php';
 include_once '../core/logic/permissionDA.php';
 include_once '../core/logic/adminDA.php';
 
+// DataAccess initialisation
 $permDA = new PermissionDA();
+$adminDA = new AdminDA();
+
+// Check if the user is allowed to access this page
 if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$permDA->echoPermissionDeniedAndDie();
 }
@@ -15,7 +20,6 @@ if (!$permDA->isGeneralAdmininstrationAllowed()) {
 
 <div id="main">
 	<?php 
-	$adminDA = new AdminDA();
 	$adminDA->getAdminMenu("log.php");
 	?>
 	<h1><i class="fa fa-file-text-o"></i> Log</h1>
