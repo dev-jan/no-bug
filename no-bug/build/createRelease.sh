@@ -26,10 +26,10 @@ echo      "  |                   no-bug release script                   |"
 echo      "  +-----------------------------------------------------------+\n"$normal
 
 # Usage Help if parameters are not correct
-if [ "$#" != "1" ]
+if [ "$#" != "2" ]
  then
-   echo "usage:$bold\t createRelease.sh [new_version_name]"$normal
-   echo "       \t e.g.:  ./createRelease.sh \"1.0\"\n"
+   echo "usage:$bold\t createRelease.sh [new_version_name] [internal_version_number]"$normal
+   echo "       \t e.g.:  ./createRelease.sh \"1.0\" \"1\"\n"
    echo "required Application: $bold zip & java (in \$PATH)\n"$normal
    return 1
 fi
@@ -39,8 +39,10 @@ cd $(dirname $0)
 
 # Read Parameters
 version=$1
+internalVersion=$2
 currentDate=`date +"%Y-%m-%d"`
 echo $normal" > New version name:      $version"
+echo        " > Internal Version #:    $internalVersion"
 echo        " > Date of newest Build:  $currentDate\n"$red
 
 # Create temp folder for build
@@ -66,7 +68,7 @@ echo "<?php " > nobug-config.php || hasErrors=1
 
 # Set the newest version into core/version.php
 echo $green$lineBeginner"Set Variables of version.php..."$red
-echo "<?php\n\$versionname=\"$version\";\n\$compileDate=\"$currentDate\";\n\$lessLeader=''" > core/version.php || hasErrors=1
+echo "<?php\n\$versionname=\"$version\";\n\$internalVersion=$internalVersion;\n\$compileDate=\"$currentDate\";\n\$lessLeader=''" > core/version.php || hasErrors=1
 
 # Compile LESS to CSS and Compress them
 echo $green$lineBeginner"Compile & Compress LESS Files..."$red
@@ -97,6 +99,7 @@ do
     then
       $minifier $onefile > tmpfile || hasErrors=1
       cat tmpfile > $onefile
+      rm tmpfile
    else
       echo "  Fatal Error - File Not Found: $onefile" 
       hasErrors=1
@@ -112,6 +115,11 @@ if [ $hasErrors = 1 ]
    rm -R ../$tmpFolder 
    exit 2
 fi
+if [ ! -d "../../gen" ]
+ then
+   mkdir "../../gen"
+fi
+
 zip -r "../../gen/nobug_$version.zip" * > /dev/null || hasErrors=1
 
 # remove temp folder
