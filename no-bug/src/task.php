@@ -27,7 +27,7 @@
 	if (isset($_POST["edited"])) {
 		if ($permDA->isWriteOnProjectAllowed($selectedTask["projectId"])) {
 			$taskDA->updateTask($_GET["t"], $_POST["summary"], $_POST["projectSelect"], $_POST["assigneeSelect"],
-					$_POST["typeSelect"], $_POST["prioritySelect"], $_POST["statusSelect"], $_POST["description"], $_POST["componentSelect"]);
+					$_POST["typeSelect"], $_POST["prioritySelect"], $_POST["statusSelect"], $_POST["description"], $_POST["componentSelect"], $_POST["versionSelect"]);
 			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=task.php?t=' . $_GET["t"].'" >';  
 			die();
 		}
@@ -82,7 +82,7 @@
 		if ($permDA->isWriteOnProjectAllowed($_GET["proj"])) {
 			$taskDA->createTask($_POST["summary"], $_POST["description"],
 					$_GET["proj"], $_POST["assigneeSelect"], $_POST["typeSelect"],
-					$_POST["prioritySelect"], $_POST["statusSelect"], $_POST["componentSelect"]);
+					$_POST["prioritySelect"], $_POST["statusSelect"], $_POST["componentSelect"], $_POST["versionSelect"]);
 			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=project.php?p=' . $_GET["proj"] .'" >';
 			die();
 		}
@@ -152,7 +152,11 @@
 					</th>
 					
 					<td>Fixed Version: </td>
-					<th>-</th>
+					<th>
+						<select class="form-control" name="versionSelect">
+							<?php $taskDA->printVersionSelect($selectedTask["versionid"], $selectedTask["projectId"]); ?>
+						</select>
+					</th>
 				</tr>
 			</table>
 		</div>
@@ -291,7 +295,14 @@
 				?></th>
 				
 				<td>Fixed Version: </td>
-				<th>-</th>
+				<th><?php 
+					if (isset($selectedTask["versionname"])) {
+						echo $selectedTask["versionname"];
+					}
+					else {
+						echo "-";
+					}
+				?></th>
 			</tr>
 		</table>
 	</div>
@@ -418,7 +429,11 @@ if (isset($_GET["new"]) && $permDA->isWriteOnProjectAllowed($_GET["proj"])) {
 					</th>
 					
 					<td>Fixed Version: </td>
-					<th>-</th>
+					<th>
+						<select class="form-control" name="versionSelect">
+							<?php $taskDA->printVersionSelect("", $_GET["proj"]); ?>
+						</select>
+					</th>
 				</tr>
 			</table>
 		</div>

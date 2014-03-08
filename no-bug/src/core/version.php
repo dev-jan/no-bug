@@ -1,6 +1,7 @@
 <?php
 /* Version of the current Platform (e.g. v0.9-BETA), in Github its just "github-NIGHTLY" */
 $versionname = "github-NIGHTLY";
+$internalVersion = 0;
 
 /* Compile Date (in Github its just the name of the current branch...) */
 $compileDate = "master-branch";

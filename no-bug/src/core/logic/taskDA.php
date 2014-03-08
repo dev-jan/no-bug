@@ -3,6 +3,7 @@ include_once 'db.php';
 include_once dirname(__FILE__).'/permissionDA.php';
 include_once dirname(__FILE__).'/taskpropDA.php';
 include_once dirname(__FILE__).'/componentDA.php';
+include_once dirname(__FILE__).'/projectDA.php';
 
 class TaskDA {
 	public function getTaskByID($absoluteId) {
@@ -16,11 +17,13 @@ class TaskDA {
 				     tasktype.name AS tasktypname, `user`.prename AS prename, `user`.surname AS surname,
 					 task.priority AS priority, `user`.id AS assigneeId, tasktype.id AS tasktypId,
 					 project.name AS projectname, `component`.name AS componentName, `component`.id AS componentID,
-					 project.id AS projectId, project.key AS projectkey, creator.prename AS cPrename, creator.surname AS cSurname
+					 project.id AS projectId, project.key AS projectkey, creator.prename AS cPrename, creator.surname AS cSurname,
+					 `version`.name AS versionname, `version`.id AS versionid
 				FROM task
 				INNER JOIN status ON task.status_id = status.id
 				INNER JOIN tasktype ON task.tasktype_id = tasktype.id
 				LEFT JOIN `component` ON task.component_id = `component`.id
+				LEFT JOIN `version` ON task.version_id = `version`.id
 				LEFT JOIN `user` ON task.assignee_id = `user`.id
 				INNER JOIN `user` AS `creator` ON `creator`.id = task.creator_id
 				INNER JOIN project ON task.project_id = project.id
@@ -69,7 +72,7 @@ class TaskDA {
 		return $db->query($basesql);
 	}
 	
-	public function createTask ($summary, $description, $project, $assignee, $type, $priority, $status, $component) {
+	public function createTask ($summary, $description, $project, $assignee, $type, $priority, $status, $component, $version) {
 		$db = new DB();
 		$db->connect();
 		
@@ -81,6 +84,7 @@ class TaskDA {
 		$priority = $db->esc($priority);
 		$status = $db->esc($status);
 		$component = $db->esc($component);
+		$version = $db->esc($version);
 		
 		if ($assignee == 0) {
 			$assignee = "null";
@@ -93,14 +97,18 @@ class TaskDA {
 			$component = "null";
 		}
 		
+		if ($version == 0) {
+			$version = "null";
+		}
+		
 		$sql = "INSERT INTO `task` (`summary`, `description`, `status_id`, `project_id`, `creator_id`, 
-				      `assignee_id`, `createDate`, `tasktype_id`, `priority`, `active`, `component_id`) 
+				      `assignee_id`, `createDate`, `tasktype_id`, `priority`, `active`, `component_id`, `version_id`) 
 				VALUES ('$summary', '$description', '$status', '$project', '".$_SESSION['nobug'.RANDOMKEY.'userId']."',
-				$assignee, '".$db->toDate(time())."', '$type', '$priority', '1', $component);";
+				$assignee, '".$db->toDate(time())."', '$type', '$priority', '1', $component, $version);";
 		$db->query($sql);	
 	}
 	
-	public function updateTask($taskid, $summary, $project, $assignee, $type, $priority, $status, $description, $component) {
+	public function updateTask($taskid, $summary, $project, $assignee, $type, $priority, $status, $description, $component, $versionId) {
 		$db = new DB();
 		$db->connect();
 		
@@ -113,6 +121,7 @@ class TaskDA {
 		$priority = $db->esc($priority);
 		$status = $db->esc($status);
 		$component = $db->esc($component);
+		$versionId = $db->esc($versionId);
 		
 		if ($assignee == 0) {
 			$assignee = "null";
@@ -123,11 +132,15 @@ class TaskDA {
 		if ($component == 0) {
 			$component = "null";
 		}
+		if ($versionId == 0) {
+			$versionId = "null";
+		}
 		
 		$sql = "UPDATE `task` 
 				SET `summary`='$summary', `description`='$description', `status_id`='$status', 
 				`project_id`='$project', `assignee_id`=$assignee, `tasktype_id`='$type', 
-				`priority`='$priority', `component_id`=$component WHERE `id`='$taskid';
+				`priority`='$priority', `component_id`=$component, `version_id`=$versionId
+				WHERE `id`='$taskid';
 		";
 		$db->query($sql);
 	}
@@ -227,6 +240,23 @@ class TaskDA {
 				$selectedText = ' selected="selected" ';
 			}
 			echo '<option value="'.$oneComponent["id"].'" '.$selectedText.'>'.$oneComponent["name"].'</option>';
+		}
+	}
+	
+	public function printVersionSelect ($selectedVersion = "", $projectId) {
+		$db = new DB();
+		$db->connect();
+		
+		$projectDA = new ProjectDA();
+		$versions = $projectDA->getVersionsOfProject($projectId, false);
+		
+		echo '<option value="0">-- none --</option>';
+		while ($oneVersion = $versions->fetch_assoc()) {
+			$selectedText = "";
+			if ($selectedVersion == $oneVersion["id"]) {
+				$selectedText = ' selected="selected" ';
+			}
+			echo '<option value="'.$oneVersion["id"].'" '.$selectedText.'>'.$oneVersion["name"].'</option>';
 		}
 	}
 	

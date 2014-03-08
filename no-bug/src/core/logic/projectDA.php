@@ -203,4 +203,54 @@ class ProjectDA {
 		$sql = "SELECT * FROM `version` WHERE project_id = " . $projectId . " AND isReleased = " . $releasedString . " ORDER BY doneDate";
 		return $db->query($sql);
 	}
+	
+	public function createNewVersionForProject ($projectId, $versionName, $description, $isReleased, $releaseDay = null) {
+		$db = new DB();
+		$db->connect();
+		
+		$projectId = $db->esc($projectId);
+		$versionName = $db->esc($versionName);
+		$description = $db->esc($description);
+		$isReleased = $db->esc($isReleased);
+		if ($releaseDay != null) {
+			$releaseDay = "'".$db->esc($releaseDay)."'";
+		}
+		else {
+			$releaseDay = "null";
+		}
+		
+		$sql = "INSERT INTO `version` (`name`, `isReleased`, `doneDate`, `description`, `project_id`) 
+		         VALUES ('$versionName', '$isReleased', $releaseDay, '$description', '$projectId');";
+		$db->query($sql);
+	}
+	
+	public function editVersion ($versionId, $versionName, $description, $isReleased, $releaseDate = null) {
+		$db = new DB();
+		$db->connect();
+		
+		$versionId = $db->esc($versionId);
+		$versionName = $db->esc($versionName);
+		$description = $db->esc($description);
+		$isReleased = $db->esc($isReleased);
+		if ($releaseDate != null) {
+			$releaseDate = "'".$db->esc($releaseDate)."'";
+		}
+		else {
+			$releaseDate = "null";
+		}
+		
+		$sql = "UPDATE `version` SET `name`='$versionName', `isReleased`='$isReleased', 
+				     `doneDate`=$releaseDate, `description`='$description' WHERE `id`='$versionId'";
+		$db->query($sql);
+	}
+	
+	public function deleteVersion ($versionId) {
+		$db = new DB();
+		$db->connect();
+	
+		$versionId = $db->esc($versionId);
+	
+		$sql = "DELETE FROM `version` WHERE `id`='$versionId'";
+		$db->query($sql);
+	}
 }
