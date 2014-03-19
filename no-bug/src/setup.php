@@ -25,26 +25,7 @@ function random_string($length,$noCaps = false, $addNumbers = false)    {
 <html>
 <head>
 	<title>no-bug SETUP</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta name="author" content="Benj Fassbind & Jan Bucher" />
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	
-	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/less.js" ></script>
-	
-	<link rel="stylesheet/less" type="text/css" href="<?php echo ROOTPATH; ?>style/global.less" />
-	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="<?php echo ROOTPATH; ?>js/less.js" ></script>
-	<link rel="stylesheet" href="<?php echo ROOTPATH; ?>js/nivo-slider/nivo-slider.css" type="text/css" />
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
-	<script src="<?php echo ROOTPATH; ?>js/nivo-slider/jquery.nivo.slider.pack.js" type="text/javascript"></script>
-	
-	<link rel="stylesheet" href="<?php echo ROOTPATH; ?>style/bootstrap.min.css" />
-	<link rel="stylesheet" href="<?php echo ROOTPATH; ?>style/gh-fork-ribbon.css" />
-	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-	<link rel="stylesheet" href="<?php echo ROOTPATH; ?>js/nivo-slider/themes/default/default.css" type="text/css" />
-	<link rel="shortcut icon" href="<?php echo ROOTPATH; ?>icon.ico" type="image/x-icon" />
-	<link rel="icon" href="<?php echo ROOTPATH; ?>icon.ico" type="image/x-icon" /> 
+	<?php include 'core/meta.php'; ?>
 </head>
 
 <body style="padding-top: 70px">
@@ -146,9 +127,6 @@ function random_string($length,$noCaps = false, $addNumbers = false)    {
 	
 	<div id=main>
 		<h1>Setup</h1>
-		<?php
-		if (!isset($_GET["finish"])) {
-		?>
 		<div>
 			<p>Welcome to the setup of "no-bug". It only takes 5 minutes to set up your platform!</p>
 			
