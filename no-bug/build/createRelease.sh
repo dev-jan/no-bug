@@ -68,7 +68,7 @@ echo "<?php " > nobug-config.php || hasErrors=1
 
 # Set the newest version into core/version.php
 echo $green$lineBeginner"Set Variables of version.php..."$red
-echo "<?php\n\$versionname=\"$version\";\n\$internalVersion=$internalVersion;\n\$compileDate=\"$currentDate\";\n\$lessLeader=''" > core/version.php || hasErrors=1
+echo "<?php\n\$versionname=\"$version\";\n\$internalVersion=$internalVersion;\n\$compileDate=\"$currentDate\";\n\$lessLoader='';" > core/version.php || hasErrors=1
 
 # Compile LESS to CSS and Compress them
 echo $green$lineBeginner"Compile & Compress LESS Files..."$red
@@ -81,16 +81,19 @@ do
       $lesscompiler $onefile $cssfilename > /dev/null || hasErrors=1
       $minifier $cssfilename > tmpfile || hasErrors=1
       cat tmpfile > $cssfilename
-      cat core/header.php | sed 's/'`echo $onefile | cut -d/ -f2`'/'`echo $cssfilename | cut -d/ -f2`'/g' > core/header.php
+      cat core/meta.php | sed 's/'`echo $onefile | cut -d/ -f2`'/'`echo $cssfilename | cut -d/ -f2`'/g' > core/metaTEMP.php
+      mv core/metaTEMP.php core/meta.php
       rm $onefile
    else
       echo "  Fatal Error - File Not Found: $onefile" 
       hasErrors=1
    fi
 done
+cat core/meta.php | sed 's=stylesheet/less=stylesheet=g' > core/metaTEMP.php
+mv core/metaTEMP.php core/meta.php
 rm js/less.js
 
-# Compress JS/CSS with YUIcompressor
+# Compress JS with YUIcompressor
 echo $green$lineBeginner"Compress JS/CSS Files..."$red
 filesToCompress="js/global.js js/jscolor/jscolor.js"
 for onefile in $filesToCompress
