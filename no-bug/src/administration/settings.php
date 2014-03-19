@@ -74,6 +74,7 @@ if (isset($_POST["edited"])) {
 	<button class="btn btn-success" data-toggle="modal" data-target="#aboutModal">
 	  About...
 	</button>
+	<a href="update.php" class="btn btn-default">Check for updates...</a>
 	
 	<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">

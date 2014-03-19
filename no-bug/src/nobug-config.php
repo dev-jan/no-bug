@@ -7,3 +7,5 @@ define( 'DATABASE_NAME',     'no-bug' );
 define( 'RANDOMKEY',         'KADFsd');
 // LOG CONFIGURATION: -------------------------------------
 define( 'LOG_LEVEL',		 'DEBUG'); 
+// SETUP CONFIGURATION
+define( 'ISCONFIGURATED',    'TRUE');

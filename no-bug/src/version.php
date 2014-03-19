@@ -188,7 +188,7 @@ if (isset($_GET["del"])) {
 				$checkedText = 'checked="checked"';
 			}
 			$releaseDateString = "";
-			if ($versionDate != "") {
+			if ($oneVersion["doneDate"] != "") {
 				$releaseDateString = 'Release Day: '.$oneVersion["doneDate"];
 			}
 			echo '<a href="#" class="list-group-item" data-toggle="modal" data-target="#version'.$oneVersion["id"].'Modal">
