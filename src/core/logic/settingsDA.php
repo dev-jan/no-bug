@@ -90,7 +90,7 @@ class SettingsDA {
 		
 		$informations[6] = array();
 		$informations[6]['name'] = 'Absolute Path';
-		$informations[6]['value'] = getcwd();
+		$informations[6]['value'] = str_replace("/administration", "", getcwd()) ;
 		
 		$numberOfInformations = count($informations) - 1;
 		

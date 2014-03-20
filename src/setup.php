@@ -32,7 +32,7 @@ function random_string($length,$noCaps = false, $addNumbers = false)    {
 	
 	<div id="header" class="navbar navbar-default navbar-fixed-top">
 		<div id="header-wrapper" >
-			<a class="navbar-brand" href="#"><i class="fa fa-bug"></i> no-bug</a>
+			<a class="navbar-brand" href="<?php echo ROOTPATH; ?>"><i class="fa fa-bug"></i> no-bug</a>
 		</div>
 	</div>
 	
