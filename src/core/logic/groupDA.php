@@ -258,7 +258,7 @@ class GroupDA {
 		$groupname = $db->esc($groupname);
 		$currentUserId = $db->esc($_SESSION['nobug'.RANDOMKEY.'userId']);
 		
-		$insertSql = "INSERT INTO `no-bug`.`group` (`name`, `active`, `meta_creator_id`, `meta_creatDate`)
+		$insertSql = "INSERT INTO `group` (`name`, `active`, `meta_creator_id`, `meta_creatDate`)
 						 VALUES ('$groupname', '1', '$currentUserId', '".$db->toDate(time())."')";
 		
 		$db->query($insertSql);

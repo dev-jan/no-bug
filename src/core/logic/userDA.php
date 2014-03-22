@@ -150,7 +150,7 @@ class UserDA {
 		$password = $password . $salt;
 		
 		if (!$this->usernameExists($username)) {
-			$insertSql = "INSERT INTO `no-bug`.`user`
+			$insertSql = "INSERT INTO `user`
 						(`username`, `email`, `prename`, `surname`, `password`, `salt`, `active`, `meta_creatorID`, `meta_createDate`,
 						`meta_changeUserID`, `meta_changeDate`)
 						VALUES ('$username', '$email', '$prename', '$surname', SHA2('$password', 256), '$salt', 1, ".$_SESSION['nobug'.RANDOMKEY.'userId'].", '".$db->toDate(time())."', '".$_SESSION['nobug'.RANDOMKEY.'userId']."', '".$db->toDate(time())."');";
