@@ -2,6 +2,11 @@
 include_once 'db.php';
 
 class AdminDA {
+	/**
+	 * Print Menu for Administration sites
+	 * @param <String> $active  
+	 *    Name of the active Page
+	 */
 	public function getAdminMenu ($active) {
 		$usersActive = '';
 		$groupsActive = '';

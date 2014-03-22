@@ -1,6 +1,14 @@
 <?php
 include_once dirname(__FILE__).'/db.php';
 
+/**
+ * return the sql string to create the first adminuser (and some other important stuff)
+ * @param <String> $username username of the adminuser
+ * @param <String> $name the displayed name of the adminuser
+ * @param <String> $email the email of the adminuser
+ * @param <String> $password the password of the adminuser (plaintext)
+ * @return string SQL Query to create the Adminuser
+ */
 function createAdminSql ($username, $name, $email, $password) {
 	$db = new DB();
 	$salt = $db->createSalt();
@@ -40,6 +48,7 @@ function createAdminSql ($username, $name, $email, $password) {
 			";
 }
 
+// SQL Query to create the structure of the database (all tables)
 $sqlToCreateDb = '
 -- -----------------------------------------------------
 -- Table `user`
