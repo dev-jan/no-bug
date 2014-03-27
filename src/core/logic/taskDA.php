@@ -181,7 +181,7 @@ class TaskDA {
 		$permissionDA = new PermissionDA();
 		$users = $permissionDA->getUsersOfAProject($projectId);
 		
-		echo '<option value="0">-- nobudy --</option>';
+		echo '<option value="0">-- nobody --</option>';
 		$counter = count($users);
 		for ($x = 0; $x < $counter; $x++)
 		{
