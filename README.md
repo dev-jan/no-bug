@@ -3,8 +3,8 @@ no-bug
 
 Bugtracking Platform based on PHP and MySQL
 
-![Picture](https://raw.github.com/dev-jan/no-bug/master/no-bug/src/images/promotion/promotion.PNG)
-![Picture](https://raw.github.com/dev-jan/no-bug/master/no-bug/src/images/promotion/promotion3.PNG)
+![Picture](https://raw.githubusercontent.com/dev-jan/no-bug/master/src/images/promotion/promotion.PNG)
+![Picture](https://raw.githubusercontent.com/dev-jan/no-bug/master/src/images/promotion/promotion3.PNG)
 
 The no-bug Platform is currently in early Developement!
 
