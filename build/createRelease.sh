@@ -20,17 +20,31 @@ hasErrors=0
 minifier='java -jar ../yuicompressor-2.4.8.jar'
 lesscompiler='java -jar ../jcruncherEx.jar --less '
 
+# Check if the output shout be colored
+if [ "$3" = "--nocolor" ] 
+ then
+   unset green
+   unset red
+   unset blue
+   unset normal
+   unset bold
+fi
+
 # Banner
 echo $blue"  +-----------------------------------------------------------+"
 echo      "  |                   no-bug release script                   |"
 echo      "  +-----------------------------------------------------------+\n"$normal
 
 # Usage Help if parameters are not correct
-if [ "$#" != "2" ]
+if [ "$#" != "2" ] && [ "$#" != "3" ]
  then
-   echo "usage:$bold\t createRelease.sh [new_version_name] [internal_version_number]"$normal
+   echo "usage:$bold\t createRelease.sh new_version_name internal_version [--nocolor]"$normal
    echo "       \t e.g.:  ./createRelease.sh \"1.0\" \"1\"\n"
    echo "required Application: $bold zip & java (in \$PATH)\n"$normal
+   echo "parameter:"
+   echo "\t $bold new_version_name\t $normal official new version name"
+   echo "\t $bold internal_version\t $normal internal version counter\n"
+   echo "\t $bold [--nocolor]\t\t $normal output doesn't get colored\n"
    return 1
 fi
 
