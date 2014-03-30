@@ -13,7 +13,7 @@ $alerts = "";
 $projDA = new ProjectDA();
 
 if (isset($_POST["general"])) {
-	$projDA->updateGeneral($_GET["p"], $_POST["editName"], $_POST["editDescription"], $_POST["editVersion"]);
+	$projDA->updateGeneral($_GET["p"], $_POST["editName"], $_POST["editDescription"]);
 	$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			<strong>Successfull</strong> changed Project </div>';
@@ -55,11 +55,8 @@ if ($selectedProject == null) {
 	$adminDA->getAdminMenu("projects.php");
 	?>
 	<h1>
-		<i class="fa fa-folder-open"></i> Edit Project
-		<?php echo $selectedProject["name"]; ?>
-		(
-		<?php echo $selectedProject["key"]; ?>
-		)...
+		<i class="fa fa-folder-open"></i> Edit Project <?php echo $selectedProject["name"]; ?>
+		(<?php echo $selectedProject["key"]; ?>)...
 	</h1>
 	<form action="?p=<?php echo $selectedProject["id"]; ?>"
 		class="userEditForm" method="post">
@@ -74,11 +71,6 @@ if ($selectedProject == null) {
 			<tr>
 				<th>Description:</th>
 				<td><textarea class="form-control" rows="3" name="editDescription"><?php echo $selectedProject["description"]; ?></textarea></td>
-			</tr>
-			<tr>
-				<th>Version:</th>
-				<td><input type="text" class="form-control" name="editVersion"
-					value="<?php echo $selectedProject["version"]; ?>"></td>
 			</tr>
 		</table>
 		<button type="submit" class="btn btn-primary">Save Changes</button>

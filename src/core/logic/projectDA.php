@@ -33,7 +33,7 @@ class ProjectDA {
 			}
 			
 			echo '<tr'.$deactivatedText.'>
-					<td><a href="../projectmanager.php?p='.$oneProj["id"].'">'.$oneProj["key"].'</a></td>
+					<td><a href="../project.php?p='.$oneProj["id"].'">'.$oneProj["key"].'</a></td>
 					<td>'.$oneProj["name"].'</td>
 					<td>'.$oneProj["description"].'</td>
 					<td>
@@ -41,10 +41,14 @@ class ProjectDA {
 						Write: <a href="group.php?g='.$getWriteQuery["id"].'">'.$getWriteQuery["name"].'</a> <br />
 						Read : <a href="group.php?g='.$getReadQuery["id"].'">'.$getReadQuery["name"].'</a> <br />
 					</td>
-					<td>'.$oneProj["version"].'</td>
-					<td><form action="project.php?" method="get" >
-							<input type="hidden" name="p" value="'.$oneProj["id"].'" />
-							<button type="submit" class="btn btn-default btn-sm" ><i class="fa fa-pencil"></i> edit</button></form></td>
+					<td><a href="../version.php?p='.$oneProj["id"].'">'.$this->getNewestVersionOfProject($oneProj["id"]).'</a></td>
+					<td>
+						<form action="project.php?" method="get" >
+						 	<input type="hidden" name="p" value="'.$oneProj["id"].'" />
+							<button type="submit" class="btn btn-default btn-sm" ><i class="fa fa-pencil"></i> edit</button>
+						 	<a href="../projectmanager.php?p='.$oneProj["id"].'" class="btn btn-default btn-sm" style="margin-top: 5px;" ><i class="fa fa-tachometer"></i> Project Settings</a>
+						</form>
+					</td>
 				  </tr>';
 		}
 	}
@@ -89,16 +93,15 @@ class ProjectDA {
 		return false;
 	}
 	
-	public function updateGeneral($projectID, $name, $description, $version) {
+	public function updateGeneral($projectID, $name, $description) {
 		$db = new DB();
 		$db->connect();
 		
 		$name = $db->esc($name);
 		$description = $db->fixDoubleSpace($db->esc($description));
-		$version = $db->esc($version);
 		$projectID = $db->esc($projectID);
 		
-		$sql = "UPDATE project SET `name`= '$name', description = '$description', version = '$version'
+		$sql = "UPDATE project SET `name`= '$name', description = '$description'
 				WHERE id = $projectID";
 		Logger::info("Update General Settings for Project { id = $projectID, newName=$name, desc=$description }", null);
 		$db->query($sql);
@@ -153,20 +156,19 @@ class ProjectDA {
 		Logger::info("Project { id = $projectId } activated", null);
 	}
 	
-	public function createProject ($key, $name, $description, $version, $groupAdmID, $groupWriteID, $groupReadID) {
+	public function createProject ($key, $name, $description, $groupAdmID, $groupWriteID, $groupReadID) {
 		$db = new DB();
 		$db->connect();
 		
 		$key = $db->esc($key);
 		$name = $db->esc($name);
 		$description = $db->fixDoubleSpace($db->esc($description));
-		$version = $db->esc($version);
 		$groupAdmID = $db->esc($groupAdmID);
 		$groupWriteID = $db->esc($groupWriteID);
 		$groupReadID = $db->esc($groupReadID);
 		
-		$sql = "INSERT INTO project (`key`, `name`, `description`, `version`, `active`, `group_admin`, `group_write`, `group_read`, `meta_creatorID`, `meta_createDate`) 
-				VALUES ('$key', '$name', '$description', '$version', 1, '$groupAdmID', '$groupWriteID', '$groupReadID', '".$_SESSION['nobug'.RANDOMKEY.'userId']."', '".$db->toDate(time())."')";
+		$sql = "INSERT INTO project (`key`, `name`, `description`, `active`, `group_admin`, `group_write`, `group_read`, `meta_creatorID`, `meta_createDate`) 
+				VALUES ('$key', '$name', '$description', 1, '$groupAdmID', '$groupWriteID', '$groupReadID', '".$_SESSION['nobug'.RANDOMKEY.'userId']."', '".$db->toDate(time())."')";
 		$query = $db->query($sql);
 		Logger::info("New Project { name = $name, desc = $description } created", null);
 	}
@@ -202,6 +204,25 @@ class ProjectDA {
 		
 		$sql = "SELECT * FROM `version` WHERE project_id = " . $projectId . " AND isReleased = " . $releasedString . " ORDER BY doneDate";
 		return $db->query($sql);
+	}
+	
+	public function getNewestVersionOfProject ($projectId) {
+		$db = new DB();
+		$db->connect();
+		
+		$projectId = $db->esc($projectId);
+				
+		$sql = "SELECT * FROM `version` 
+				WHERE project_id = ".$projectId."
+				ORDER BY isReleased, doneDate
+				LIMIT 1";
+		$result = $db->query($sql);
+		$version = "no released version";
+		if ($result->num_rows != 0) {
+			$dbversion = $result->fetch_assoc();
+			$version = $dbversion["name"];
+		}
+		return $version;
 	}
 	
 	public function createNewVersionForProject ($projectId, $versionName, $description, $isReleased, $releaseDay = null) {

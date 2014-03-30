@@ -19,6 +19,13 @@ if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$permDA->echoPermissionDeniedAndDie();
 }
 
+// Delete existing ZIP file
+if (isset($_GET["delzip"])) {
+	unlink("../core/update.zip");
+	echo '<META HTTP-EQUIV="refresh" content="0;URL=update.php">';
+	die();
+}
+
 // Update via Zip
 if (isset($_POST["makeUpdateWithZip"])) {
 	if ($_FILES["file"]["error"] > 0) {
@@ -99,7 +106,7 @@ if (isset($_GET["update"])) {
 	
 	<?php 
 	if (file_exists("../core/update.zip")) {
-		echo '<div class="alert alert-success">Uploaded Zip found. Click here to continue: <a href="?update=true">Update!</a></div>';
+		echo '<div class="alert alert-success">Uploaded Zip found. Click here to continue: <a href="?update=true">Update!</a> <a href="?delzip=true" class="close">&times;</a></div>';
 	}
 	include "../core/version.php";
 	?>

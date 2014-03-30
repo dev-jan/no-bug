@@ -15,7 +15,7 @@ $alerts = "";
 
 if (isset($_POST["createProject"])) {
 	if ($projDA->checkProjectKey($_POST["newKey"])) {
-		$projDA->createProject($_POST["newKey"], $_POST["newName"], $_POST["newDescription"], $_POST["newVersion"], $_POST["adminselect"], $_POST["writeselect"], $_POST["readselect"]);
+		$projDA->createProject($_POST["newKey"], $_POST["newName"], $_POST["newDescription"], $_POST["adminselect"], $_POST["writeselect"], $_POST["readselect"]);
 		$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 				<strong>Successfull</strong> created Project "'.$_POST["newName"].'"</div>';
@@ -55,11 +55,6 @@ if (isset($_POST["createProject"])) {
 				<th>Description:</th>
 				<td><input type="text" class="form-control" name="newDescription"
 					placeholder="Enter a Description"></td>
-			</tr>
-			<tr>
-				<th>Version:</th>
-				<td><input type="text" class="form-control" name="newVersion"
-					placeholder="Enter the Project Version (optional)"></td>
 			</tr>
 			<tr>
 				<th>Admin Group:</th>

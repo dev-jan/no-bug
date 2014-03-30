@@ -23,7 +23,7 @@
 	  <li class="active">Project <?php echo $selectedProject["name"]; ?></li>
 	</ol>
 
-	<h1><?php echo $selectedProject["name"];?> <small><a href="version.php?p=<?php echo $selectedProject["id"];?>"><?php echo $selectedProject["version"]?></a></small></h1>
+	<h1><?php echo $selectedProject["name"];?> <small><a href="version.php?p=<?php echo $selectedProject["id"];?>"><?php echo $projDA->getNewestVersionOfProject($selectedProject["id"]); ?></a></small></h1>
 	<p style="float: right; text-align: right">
 		<?php 
 			if ($permDA->isAdminOnProjectAllowed($selectedProject["id"])) {

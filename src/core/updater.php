@@ -14,8 +14,9 @@ function v2 ($currentVersion) {
 	// Database changes...
 	$db = new DB();
 	$db->connect();
-	$sql = "CREATE TABLE test (id int);"; // Just for testing...
-	$db->query($sql);
+	$sql = "CREATE TABLE test (id int);
+			ALTER TABLE `project` DROP COLUMN `version`;";
+	$db->multiQuery($sql);
 	
 	// Add update to log
 	Logger::info("Updated platform successfull to 0.6", null);

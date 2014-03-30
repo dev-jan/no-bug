@@ -86,7 +86,7 @@ if (isset($_POST["edited"])) {
 	      <div class="modal-body">
 	        Hello :)
 	        <p>We are two young developers from switzerland. "no-bug" was a project we build in our free time to train our
-	        php & mySQL skills. One of our goal was to build a simple, stylish and feature-richt bugtracking platform.
+	        php & mySQL skills. One of our goal was to build a simple, stylish and feature-rich bugtracking platform.
 	        We have chosen to pubish this platform as Open-Source (and of course <i class="fa fa-usd"></i>free<i class="fa fa-usd"></i>
 	        to use) on github, so other developers can use our bugtracking platform for free. If you can, you are allowed
 	        to fork this platform on github and make your own changes. </p>
