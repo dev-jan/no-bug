@@ -217,7 +217,7 @@ class ProjectDA {
 				ORDER BY isReleased, doneDate
 				LIMIT 1";
 		$result = $db->query($sql);
-		$version = "no released version";
+		$version = "no version available";
 		if ($result->num_rows != 0) {
 			$dbversion = $result->fetch_assoc();
 			$version = $dbversion["name"];

@@ -68,16 +68,25 @@ if (isset($_GET["update"])) {
 	else {
 		include "../core/version.php";
 		$currentVersion = $internalVersion;
+		// Backup the configuration file
 		copy("../nobug-config.php", "../nobug-config.php_bak");
 		$zip = new ZipArchive;
 		if ($zip->open('../core/update.zip') === true) {
-			$zip->extractTo('../');
+			// Unzip and override the new files
+			$zip->extractTo('../'); 
 			$zip->close();
+			// Put the configuration file back on his old position
 			copy("../nobug-config.php_bak", "../nobug-config.php");
 			include '../core/updater.php';
 			update($currentVersion);
+			//Hack to get the new version
+			copy("../core/version.php", "../core/newversion.php");
+			include '../core/newversion.php';
+			// Show the new Version
 			$successfullMessage = "Update successfull to ".$versionname." <br />";
+			// Remove temporary files
 			unlink("../nobug-config.php_bak");
+			unlink("../core/newversion.php");
 			unlink("../core/update.zip");
 		} else {
 			$error = 'Unzip failed';

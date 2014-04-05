@@ -199,8 +199,8 @@ class UserDA {
 		
 		$query = $permDA->getAllAllowedProjects($userId);
 		$usersGroups = $permDA->getAllGroups($userId);
-		$textYes = "<i class=\"fa fa-check\"></i>";
-		$textNO = "<i class=\"fa fa-times\"></i>";
+		$textYes = "<i class=\"fa fa-check\" style=\"color: #60CF3E\"></i>";
+		$textNO = "<i class=\"fa fa-times\" style=\"color: #C21616\"></i>";
 		
 		echo '<table class="table">
 				<tr>

@@ -86,7 +86,7 @@ class SettingsDA {
 
 		$informations[5] = array();
 		$informations[5]['name'] = 'PHP user';
-		$informations[5]['value'] = exec('whoami');
+		$informations[5]['value'] = @exec('whoami');
 		
 		$informations[6] = array();
 		$informations[6]['name'] = 'Absolute Path';
