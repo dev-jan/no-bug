@@ -258,6 +258,14 @@ class TaskDA {
 			}
 			echo '<option value="'.$oneVersion["id"].'" '.$selectedText.'>'.$oneVersion["name"].'</option>';
 		}
+		$releasedVersions = $projectDA->getVersionsOfProject($projectId, true);
+		while ($oneVersion = $releasedVersions->fetch_assoc()) {
+			$selectedText = "";
+			if ($selectedVersion == $oneVersion["id"]) {
+				$selectedText = ' selected="selected" ';
+			}
+			echo '<option value="'.$oneVersion["id"].'" '.$selectedText.'>'.$oneVersion["name"].' (released)</option>';
+		}
 	}
 	
 	public function printComments($taskid) {

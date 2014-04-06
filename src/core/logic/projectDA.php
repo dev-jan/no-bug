@@ -214,7 +214,7 @@ class ProjectDA {
 				
 		$sql = "SELECT * FROM `version` 
 				WHERE project_id = ".$projectId."
-				ORDER BY isReleased, doneDate
+				ORDER BY isReleased DESC, doneDate DESC
 				LIMIT 1";
 		$result = $db->query($sql);
 		$version = "no version available";
