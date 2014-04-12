@@ -37,13 +37,12 @@ if (isset($_POST["createProject"])) {
 	<h1><i class="fa fa-folder-o"></i> New Project...</h1>
 	<form action="" class="userEditForm" method="post">
 		<input type="hidden" name="createProject" value="true" />
-		<h2>> General</h2>
+		<h2><i class="fa fa-angle-double-right"></i> General</h2>
 		<table class="table userEditTable">
 			<tr>
 				<th>KEY:</th>
 				<td><input type="text" class="form-control" name="newKey"
 					placeholder="Enter Project KEY">
-					<div class="alert alert-danger">The Key cannot be changed later!</div>
 				</td>
 			</tr>
 			<tr>
