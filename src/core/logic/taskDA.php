@@ -72,6 +72,51 @@ class TaskDA {
 		return $db->query($basesql);
 	}
 	
+	/**
+	 * Return the tasks that matches to the searchstring (in description or summary of a task)
+	 * @param <String> $searchquery String that the user entered
+	 * @return <db-result> or null if there are no matches
+	 */
+	public function getTasksBySearchquery ($searchquery) {
+		$db = new DB();
+		$db->connect();
+		
+		$searchquery = $db->esc($searchquery);
+		if ($searchquery == "") {
+			return null;
+		}
+		
+		$permDA = new PermissionDA();
+		$allowedProjectOfUsers = $permDA->getAllAllowedProjects($_SESSION['nobug'.RANDOMKEY.'userId']);
+		if ($allowedProjectOfUsers != null) {
+			$projectWhere = "(";
+			while ($oneProject = $allowedProjectOfUsers->fetch_assoc()) {
+				if ($projectWhere == "(") {
+					$projectWhere = $projectWhere . $oneProject["id"];
+				}
+				else {
+					$projectWhere = $projectWhere . "," . $oneProject["id"];
+				}
+			}
+			$projectWhere = $projectWhere . ")";
+			
+			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name,
+		                 assignee.prename AS assigneePrename, assignee.surname AS assigneeSurname, assignee.id AS assigneeID,
+						`status`.color, `component`.name AS componentName, project.`key` AS `key`
+					FROM task
+					 INNER JOIN `status` ON task.status_id = `status`.id
+				     LEFT JOIN `user` AS assignee ON task.assignee_id = assignee.id
+				     LEFT JOIN `component` AS `component` ON task.component_id = `component`.id
+				     LEFT JOIN `project` AS project ON task.project_id = project.id
+					WHERE task.project_id IN $projectWhere AND concat(task.summary, task.description) LIKE '%$searchquery%'
+					ORDER BY task.id DESC";
+			return $db->query($sql);
+		}
+		else {
+			return null;
+		}
+	}
+	
 	public function createTask ($summary, $description, $project, $assignee, $type, $priority, $status, $component, $version) {
 		$db = new DB();
 		$db->connect();

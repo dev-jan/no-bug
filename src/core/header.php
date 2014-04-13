@@ -3,8 +3,8 @@ session_start();
 include_once dirname(__FILE__).'/logic/userDA.php';
 include_once dirname(__FILE__).'/logic/permissionDA.php';
 include_once dirname(__FILE__).'/logic/settingsDA.php';
-define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/../', strlen($_SERVER['DOCUMENT_ROOT'])));
 include_once dirname(__FILE__).'/version.php';
+define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/../', strlen($_SERVER['DOCUMENT_ROOT'])));
 
 if (!isset($_SESSION['nobug'.RANDOMKEY.'userId'])) {
 	header("Location: " . ROOTPATH . "login.php");
@@ -68,6 +68,12 @@ $logedInUser = $userDA->getUser($_SESSION['nobug'.RANDOMKEY.'userId']);
       	</ul>
 		
 		 <ul class="nav navbar-nav navbar-right">
+			<form class="navbar-form navbar-left" role="search" action="<?php echo ROOTPATH; ?>search.php" method="get">
+	        	<div class="form-group">
+	          		<input type="text" class="form-control" name="s" placeholder="Search">
+	        	</div>
+	        	<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+	        </form>
 	      	<li class="dropdown">
 	        	<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-user"></i> <?php echo $logedInUser["prename"] . " " . $logedInUser["surname"]?> <b class="caret"></b></a>
 		        <ul class="dropdown-menu" id="menuUserDropdown" role="menu" aria-labelledby="dLabel">
