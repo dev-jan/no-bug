@@ -225,6 +225,16 @@ class ProjectDA {
 		return $version;
 	}
 	
+	public function getVersionById ($versionId) {
+		$db = new DB();
+		$db->connect();
+		
+		$versionId = $db->esc($versionId);
+		
+		$sql = "SELECT * FROM `version` WHERE id = $versionId";
+		return $db->query($sql);
+	}
+	
 	public function createNewVersionForProject ($projectId, $versionName, $description, $isReleased, $releaseDay = null) {
 		$db = new DB();
 		$db->connect();

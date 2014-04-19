@@ -1,4 +1,8 @@
 <?php
+if (!defined("ROOTPATH")) {
+	define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/../', strlen($_SERVER['DOCUMENT_ROOT'])));
+}
+
 /* Version of the current Platform (e.g. v0.9-BETA), in Github its just "github-NIGHTLY" */
 $versionname = "github-NIGHTLY";
 $internalVersion = 0;

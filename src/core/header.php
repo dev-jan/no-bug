@@ -4,10 +4,13 @@ include_once dirname(__FILE__).'/logic/userDA.php';
 include_once dirname(__FILE__).'/logic/permissionDA.php';
 include_once dirname(__FILE__).'/logic/settingsDA.php';
 include_once dirname(__FILE__).'/version.php';
-define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/../', strlen($_SERVER['DOCUMENT_ROOT'])));
+if (!defined("ROOTPATH")) {
+	define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/../', strlen($_SERVER['DOCUMENT_ROOT'])));
+}
 
 if (!isset($_SESSION['nobug'.RANDOMKEY.'userId'])) {
 	header("Location: " . ROOTPATH . "login.php");
+	die();
 }
 
 $permDA = new PermissionDA();

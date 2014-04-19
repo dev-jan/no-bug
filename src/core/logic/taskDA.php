@@ -117,6 +117,41 @@ class TaskDA {
 		}
 	}
 	
+	/**
+	 * Return the tasks that are assigned with the version in the parameter
+	 * @param <Int> $versionId Version to search
+	 * @return <db-result> or null if there are no matches
+	 */
+	public function getTasksByVersionID ($versionId) {
+		$db = new DB();
+		$db->connect();
+	
+		$versionId = $db->esc($versionId);
+		if ($versionId == "") {
+			return null;
+		}
+	
+		$permDA = new PermissionDA();
+		$projectDA = new ProjectDA();
+		$selectedVersion = $projectDA->getVersionById($_GET["list"])->fetch_assoc();
+		if ($permDA->isReadOnProjectAllowed($selectedVersion["project_id"])) {
+			$sql = "SELECT task.id, task.summary, task.description, task.active, `status`.name,
+			assignee.prename AS assigneePrename, assignee.surname AS assigneeSurname, assignee.id AS assigneeID,
+			`status`.color, `component`.name AS componentName, project.`key` AS `key`
+			FROM task
+			INNER JOIN `status` ON task.status_id = `status`.id
+			LEFT JOIN `user` AS assignee ON task.assignee_id = assignee.id
+			LEFT JOIN `component` AS `component` ON task.component_id = `component`.id
+			LEFT JOIN `project` AS project ON task.project_id = project.id
+			WHERE task.version_id = $versionId
+			ORDER BY task.id DESC";
+			return $db->query($sql);
+		}
+		else {
+			return null;
+		}
+	}
+	
 	public function createTask ($summary, $description, $project, $assignee, $type, $priority, $status, $component, $version) {
 		$db = new DB();
 		$db->connect();
