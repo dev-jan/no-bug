@@ -5,7 +5,7 @@ include_once dirname(__FILE__).'/logic/permissionDA.php';
 include_once dirname(__FILE__).'/logic/settingsDA.php';
 include_once dirname(__FILE__).'/version.php';
 if (!defined("ROOTPATH")) {
-	define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/../', strlen($_SERVER['DOCUMENT_ROOT'])));
+	define("ROOTPATH", str_replace("core/../", "", substr(dirname(__FILE__). '/../', strlen($_SERVER['DOCUMENT_ROOT']))));
 }
 
 if (!isset($_SESSION['nobug'.RANDOMKEY.'userId'])) {

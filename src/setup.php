@@ -1,7 +1,7 @@
 <?php 
 session_start();
 
-define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/', strlen($_SERVER['DOCUMENT_ROOT'])));
+define("ROOTPATH", str_replace("core/../", "", substr(dirname(__FILE__). '/../', strlen($_SERVER['DOCUMENT_ROOT']))));
 function random_string($length,$noCaps = false, $addNumbers = false)    {
 	$w_s=array ('a','b','c','d','e','f','g','h','j','k','m','n','p','q','r','s','t','u','v','w','x','y','z',);
 	if($noCaps === false) {

@@ -3,7 +3,7 @@ session_start();
 include_once dirname(__FILE__).'/core/logic/loginDA.php';
 include_once dirname(__FILE__).'/core/logic/settingsDA.php';
 include_once dirname(__FILE__).'/core/logger.php';
-define("ROOTPATH", "//" . $_SERVER['SERVER_NAME'] . substr(dirname(__FILE__). '/', strlen($_SERVER['DOCUMENT_ROOT'])));
+define("ROOTPATH", str_replace("core/../", "", substr(dirname(__FILE__). '/../', strlen($_SERVER['DOCUMENT_ROOT']))));
 
 if (!defined('ISCONFIGURATED')) {
 	echo '<!DOCTYPE html><html>
