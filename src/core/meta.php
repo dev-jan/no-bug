@@ -3,6 +3,7 @@ include_once dirname(__FILE__).'/version.php';
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Benj Fassbind & Jan Bucher" />
 
 <link rel="stylesheet" href="<?php echo ROOTPATH; ?>style/bootstrap.min.css" />

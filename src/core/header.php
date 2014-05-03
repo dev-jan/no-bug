@@ -30,9 +30,15 @@ $logedInUser = $userDA->getUser($_SESSION['nobug'.RANDOMKEY.'userId']);
 </head>
 <body>
 
-<div id="header" class="navbar navbar-default navbar-fixed-top">
-	<div id="header-wrapper">
-		<a class="navbar-brand" href="<?php echo ROOTPATH; ?>"><i class="fa fa-bug"></i> no-bug</a>
+<div id="header" class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+    	<span class="sr-only">Toggle navigation</span>
+    	<span class="icon-bar"></span>
+    	<span class="icon-bar"></span>
+    	<span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="<?php echo ROOTPATH; ?>"><i class="fa fa-bug"></i> no-bug</a>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
 		<ul class="nav navbar-nav">
       		<li class="<?php if (ACTIVE_MENU == "main") {echo 'active';}?>"><a href="<?php echo ROOTPATH; ?>"><i class="fa fa-home"></i> Main</a></li>
       		<li class="dropdown <?php if (ACTIVE_MENU == "proj") {echo 'active';}?>">
@@ -70,7 +76,7 @@ $logedInUser = $userDA->getUser($_SESSION['nobug'.RANDOMKEY.'userId']);
 	      	?>
       	</ul>
 		
-		 <ul class="nav navbar-nav navbar-right">
+	 	<ul class="nav navbar-nav navbar-right">
 			<form class="navbar-form navbar-left" role="search" action="<?php echo ROOTPATH; ?>search.php" method="get">
 	        	<div class="form-group">
 	          		<input type="text" class="form-control" name="s" placeholder="Search">
@@ -86,5 +92,5 @@ $logedInUser = $userDA->getUser($_SESSION['nobug'.RANDOMKEY.'userId']);
 		        </ul>
 	      	</li>
 	    </ul>
-    </div>
+	</div>
 </div>
