@@ -28,3 +28,4 @@ The no-bug Platform is currently in early Developement!
 * JSColor (Colorpicker) [by JSColor](http://jscolor.com/)
 * YUIcompressor (JS/CSS minifier) [by Yahoo](http://yui.github.io/yuicompressor/)
 * jCruncher (LESS -> CSS compiler) [by Britesnow](http://britesnow.com/html5/jcruncher)
+* Nivo Slider [by Dev7studios](http://dev7studios.com/plugins/nivo-slider/)
