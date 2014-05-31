@@ -1,54 +1,66 @@
 <?php
+/* Description: Show a overview of the tasktypes and status */
+
+// Include core files
 define( 'ACTIVE_MENU', 'administration');
 include_once '../core/header.php';
 include_once '../core/logic/taskpropDA.php';
 include_once '../core/logic/permissionDA.php';
 include_once '../core/logic/adminDA.php';
 
-$alerts = "";
-
+// Check if the user is allowed to access this page
 $permDA = new PermissionDA();
 if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$permDA->echoPermissionDeniedAndDie();
 }
 
+// DataAccess initialisation
 $taskpropDA = new TaskpropDA();
+$alerts = "";
 
-//Edit...
+// Check if the user want to update a tasktype
 if (isset($_POST["typeId"])) {
 	$taskpropDA->updateTasktype($_POST["typeId"], $_POST["typname"]);
 }
+
+// Convert Parameter isDone into an INT value
 $isDone = 0;
 if (isset($_POST["isDone"])) {
 	$isDone = 1;
 }
+
+// Check if the user want to update a status
 if (isset($_POST["statusId"])) {
 	$taskpropDA->updateStatus($_POST["statusId"], $_POST["statusname"], $_POST["color"], $isDone);
 }
 
-//New...
+// Check if the user want to create a new tasktype
 if (isset($_POST["newType"])) {
 	$taskpropDA->newTasktyp($_POST["typname"]);
 }
+
+// Convert Parameter isDone into an INT value
 $isDone = 0;
 if (isset($_POST["isDone"])) {
 	$isDone = 1;
 }
+
+// Check if the user want to create a new taskstatus
 if (isset($_POST["newStatus"])) {
 	$taskpropDA->newStatus($_POST["statusname"], $_POST["color"], $isDone);
 }
 
-//Delete...
+// Check if the user want to delete (deactivate) a status
 if (isset($_POST["deleteStatus"])) {
 	$taskpropDA->deleteStatus($_POST["deleteStatus"]);
 }
 
+// Check if the user want to delete (deactivate) a tasktype
 if (isset($_POST["deleteTasktype"])) {
 	$taskpropDA->deleteTasktype($_POST["deleteTasktype"]);
 }
 
 ?>
-
 <div id="main">
 	<?php echo $alerts;?>
 	<?php 

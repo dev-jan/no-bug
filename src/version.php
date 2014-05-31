@@ -1,4 +1,3 @@
-
 <?php
 define( 'ACTIVE_MENU', 'proj');
 include_once 'core/header.php';

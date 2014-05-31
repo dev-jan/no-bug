@@ -1,18 +1,27 @@
 <?php 
+/* Description: Header that will be included in every page except the loginpage */
+
+// Start a new PHP Session
 session_start();
+
+// Include core files
 include_once dirname(__FILE__).'/logic/userDA.php';
 include_once dirname(__FILE__).'/logic/permissionDA.php';
 include_once dirname(__FILE__).'/logic/settingsDA.php';
 include_once dirname(__FILE__).'/version.php';
+
+// Define the path of the no-bug rootfolder on the local filesystem
 if (!defined("ROOTPATH")) {
 	define("ROOTPATH", str_replace("core/../", "", substr(dirname(__FILE__). '/../', strlen($_SERVER['DOCUMENT_ROOT']))));
 }
 
+// Check if the user is logged in (if not, kick him to the login page)
 if (!isset($_SESSION['nobug'.RANDOMKEY.'userId'])) {
 	header("Location: " . ROOTPATH . "login.php");
 	die();
 }
 
+// DataAccess initialisation
 $permDA = new PermissionDA();
 $settingsDA = new SettingsDA();
 $userDA = new UserDA();
@@ -24,6 +33,7 @@ $logedInUser = $userDA->getUser($_SESSION['nobug'.RANDOMKEY.'userId']);
 <head>
 	<title>no-bug | <?php echo $settingsDA->getPlatformName(); ?></title>
 	<?php 
+	// Include HTML meta-tags and the tracking code
 	include dirname(__FILE__).'/meta.php';
 	echo $settingsDA->getTrackingCode(); 
 	?>
@@ -78,12 +88,14 @@ $logedInUser = $userDA->getUser($_SESSION['nobug'.RANDOMKEY.'userId']);
 	      	</ul>
 			
 		 	<ul class="nav navbar-nav navbar-right">
-				<form class="navbar-form navbar-left" role="search" action="<?php echo ROOTPATH; ?>search.php" method="get">
-		        	<div class="form-group">
-		          		<input type="text" class="form-control" name="s" placeholder="Search">
-		        	</div>
-		        	<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-		        </form>
+		 		<li>
+					<form class="navbar-form navbar-left" role="search" action="<?php echo ROOTPATH; ?>search.php" method="get">
+			        	<div class="form-group">
+			          		<input type="text" class="form-control" name="s" placeholder="Search">
+			        	</div>
+			        	<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+			        </form>
+		        </li>
 		      	<li class="dropdown">
 		        	<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-user"></i> <?php echo $logedInUser["prename"] . " " . $logedInUser["surname"]?> <b class="caret"></b></a>
 			        <ul class="dropdown-menu" id="menuUserDropdown" role="menu" aria-labelledby="dLabel">

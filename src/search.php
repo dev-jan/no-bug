@@ -63,4 +63,3 @@
 </div>
 <?php
 include 'core/footer.php';
-?>

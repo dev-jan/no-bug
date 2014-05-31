@@ -1,7 +1,14 @@
 <?php
 include_once 'db.php';
 
+/**
+ * DataAccess for operations related to groups
+ */
 class GroupDA {
+	/**
+	 * Prints a table of all groups
+	 * @param <Boolean> $reallyAll print also deactivated groups?
+	 */
 	public function printAllGroupsTable($reallyAll) {
 		$db = new DB();
 		$db->connect();
@@ -23,8 +30,8 @@ class GroupDA {
 				echo '<tr class="danger">';
 			}
 			echo '		<td>'.$oneGroup["name"].'</td>
-						<td>'.$this->printParentEntitys($oneGroup["id"]).'</td>
-						<td>'.$this->printChildEntitys($oneGroup["id"]).'</td>
+						<td>'.$this->getParentGroups($oneGroup["id"]).'</td>
+						<td>'.$this->getChildEntitys($oneGroup["id"]).'</td>
 						<td><form action="group.php?" method="GET">
 							<input type="hidden" name="g" value="'.$oneGroup['id'].'" />
 							<button type="submit" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i> edit</button></form></td>
@@ -32,7 +39,12 @@ class GroupDA {
 		}
 	}
 	
-	private function printParentEntitys($groupID) {
+	/**
+	 * Returns a list of the parent groups of a group
+	 * @param <Int> $groupID selected group
+	 * @return string Linklist (as HTML)
+	 */
+	private function getParentGroups($groupID) {
 		$return = "";
 		$db = new DB();
 		$db->connect();
@@ -50,14 +62,19 @@ class GroupDA {
 		return $return;
 	}
 	
-	private function printChildEntitys($groupID) {
+	/**
+	 * Returns a list of the childs of a group (users and groups)
+	 * @param <Int> $groupID selected group
+	 * @return string Linklist (as HTML)
+	 */
+	private function getChildEntitys($groupID) {
 		$return = "";
 		$db = new DB();
 		$db->connect();
 		$childSql = "SELECT grpchildnames.id AS childID, grpchildnames.name AS childName
 					 FROM `group` AS grp
 						LEFT OUTER JOIN group_group AS grpchild ON grpchild.group_parent = grp.id
-							LEFT OUTER JOIN `group` AS grpchildnames ON grpchildnames.id = grpchild.group_child
+						LEFT OUTER JOIN `group` AS grpchildnames ON grpchildnames.id = grpchild.group_child
 					 WHERE grp.id = $groupID;";
 		$childQuery = $db->query($childSql);
 		while ($oneChild = $childQuery->fetch_assoc()) {
@@ -79,6 +96,11 @@ class GroupDA {
 		return $return;
 	}
 	
+	/**
+	 * Returns a specific group
+	 * @param <Int> $groupID ID of the selected group
+	 * @return <Array> Databaseobject as array (or NULL if the group not exists)
+	 */
 	public function getGroup($groupID) {
 		$db = new DB();
 		$db->connect();
@@ -95,6 +117,11 @@ class GroupDA {
 		}
 	}
 	
+	/**
+	 * Checks if a group is active or not
+	 * @param <Int> $groupID selected group
+	 * @return boolean True if the group is active
+	 */
 	public function isGroupActive ($groupID) {
 		$db = new DB();
 		$db->connect();
@@ -108,6 +135,9 @@ class GroupDA {
 		return false;
 	}
 	
+	/**
+	 * Prints the dropdown content of all activated groups
+	 */
 	public function printGroupSelect() {
 		echo '<option id="0">--- Select Group ---</option>';
 		$db = new DB();
@@ -120,6 +150,9 @@ class GroupDA {
 		}
 	}
 	
+	/**
+	 * Prints the dropdown content of all activated users
+	 */
 	public function printUserSelect() {
 		echo '<option id="0">--- Select User ---</option>';
 		$db = new DB();
@@ -131,8 +164,12 @@ class GroupDA {
 			echo '<option value="'.$oneUser["id"].'">'.$oneUser["username"].'</option>';
 		}
 	}
-	
-	public function printGroupMembersAsTable ($groupID) {
+	/**
+	 * Returns the groupmembers (users and groups) of a group
+	 * @param <Int> $groupID selected group
+	 * @return string Tablecontent (as HTML)
+	 */
+	public function returnGroupMembersAsTable ($groupID) {
 		$db = new DB();
 		$db->connect();
 		
@@ -142,7 +179,7 @@ class GroupDA {
 		$membersSql = "SELECT grpchildnames.id AS childID, grpchildnames.name AS childName
 						 FROM `group` AS grp
 							LEFT OUTER JOIN group_group AS grpchild ON grpchild.group_parent = grp.id
-								LEFT OUTER JOIN `group` AS grpchildnames ON grpchildnames.id = grpchild.group_child
+							LEFT OUTER JOIN `group` AS grpchildnames ON grpchildnames.id = grpchild.group_child
 						 WHERE grp.id = $groupID;";
 		$groupQuery = $db->query($membersSql);
 		while ($oneMember = $groupQuery->fetch_assoc()) {
@@ -176,6 +213,10 @@ class GroupDA {
 		return $return;
 	}
 	
+	/**
+	 * Deactivate a group
+	 * @param <Int> $groupId id of the group to deactivate
+	 */
 	public function deactivateGroup ($groupId) {
 		$db = new DB();
 		$db->connect();
@@ -186,6 +227,10 @@ class GroupDA {
 		$db->query($sql);
 	}
 	
+	/**
+	 * Activate a group
+	 * @param <Int> $groupId id of the group to activate
+	 */
 	public function activateGroup ($groupId) {
 		$db = new DB();
 		$db->connect();
@@ -196,6 +241,11 @@ class GroupDA {
 		$db->query($sql);
 	}
 	
+	/**
+	 * Change the groupname of a group
+	 * @param <Int> $groupId selected group id
+	 * @param <Int> $newGroupname the new groupname
+	 */
 	public function updateGroupname ($groupId, $newGroupname) {
 		$db = new DB();
 		$db->connect();
@@ -207,6 +257,11 @@ class GroupDA {
 		$db->query($updateSql);
 	}
 	
+	/**
+	 * Add a member (group!) to a group 
+	 * @param <Int> $parentID
+	 * @param <Int> $childID
+	 */
 	public function addGroupmember ($parentID, $childID) {
 		$db = new DB();
 		$db->connect();
@@ -218,6 +273,11 @@ class GroupDA {
 		$db->query($insertSql);
 	}
 	
+	/**
+	 * Add a member (user!) to a group
+	 * @param <Int> $parentID
+	 * @param <Int> $userID
+	 */
 	public function addUsermember ($parentID, $userID) {
 		$db = new DB();
 		$db->connect();
@@ -229,6 +289,11 @@ class GroupDA {
 		$db->query($insertSql);
 	}
 	
+	/**
+	 * Remove a member (group!) from a group
+	 * @param <Int> $parentID
+	 * @param <Int> $childID
+	 */
 	public function removeGroupmember ($parentID, $childID) {
 		$db = new DB();
 		$db->connect();
@@ -240,6 +305,11 @@ class GroupDA {
 		$db->query($removeSql);
 	}
 	
+	/**
+	 * Remove a member (user!) from a group
+	 * @param <Int> $parentID
+	 * @param <Int> $childID
+	 */
 	public function removeUsermember ($parentID, $childID) {
 		$db = new DB();
 		$db->connect();
@@ -251,6 +321,10 @@ class GroupDA {
 		$db->query($removeSql);
 	}
 	
+	/**
+	 * Create a new group
+	 * @param <String> $groupname Name of the new group
+	 */
 	public function addGroup ($groupname) {
 		$db = new DB();
 		$db->connect();
@@ -264,6 +338,10 @@ class GroupDA {
 		$db->query($insertSql);
 	}
 	
+	/**
+	 * Print the dropdown content of all active groups
+	 * @param <Int> $selectedGroupID Group that will be selected in the dropdown
+	 */
 	public function printGroupSelection ($selectedGroupID) {
 		$db = new DB();
 		$db->connect();
@@ -279,6 +357,10 @@ class GroupDA {
 		}
 	}
 	
+	/**
+	 * Prints the dropdown content of all groups from a user
+	 * @param <Int> $userId Selected user
+	 */
 	public function printGroupsOfUser($userId) {
 		$db = new DB();
 		$db->connect();

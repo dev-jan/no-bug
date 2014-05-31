@@ -19,7 +19,7 @@ if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$permDA->echoPermissionDeniedAndDie();
 }
 
-// Checkt if the request shout handle a groupname change
+// Check if the request shout handle a groupname change
 if (isset($_POST["editGroupname"])) {
 	$groupDA->updateGroupname($_GET["g"], $_POST["editGroupname"]);
 	$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
@@ -64,7 +64,7 @@ if ($selectedGroup == null) {
 ?>
 <div id="main">
 	<?php 
-	echo $alerts; // show alerts if somethings happen
+	echo $alerts; // show alerts if something happen
 	$adminDA->getAdminMenu("groups.php");
 	?>
 	<h1>
@@ -114,7 +114,7 @@ if ($selectedGroup == null) {
 				<th>Name</th>
 				<th>Action</th>
 			</tr>
-			<?php echo $groupDA->printGroupMembersAsTable($selectedGroup["id"]); ?>
+			<?php echo $groupDA->returnGroupMembersAsTable($selectedGroup["id"]); ?>
 		</table>
 	</form>
 	

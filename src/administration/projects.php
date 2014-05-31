@@ -1,16 +1,22 @@
 <?php
+/* Description: Show a overview of the available projects */
+
+// Include core files
 define( 'ACTIVE_MENU', 'administration');
 include_once '../core/header.php';
 include_once '../core/logic/projectDA.php';
 include_once '../core/logic/permissionDA.php';
 include_once '../core/logic/adminDA.php';
 
+// Check if the user is allowed to access this page
 $permDA = new PermissionDA();
 if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$permDA->echoPermissionDeniedAndDie();
 }
 
+// DataAccess initialisation
 $projectDA = new ProjectDA();
+
 ?>
 <div id="main">
 	<?php 
@@ -52,4 +58,3 @@ $projectDA = new ProjectDA();
 </div>
 <?php 
 include '../core/footer.php';
-?>

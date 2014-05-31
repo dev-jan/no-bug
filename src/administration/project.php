@@ -1,17 +1,24 @@
 <?php
+/* Description: Show details of a project and edit them */
+
+// Include core files
 define( 'ACTIVE_MENU', 'administration');
 include_once '../core/header.php';
 include_once '../core/logic/projectDA.php';
 include_once '../core/logic/permissionDA.php';
 include_once '../core/logic/adminDA.php';
 
+// Check if the user is allowed to access this page
 $permDA = new PermissionDA();
 if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$permDA->echoPermissionDeniedAndDie();
 }
-$alerts = "";
-$projDA = new ProjectDA();
 
+// DataAccess initialisation
+$projDA = new ProjectDA();
+$alerts = "";
+
+// Check if the user want to update some general values of a project
 if (isset($_POST["general"])) {
 	$projDA->updateGeneral($_GET["p"], $_POST["editName"], $_POST["editDescription"]);
 	$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
@@ -19,6 +26,7 @@ if (isset($_POST["general"])) {
 			<strong>Successfull</strong> changed Project </div>';
 }
 
+// Check if the user want to update the permission groups of a project
 if (isset($_POST["groups"])) {
 	$projDA->updateGroups ($_GET["p"], $_POST["adminselect"], $_POST["writeselect"], $_POST["readselect"]);
 	$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
@@ -26,12 +34,15 @@ if (isset($_POST["groups"])) {
 			<strong>Successfull</strong> changed Groups of the Project</div>';
 }
 
+// Check if the user want to activate a project
 if (isset($_POST["activate"])) {
 	$projDA->activateProject($_GET["p"]);
 	$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			<strong>Successfull</strong> activate Project </div>';
 }
+
+// Check if the user want to deactivate a project
 if (isset($_POST["deactivate"])) {
 	$projDA->deactivateProject($_GET["p"]);
 	$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
@@ -39,13 +50,12 @@ if (isset($_POST["deactivate"])) {
 			<strong>Successfull</strong> deactivate Project </div>';
 }
 
+// Get the requested project from the database
 $selectedProject = $projDA->getProjectOnAdmin($_GET["p"]);
 if ($selectedProject == null) {
 	header("Location: projects.php");
 	die();
 }
-
-
 
 ?>
 <div id="main">

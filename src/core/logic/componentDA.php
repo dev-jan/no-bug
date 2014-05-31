@@ -3,7 +3,9 @@ include_once 'db.php';
 include_once dirname(__FILE__).'/permissionDA.php';
 include_once dirname(__FILE__).'/../logger.php';
 
-
+/**
+ * DataAccess to the taskcomponent stuff
+ */
 class ComponentDA { 
 	/**
 	 * Returns all components of a specified project

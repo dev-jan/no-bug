@@ -1,4 +1,6 @@
 <?php 
+/* Description: HTML meta-tags and included stylesheets/javascripts  */
+
 include_once dirname(__FILE__).'/version.php';
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

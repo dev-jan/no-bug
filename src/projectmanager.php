@@ -137,4 +137,3 @@ if ($edited) {
 </div>
 <?php
 include 'core/footer.php';
-?>

@@ -1,18 +1,24 @@
 <?php
+/* Description: Create a new group */
+
+// Include core files
 define( 'ACTIVE_MENU', 'administration');
 include_once '../core/header.php';
 include_once '../core/logic/groupDA.php';
 include_once '../core/logic/permissionDA.php';
 include_once '../core/logic/adminDA.php';
 
+// Check if the user is allowed to access this page
 $permDA = new PermissionDA();
 if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$permDA->echoPermissionDeniedAndDie();
 }
 
+// DataAccess initialisation
 $groupDA = new GroupDA();
 $alerts = "";
 
+// Check if the user request to create a new group
 if (isset($_POST["createGroup"])) {
 	$groupDA->addGroup($_POST["newGroupname"]);
 	$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
@@ -22,10 +28,10 @@ if (isset($_POST["createGroup"])) {
 
 ?>
 <div id="main">
-	<?php echo $alerts; ?>
+	<?php echo $alerts; //Show alerts if something happen ?>
 	<?php 
 	$adminDA = new AdminDA();
-	$adminDA->getAdminMenu("groups.php");
+	$adminDA->getAdminMenu("groups.php"); 
 	?>
 	<h1><i class="fa fa-users"></i> New Group...</h1>
 	<form action="" class="userEditForm" method="post">
@@ -42,4 +48,3 @@ if (isset($_POST["createGroup"])) {
 </div>
 <?php 
 include '../core/footer.php';
-?>

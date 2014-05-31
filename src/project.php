@@ -145,4 +145,3 @@
 
 <?php 
 	include 'core/footer.php';
-?>

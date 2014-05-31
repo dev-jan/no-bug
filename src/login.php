@@ -121,4 +121,3 @@ if (isset($_POST['loginusername']) && isset($_POST['loginpassword'])) {
 	</div>
 <?php
 include 'core/footer.php';
-

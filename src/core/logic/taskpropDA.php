@@ -2,7 +2,14 @@
 include_once 'db.php';
 include_once dirname(__FILE__).'/../logger.php';
 
+/**
+ * DataAccess for the Taskproperties (Tasktype & Taskstatus)
+ */
 class TaskpropDA {
+	/**
+	 * Return all active status
+	 * @return <dbResult> Active Status
+	 */
 	public function getAllStatus () {
 		$db = new DB();
 		$db->connect();
@@ -11,6 +18,10 @@ class TaskpropDA {
 		return $db->query($sql);
 	}
 	
+	/**
+	 * Return all active tasktypes
+	 * @return <dbResult> Active tasktypes
+	 */
 	public function getAllTasktypes () {
 		$db = new DB();
 		$db->connect();
@@ -19,6 +30,11 @@ class TaskpropDA {
 		return $db->query($sql);
 	}
 	
+	/**
+	 * Update the name of a tasktype
+	 * @param <Int> $id Tasktype to update
+	 * @param <String> $name New name of the tasktype
+	 */
 	public function updateTasktype ($id, $name) {
 		$db = new DB();
 		$db->connect();
@@ -32,6 +48,13 @@ class TaskpropDA {
 		Logger::info("Tasktype { id = $id, name = $name } updated", null);
 	}
 	
+	/**
+	 * Update the values of a status
+	 * @param <Int> $id ID of the status to change
+	 * @param <String> $name (new) name of the status
+	 * @param <String> $color (new) color of the status
+	 * @param <Int> $isDone (new) is this status a donestatus? YES=1 NO=0
+	 */
 	public function updateStatus ($id, $name, $color, $isDone) {
 		$db = new DB();
 		$db->connect();
@@ -47,6 +70,10 @@ class TaskpropDA {
 		Logger::info("Status { id = $id, name = $name, color = $color} updated", null);
 	}
 	
+	/**
+	 * Create a new tasktype
+	 * @param <String> $name Name of the new tasktype
+	 */
 	public function newTasktyp ($name) {
 		$db = new DB();
 		$db->connect();
@@ -57,6 +84,12 @@ class TaskpropDA {
 		Logger::info("New Tasktyp { name = $name}", null);
 	}
 	
+	/**
+	 * Create a new Status
+	 * @param <String> $name Name of the new status
+	 * @param <String> $color Color of the new status
+	 * @param <Int> $isDone YES=1 NO=0
+	 */
 	public function newStatus ($name, $color, $isDone) {
 		$db = new DB();
 		$db->connect();
@@ -70,6 +103,10 @@ class TaskpropDA {
 		Logger::info("New Status { name = $name, color = $color, isDone = $isDone }", null);
 	}
 	
+	/**
+	 * Delete an existing task
+	 * @param <Int> $id ID of the tasktype to delete
+	 */
 	public function deleteTasktype ($id) {
 		$db = new DB();
 		$db->connect();
@@ -79,6 +116,10 @@ class TaskpropDA {
 		$db->query($sql);
 	}
 	
+	/**
+	 * Delete an existing status
+	 * @param <Int> $id ID of the status to delete
+	 */
 	public function deleteStatus ($id) {
 		$db = new DB();
 		$db->connect();
@@ -88,6 +129,12 @@ class TaskpropDA {
 		$db->query($sql);
 	}
 	
+	/**
+	 * Returns the number of existing tasks by menu
+	 * @param <Int> $projectID Selected project
+	 * @param <String> $menu (all|myopen|open|closed|unassigned)
+	 * @return <Int> number of task of the selected menu
+	 */
 	public function getNumberOfTasksByMenu ($projectID, $menu) {
 		$db = new DB();
 		$db->connect();

@@ -1,18 +1,24 @@
 <?php
+/* Description: Show a overview of the the global administration settings */
+
+// Include core files
 define( 'ACTIVE_MENU', 'administration');
 include_once '../core/header.php';
 include_once '../core/logic/settingsDA.php';
 include_once '../core/logic/permissionDA.php';
 include_once '../core/logic/adminDA.php';
 
+// Check if the user is allowed to access this page
 $permDA = new PermissionDA();
 if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$permDA->echoPermissionDeniedAndDie();
 }
 
+// DataAccess initialisation
 $settingsDA = new SettingsDA();
 $alerts = "";
 
+// Check if the user want so change the settings
 if (isset($_POST["edited"])) {
 	$settingsDA->setValues($_POST["admingroup"], $_POST["platformname"], $_POST["motd"], $_POST["tracker"]);
 	$alerts = $alerts . '<div class="alert alert-success alert-dismissable">
@@ -86,7 +92,7 @@ if (isset($_POST["edited"])) {
 	      <div class="modal-body">
 	        Hello :)
 	        <p>We are two young developers from switzerland. "no-bug" was a project we build in our free time to train our
-	        php & mySQL skills. One of our goal was to build a simple, stylish and feature-rich bugtracking platform.
+	        php and mySQL skills. One of our goal was to build a simple, stylish and feature-rich bugtracking platform.
 	        We have chosen to pubish this platform as Open-Source (and of course <i class="fa fa-usd"></i>free<i class="fa fa-usd"></i>
 	        to use) on github, so other developers can use our bugtracking platform for free. If you can, you are allowed
 	        to fork this platform on github and make your own changes. </p>
@@ -103,4 +109,3 @@ if (isset($_POST["edited"])) {
 </div>
 <?php 
 include '../core/footer.php';
-?>

@@ -1,4 +1,7 @@
 <?php
+/* Description: Show details of a user and edit them */
+
+// Include core files
 define( 'ACTIVE_MENU', 'administration');
 include_once '../core/header.php';
 include_once '../core/logic/userDA.php';
@@ -6,13 +9,13 @@ include_once '../core/logic/groupDA.php';
 include_once '../core/logic/permissionDA.php';
 include_once '../core/logic/adminDA.php';
 
+// DataAccess initialisation
 $userDA = new UserDA();
 $groupDA = new GroupDA();
 $permDA = new PermissionDA();
 $alerts = "";
 
-
-
+// Check if the user is allowed to access this page
 if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$permDA->echoPermissionDeniedAndDie();
 }
@@ -40,7 +43,7 @@ if (isset($_POST["general"])) {
 			<strong>Successfull</strong> changed usersettings </div>';
 }
 
-// Event PwReset
+// Event Password reset
 if (isset($_POST["pwReset"])) {
 	if ($_POST["pwreset1"] == $_POST["pwreset2"]) {
 		$userDA->updatePassword($_GET["u"], $_POST["pwreset1"]);
@@ -84,13 +87,10 @@ if ($selectedUser == null) {
 	die();
 }
 
-
-
-
 ?>
 <div id="main">
-	<?php echo $alerts; ?>
 	<?php 
+	echo $alerts;
 	$adminDA = new AdminDA();
 	$adminDA->getAdminMenu("users.php");
 	?>
@@ -156,19 +156,19 @@ if ($selectedUser == null) {
 			<th>Add new Group...</th>
 		</tr>
 		<tr>
-			<td><?php 
-			$groupDA->printGroupsOfUser($_GET["u"]);
-			?>
+			<td>
+				<?php 
+					$groupDA->printGroupsOfUser($_GET["u"]);
+				?>
 			</td>
 			<td>Add Group:
 				<form action="#" method="post">
 					<select class="form-control" name="addGroupSelect">
 						<?php 
-						$groupDA->printGroupSelect();
+							$groupDA->printGroupSelect();
 						?>
 					</select>
-					<button type="submit" class="btn btn-success"
-						style="margin-top: 10px;">Add</button>
+					<button type="submit" class="btn btn-success" style="margin-top: 10px;">Add</button>
 				</form>
 			</td>
 		</tr>
@@ -182,16 +182,15 @@ if ($selectedUser == null) {
 	<form action="#" method="post">
 		<?php 
 		if ($userDA->isUserActive($selectedUser["id"])) {
-					echo '<input type="hidden" name="deactivate" value="true" />';
-					echo '<button type="submit" class="btn btn-danger">Deactivate User</button>';
-				}
-				else {
-					echo '<input type="hidden" name="activate" value="true" />';
-					echo '<button type="submit" class="btn btn-success">Activate User</button>';
-				}
-				?>
+			echo '<input type="hidden" name="deactivate" value="true" />';
+			echo '<button type="submit" class="btn btn-danger">Deactivate User</button>';
+		}
+		else {
+			echo '<input type="hidden" name="activate" value="true" />';
+			echo '<button type="submit" class="btn btn-success">Activate User</button>';
+		}
+		?>
 	</form>
 </div>
 <?php 
 include '../core/footer.php';
-?>

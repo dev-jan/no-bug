@@ -3,8 +3,15 @@ include_once 'db.php';
 include_once dirname(__FILE__).'/groupDA.php';
 include_once dirname(__FILE__).'/../logger.php';
 
+/**
+ * DataAccess for permission stuff
+ */
 class PermissionDA {	
-
+	/**
+	 * Checks if the logged in user is allowed to view a project
+	 * @param <Int> $projectId project to check
+	 * @return boolean TRUE if the user has read access to this project
+	 */
 	public function isReadOnProjectAllowed ($projectId) {
 		$db = new DB();
 		$db->connect();
@@ -33,6 +40,11 @@ class PermissionDA {
 		return true;
 	}
 	
+	/**
+	 * Checks if the logged in user is allowed to change a project
+	 * @param <Int> $projectId project to check
+	 * @return boolean TRUE if the user has write access to this project
+	 */
 	public function isWriteOnProjectAllowed ($projectId) {
 		$db = new DB();
 		$db->connect();
@@ -61,6 +73,11 @@ class PermissionDA {
 		return true;
 	}
 	
+	/**
+	 * Checks if the logged in user is allowed to administrate a project
+	 * @param <Int> $projectId project to check
+	 * @return boolean TRUE if the user has admin access to this project
+	 */
 	public function isAdminOnProjectAllowed ($projectId) {
 		$db = new DB();
 		$db->connect();
@@ -89,6 +106,10 @@ class PermissionDA {
 		return true;
 	}
 	
+	/**
+	 * Checks if the logged in user has admin rights on the entire platform
+	 * @return boolean TRUE if the user has global admin rights
+	 */
 	public function isGeneralAdmininstrationAllowed () {
 		$db = new DB();
 		$db->connect();
@@ -116,6 +137,9 @@ class PermissionDA {
 		return false;
 	}
 	
+	/**
+	 * Prints out a nice error banner and quit the pageloading
+	 */
 	public function echoPermissionDeniedAndDie() {
 		echo '<div class="alert alert-danger alert-dismissable" style="margin: 50px;">
 			  <strong><i class="fa fa-lock"></i> Access Denied!</strong> You don\'t have the Permission to access this Page! </div>';
@@ -124,6 +148,11 @@ class PermissionDA {
 		die();
 	}
 	
+	/**
+	 * Get all projects of a user in which the user (at least) has read permission
+	 * @param <Int> $userId Id of the selected user
+	 * @return <dbResult> Database result
+	 */
 	public function getAllAllowedProjects ($userId) {
 		$db = new DB();
 		$db->connect();
@@ -144,6 +173,11 @@ class PermissionDA {
 		return $db->query($allowedProjectsSql);
 	}
 	
+	/**
+	 * Get all projects of a user in which the user (at least) has write permission
+	 * @param <Int> $userId
+	 * @return <dbResult> Database result
+	 */
 	public function getWriteAllowedProjects ($userId) {
 		$db = new DB();
 		$db->connect();
@@ -164,6 +198,11 @@ class PermissionDA {
 		return $db->query($allowedProjectsSql);
 	}
 	
+	/**
+	 * Returns all users (with access) of a project
+	 * @param <Int> $projectId Id of the selected project
+	 * @return <Array> Array of all users of the project
+	 */
 	public function getUsersOfAProject ($projectId) {
 		$db = new DB();
 		$db->connect();
@@ -187,6 +226,12 @@ class PermissionDA {
 		return $userarray;
 	}
 	
+	/**
+	 * Checks if a group is in a list of groups
+	 * @param <Int> $groupId Group to search
+	 * @param <Int> $groupsArray Array to search in it
+	 * @return boolean TRUE if the group is in the array
+	 */
 	public function isGroupInList ($groupId, $groupsArray) {
 		$count = count($groupsArray) - 1;
 		
@@ -197,9 +242,13 @@ class PermissionDA {
 			}
 			$x++;
 		}
-		
 	} 
 	
+	/**
+	 * Get all groups that a user is member of
+	 * @param <Int> $userId selected user
+	 * @return <Array> array with all groups of a user in it
+	 */
 	public function getAllGroups ($userId) {
 		$db = new DB();
 		$db->connect();
@@ -217,6 +266,13 @@ class PermissionDA {
 		return array_merge(array_unique($allGroups));
 	}
 	
+	/**
+	 * Returns all parent groups of a group (really all) Warning: This is a recursive function!
+	 * @param <Int> $groupId group to finds his parents
+	 * @param <mySQLdb> $db database connection (already opened)
+	 * @param <Array> $allGroupsArray Group with the already founded parent groups in it
+	 * @return <Array> Array with all parent groups
+	 */
 	private function getParentGroups ($groupId, $db, $allGroupsArray) {
 		$groupId = $db->esc($groupId);
 		$getParentsSql = "SELECT * FROM group_group 

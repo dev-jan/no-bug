@@ -5,12 +5,20 @@ include_once dirname(__FILE__).'/taskpropDA.php';
 include_once dirname(__FILE__).'/componentDA.php';
 include_once dirname(__FILE__).'/projectDA.php';
 
+/**
+ * DataAccess for all task stuff
+ */
 class TaskDA {
-	public function getTaskByID($absoluteId) {
+	/**
+	 * Returns a task that matches to the given TaskID
+	 * @param <Int> $taskID ID of the task
+	 * @return <dbResult> database result with all important stuff releated to this task
+	 */
+	public function getTaskByID($taskID) {
 		$db = new DB();
 		$db->connect();
 		
-		$absoluteId = $db->esc($absoluteId);
+		$taskID = $db->esc($taskID);
 		
 		$sql="SELECT task.id AS id, task.summary AS summary, task.description AS description, 
 				     task.createDate AS createDate, status.name AS statusname, status.id AS status_id,
@@ -27,10 +35,16 @@ class TaskDA {
 				LEFT JOIN `user` ON task.assignee_id = `user`.id
 				INNER JOIN `user` AS `creator` ON `creator`.id = task.creator_id
 				INNER JOIN project ON task.project_id = project.id
-				WHERE task.active=1 AND task.id = ".$absoluteId;
+				WHERE task.active=1 AND task.id = ".$taskID;
 		return $db->query($sql);
 	}
 	
+	/**
+	 * Returns the task of a project and the selected menu
+	 * @param <Int> $projectID
+	 * @param <String> $shownMenu Taskmenu (all|myopen|open|closed|unassigned)
+	 * @return <dbResult> all task that matches the criteria
+	 */
 	public function getTasksQueryByProjectID ($projectID, $shownMenu) {
 		$db = new DB();
 		$db->connect();
@@ -75,7 +89,7 @@ class TaskDA {
 	/**
 	 * Return the tasks that matches to the searchstring (in description or summary of a task)
 	 * @param <String> $searchquery String that the user entered
-	 * @return <db-result> or null if there are no matches
+	 * @return <dbResult> or null if there are no matches
 	 */
 	public function getTasksBySearchquery ($searchquery) {
 		$db = new DB();
@@ -120,7 +134,7 @@ class TaskDA {
 	/**
 	 * Return the tasks that are assigned with the version in the parameter
 	 * @param <Int> $versionId Version to search
-	 * @return <db-result> or null if there are no matches
+	 * @return <dbResult> or null if there are no matches
 	 */
 	public function getTasksByVersionID ($versionId) {
 		$db = new DB();
@@ -152,6 +166,18 @@ class TaskDA {
 		}
 	}
 	
+	/**
+	 * Create a new Task
+	 * @param <String> $summary summary of the new task (short description)
+	 * @param <String> $description long description of the task
+	 * @param <Int> $project projectID of the task
+	 * @param <Int> $assignee assigneeID of the task
+	 * @param <Int> $type tasktype (e.g. Bug, New Function)
+	 * @param <Int> $priority priority of the new task
+	 * @param <Int> $status statusID of the new task (e.g. Open, Done)
+	 * @param <Int> $component componentID of the new task (e.g. Frontend)
+	 * @param <Int> $version versionID of the new task (fixed version)
+	 */
 	public function createTask ($summary, $description, $project, $assignee, $type, $priority, $status, $component, $version) {
 		$db = new DB();
 		$db->connect();
@@ -188,6 +214,19 @@ class TaskDA {
 		$db->query($sql);	
 	}
 	
+	/**
+	 * Edit an existing task
+	 * @param <Int> $taskid unique ID of the task to edit
+	 * @param <String> $summary (new) summary of the task
+	 * @param <Int> $project (new) projectID of the task
+	 * @param <Int> $assignee (new) assigneeID of the task
+	 * @param <Int> $type (new) tasktypID of the task
+	 * @param <Int> $priority (new) priority of the task
+	 * @param <Int> $status (new) statusID of the task
+	 * @param <String> $description (new) description of the task
+	 * @param <Int> $component (new) componentID of the task
+	 * @param <Int> $versionId (new) versionID of the task
+	 */
 	public function updateTask($taskid, $summary, $project, $assignee, $type, $priority, $status, $description, $component, $versionId) {
 		$db = new DB();
 		$db->connect();
@@ -225,6 +264,11 @@ class TaskDA {
 		$db->query($sql);
 	}
 	
+	/**
+	 * Create a new comment on a task
+	 * @param <Int> $taskId Task to comment
+	 * @param <String> $value the comment
+	 */
 	public function createComment ($taskId, $value) {
 		$db = new DB();
 		$db->connect();
@@ -238,6 +282,10 @@ class TaskDA {
 		$db->query($sql);
 	}
 	
+	/**
+	 * Print out the dropdown content of all project of the current user
+	 * @param <String> $selectedProject Selected Project (will be preselected in the dropdown)
+	 */
 	public function printProjectSelect ($selectedProject = "") {
 		$db = new DB();
 		$db->connect();
@@ -254,6 +302,11 @@ class TaskDA {
 		}
 	}
 	
+	/**
+	 * Print out the dropdown content of the assignee select
+	 * @param <String> $selectedAssignee current assignee (preselected)
+	 * @param <Int> $projectId ID of the current project
+	 */
 	public function printAssigneeSelect ($selectedAssignee = "", $projectId) {
 		$db = new DB();
 		$db->connect();
@@ -274,6 +327,10 @@ class TaskDA {
 		}
 	}
 	
+	/**
+	 * Print out the dropdown content of the available tasktypes
+	 * @param <String> $selectedType Tasktype that will be preselected
+	 */
 	public function printTypeSelect ($selectedType = "") {
 		$db = new DB();
 		$db->connect();
@@ -290,6 +347,10 @@ class TaskDA {
 		}
 	}
 	
+	/**
+	 * Print out the dropdown content of the available status
+	 * @param <String> $selectedStatus StatusID that will be preselected
+	 */
 	public function printStatusSelect ($selectedStatus = "") {
 		$db = new DB();
 		$db->connect();
@@ -306,6 +367,11 @@ class TaskDA {
 		}
 	}
 	
+	/**
+	 * Print out the dropdown content of the project components
+	 * @param <String> $selectedComponent component that will be preselected
+	 * @param <Int> $projectId ProjectID of the current project
+	 */
 	public function printComponentSelect ($selectedComponent = "", $projectId) {
 		$db = new DB();
 		$db->connect();
@@ -323,6 +389,11 @@ class TaskDA {
 		}
 	}
 	
+	/**
+	 * Print out the dropdown content of all available versions of the project
+	 * @param <String> $selectedVersion ID of the version that will be preselected
+	 * @param <Int> $projectId Selected Project
+	 */
 	public function printVersionSelect ($selectedVersion = "", $projectId) {
 		$db = new DB();
 		$db->connect();
@@ -348,6 +419,10 @@ class TaskDA {
 		}
 	}
 	
+	/**
+	 * Print all available comments of a task
+	 * @param <Int> $taskid Selected Task
+	 */
 	public function printComments($taskid) {
 		$db = new DB();
 		$db->connect();
@@ -373,6 +448,10 @@ class TaskDA {
 		}
 	}
 	
+	/**
+	 * Print out the dropdown content of a priority select
+	 * @param <Int> $selectedPriority The preselected priority
+	 */
 	public function printPrioritySelect ($selectedPriority = "") {
 		$selectedText = ' selected="selected" ';
 		if ($selectedPriority == "1") {
@@ -407,7 +486,10 @@ class TaskDA {
 		}
 	}
 	
-	
+	/**
+	 * Returns all tasks that are open and assigned to the current user
+	 * @return <dbResult> Tasks
+	 */
 	public function getOpenAssignedToMe () {
 		$db = new DB();
 		$db->connect();
@@ -433,6 +515,9 @@ class TaskDA {
 		return $db->query($sql);
 	}
 	
+	/**
+	 * Get the number of open tasks of the current user
+	 */
 	public function getOpenAssignedToMeCount() {
 		$db = new DB();
 		$db->connect();
@@ -450,13 +535,18 @@ class TaskDA {
 		}
 		
 		$sql = "SELECT count(task.id) AS id FROM task
-		INNER JOIN project ON project.id = task.project_id
-		INNER JOIN `status` ON `status`.id = task.status_id
-		WHERE status_id IN ($openstatusTest) AND task.active !=0 AND assignee_id = " . $_SESSION['nobug'.RANDOMKEY.'userId'] . "
-		LIMIT 10";
+				 INNER JOIN project ON project.id = task.project_id
+				 INNER JOIN `status` ON `status`.id = task.status_id
+				WHERE status_id IN ($openstatusTest) AND task.active !=0 AND assignee_id = " . $_SESSION['nobug'.RANDOMKEY.'userId'] . "
+				LIMIT 10";
 		return $db->query($sql)->fetch_assoc()["id"];
 	}
 	
+	/**
+	 * Change the assignee of a task
+	 * @param <Int> $taskId ID of the task to change
+	 * @param <Int> $newAssigneeId ID of the new assignee
+	 */
 	public function updateAssignee($taskId, $newAssigneeId) {
 		$db = new DB();
 		$db->connect();
@@ -468,6 +558,11 @@ class TaskDA {
 		$db->query($sql);
 	}
 	
+	/**
+	 * Change the status of a task
+	 * @param <Int> $taskId ID of the task to change
+	 * @param <Int> $newStatusId ID of the new status
+	 */
 	public function changeStatus($taskId, $newStatusId) {
 		$db = new DB();
 		$db->connect();
@@ -479,6 +574,10 @@ class TaskDA {
 		$db->query($sql);
 	}
 	
+	/**
+	 * Deactivate a task (for normal users the task is now deleted)
+	 * @param <Int> $taskId
+	 */
 	public function deleteTask ($taskId) {
 		$db = new DB();
 		$db->connect();

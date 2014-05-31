@@ -1,18 +1,24 @@
 <?php
+/* Description: Create a new project */
+
+// Include core files
 define( 'ACTIVE_MENU', 'administration');
 include_once '../core/header.php';
 include_once '../core/logic/projectDA.php';
 include_once '../core/logic/permissionDA.php';
 include_once '../core/logic/adminDA.php';
 
+// Check if the user is allowed to access this page
 $permDA = new PermissionDA();
 if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$permDA->echoPermissionDeniedAndDie();
 }
 
+// DataAccess initialisation
 $projDA = new ProjectDA();
 $alerts = "";
 
+// Check if the user request to create a new project
 if (isset($_POST["createProject"])) {
 	if ($projDA->checkProjectKey($_POST["newKey"])) {
 		$projDA->createProject($_POST["newKey"], $_POST["newName"], $_POST["newDescription"], $_POST["adminselect"], $_POST["writeselect"], $_POST["readselect"]);
@@ -29,7 +35,7 @@ if (isset($_POST["createProject"])) {
 
 ?>
 <div id="main">
-	<?php echo $alerts; ?>
+	<?php echo $alerts; //Show alerts if something happen ?>
 	<?php 
 	$adminDA = new AdminDA();
 	$adminDA->getAdminMenu("projects.php");
@@ -82,4 +88,3 @@ if (isset($_POST["createProject"])) {
 </div>
 <?php
 include '../core/footer.php';
-?>

@@ -1,11 +1,13 @@
 <?php
 include_once 'db.php';
 
+/**
+ * DataAccess for some administrative Stuff
+ */
 class AdminDA {
 	/**
-	 * Print Menu for Administration sites
-	 * @param <String> $active  
-	 *    Name of the active Page
+	 * Print the navigation menu for administration sites
+	 * @param <String> $active Name of the active Page
 	 */
 	public function getAdminMenu ($active) {
 		$usersActive = '';
@@ -36,7 +38,6 @@ class AdminDA {
 			$logActive = $activeCode;
 		}
 		
-		
 		echo '<ul class="nav nav-tabs">
 		<li '.$usersActive.'><a href="users.php"><i class="fa fa-user"></i> Users</a></li>
 		<li '.$groupsActive.'><a href="groups.php"><i class="fa fa-users"></i> Groups</a></li>
@@ -46,5 +47,4 @@ class AdminDA {
 		<li '.$settingsActive.'><a href="settings.php"><i class="fa fa-globe"></i> Global Settings</a></li>
 		</ul>';
 	}
-	
 }

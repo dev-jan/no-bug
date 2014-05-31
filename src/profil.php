@@ -58,4 +58,3 @@ if (isset($_POST["newpw"])) {
 
 <?php 
 include 'core/footer.php';
-?>

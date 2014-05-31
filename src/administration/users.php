@@ -1,14 +1,19 @@
 <?php
+/* Description: Show a overview of the available users */
+
+// Include core files
 define( 'ACTIVE_MENU', 'administration');
 include_once '../core/header.php';
 include_once '../core/logic/userDA.php';
 include_once '../core/logic/permissionDA.php';
 include_once '../core/logic/adminDA.php';
 
+// Check if the user is allowed to access this page
 $permDA = new PermissionDA();
 if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$permDA->echoPermissionDeniedAndDie();
 }
+
 ?>
 <div id="main">
 <?php 
@@ -39,17 +44,13 @@ if (!$permDA->isGeneralAdmininstrationAllowed()) {
 		<?php 
 		$userDA = new UserDA();
 		if (isset($_GET["showDeactivated"])) {
-					$userDA->printAllUsersTable(true);
-				}
-				else {
-					$userDA->printAllUsersTable(false);
-				}
-
-
-
-				?>
+			$userDA->printAllUsersTable(true);
+		}
+		else {
+			$userDA->printAllUsersTable(false);
+		}
+		?>
 	</table>
 </div>
 <?php 
 include '../core/footer.php';
-?>

@@ -1,5 +1,5 @@
 <?php
-/* Description: Updates to platform "no-bug" */
+/* Description: Updates the platform "no-bug" */
 
 // Include core files
 define( 'ACTIVE_MENU', 'administration');
@@ -26,7 +26,7 @@ if (isset($_GET["delzip"])) {
 	die();
 }
 
-// Update via Zip
+// Upload a update.zip file
 if (isset($_POST["makeUpdateWithZip"])) {
 	if ($_FILES["file"]["error"] > 0) {
 		$error = "Error: " . $_FILES["updatefile"]["error"];
@@ -54,6 +54,7 @@ if (isset($_POST["makeUpdateWithZip"])) {
 	}
 }
 
+// Check if the user want to update the platform
 if (isset($_GET["update"])) {
 	// Check if the no-bug is fully writeable...
 	if (!(is_writable("../administration") && 

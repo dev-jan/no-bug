@@ -2,7 +2,7 @@
 include_once dirname(__FILE__).'/db.php';
 
 /**
- * return the sql string to create the first adminuser (and some other important stuff)
+ * Return the sql string to create the first adminuser (and some other important stuff)
  * @param <String> $username username of the adminuser
  * @param <String> $name the displayed name of the adminuser
  * @param <String> $email the email of the adminuser

@@ -4,7 +4,14 @@ include_once dirname(__FILE__).'/permissionDA.php';
 include_once dirname(__FILE__).'/loginDA.php';
 include_once dirname(__FILE__).'/../logger.php';
 
+/**
+ * DataAccess for all user releated stuff
+ */
 class UserDA {	
+	/**
+	 * Print out the table content of all users (for the administration)
+	 * @param <Boolean> $reallyAll If TRUE it prints also the deactivated users
+	 */
 	public function printAllUsersTable($reallyAll) {
 		$db = new DB();
 		$db->connect();
@@ -35,6 +42,11 @@ class UserDA {
 		}
 	}
 	
+	/**
+	 * Returns all values of a user
+	 * @param <Int> $userID ID of the selected user
+	 * @return <dbResult> the user
+	 */
 	public function getUser ($userID) {
 		$db = new DB();
 		$db->connect();
@@ -52,6 +64,12 @@ class UserDA {
 		}
 	}
 	
+	/**
+	 * Change the username of a user
+	 * @param <Int> $userId ID of the user
+	 * @param <String> $newUsername new username
+	 * @return boolean FALSE if the username exists
+	 */
 	public function updateUsername($userId, $newUsername) {
 		$db = new DB();
 		$db->connect();
@@ -71,6 +89,12 @@ class UserDA {
 		}
 		
 	}
+	
+	/**
+	 * Change the prename of a user
+	 * @param <Int> $userId ID of the user to change
+	 * @param <String> $newPrename new prename
+	 */
 	public function updatePrename($userId, $newPrename) {
 		$db = new DB();
 		$db->connect();
@@ -83,6 +107,11 @@ class UserDA {
 		$db->query($updateSql);
 	}
 	
+	/**
+	 * Change the password of a user
+	 * @param <Int> $userId ID of the user to change
+	 * @param <String> $newPassword new password
+	 */
 	public function updatePassword($userId, $newPassword) {
 		$db = new DB();
 		$db->connect();
@@ -98,6 +127,11 @@ class UserDA {
 		Logger::info("Password updated for User { id = $userId }", null);
 	}
 	
+	/**
+	 * Change the surname of a user
+	 * @param <Int> $userId ID of the user to change
+	 * @param <String> $newSurname new surname
+	 */
 	public function updateSurname($userId, $newSurname) {
 		$db = new DB();
 		$db->connect();
@@ -110,6 +144,11 @@ class UserDA {
 		$db->query($updateSql);
 	}
 	
+	/**
+	 * change the email address of a user
+	 * @param <Int> $userId ID of the user to change
+	 * @param <String> $newEmail new email
+	 */
 	public function updateEmail($userId, $newEmail) {
 		$db = new DB();
 		$db->connect();
@@ -122,6 +161,11 @@ class UserDA {
 		$db->query($updateSql);
 	}
 	
+	/**
+	 * Checks if a username currently exists
+	 * @param <String> $username username to check
+	 * @return boolean TRUE if the username exists
+	 */
 	private function usernameExists ($username) {
 		$db = new DB();
 		$db->connect();
@@ -137,6 +181,14 @@ class UserDA {
 		}
 	}
 	
+	/**
+	 * Create a new user
+	 * @param <String> $username username of the new user
+	 * @param <String> $prename prename of the new user
+	 * @param <String> $surname surname of the new user
+	 * @param <String> $email email of the new user
+	 * @param <String> $password password (pain text) of the new user
+	 */
 	public function createUser ($username, $prename, $surname, $email, $password) {
 		$db = new DB();
 		$db->connect();
@@ -159,6 +211,10 @@ class UserDA {
 		Logger::info("New user { $username } created", null);
 	}
 	
+	/**
+	 * Deactivate an existing user
+	 * @param <Int> $userId ID of the user to deactivate
+	 */
 	public function deactivateUser($userId) {
 		$db = new DB();
 		$db->connect();
@@ -168,6 +224,10 @@ class UserDA {
 		Logger::info("User { id = $userId } deactivated", null);
 	}
 	
+	/**
+	 * Activate an existing user
+	 * @param <Int> $userId ID of the user to activate
+	 */
 	public function activateUser($userId) {
 		$db = new DB();
 		$db->connect();
@@ -177,6 +237,11 @@ class UserDA {
 		Logger::info("User { id = $userId } activated", null);
 	}
 	
+	/**
+	 * Checks if a user is active or not
+	 * @param <Int> $userId ID of the user to check
+	 * @return <Boolean> TRUE if the user is active
+	 */
 	public function isUserActive($userId) {
 		$db = new DB();
 		$db->connect();
@@ -190,6 +255,10 @@ class UserDA {
 		return false;
 	}
 	
+	/**
+	 * Print out the table of permissions of a user on each project
+	 * @param <Int> $userId ID of the user
+	 */
 	public function printPermissionTable ($userId) {
 		$db = new DB();
 		$db->connect();
@@ -246,6 +315,12 @@ class UserDA {
 		echo '</table>';
 	}
 	
+	/**
+	 * Checks if the given password of a user is correct (same in the database)
+	 * @param <Int> $userId ID of the user to check the password
+	 * @param <String> $password The password to check (plain text)
+	 * @return boolean TRUE if the password from the parameter is correct
+	 */
 	public function checkPassword ($userId, $password) {
 		$loginDA = new LoginDA();
 		$username = $this->getUser($userId)["username"];

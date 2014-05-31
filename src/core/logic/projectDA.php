@@ -3,7 +3,14 @@ include_once 'db.php';
 include_once dirname(__FILE__).'/groupDA.php';
 include_once dirname(__FILE__).'/../logger.php';
 
+/**
+ * DataAccess for project releated things (including project versions)
+ */
 class ProjectDA { 
+	/**
+	 * Print out all projects on the platform as table rows (used in global administration)
+	 * @param <boolean> $reallyAll TRUE: Print out also the deactivated projects
+	 */
 	public function printAllProjects ($reallyAll = false) {
 		$db = new DB();
 		$db->connect();
@@ -53,6 +60,11 @@ class ProjectDA {
 		}
 	}
 	
+	/**
+	 * Returns the full project from unique project ID
+	 * @param <Int> $projectID
+	 * @return <Array> project values in a array
+	 */
 	public function getProject ($projectID) {
 		$db = new DB();
 		$db->connect();
@@ -64,6 +76,10 @@ class ProjectDA {
 		return $query->fetch_assoc();
 	}
 	
+	/**
+	 * Returns the full project from unique project ID (returns also a project if the project is disabled)
+	 * @param <Int> $projectID 
+	 */
 	public function getProjectOnAdmin ($projectID) {
 		$db = new DB();
 		$db->connect();
@@ -75,11 +91,20 @@ class ProjectDA {
 		return $query->fetch_assoc();
 	}
 	
+	/**
+	 * Print the dropdown content of all active groups
+	 * @param <Int> $selectedGroupID Group that will be selected in the dropdown
+	 */
 	public function printGroupSelect ($selectedGroupID) {
 		$groupDA = new GroupDA();
 		$groupDA->printGroupSelection($selectedGroupID);
 	}
 	
+	/**
+	 * Checks if a project is active or not
+	 * @param <Int> $projectId
+	 * @return <boolean> true if the project is active
+	 */
 	public function isProjectActive($projectId) {
 		$db = new DB();
 		$db->connect();
@@ -93,6 +118,12 @@ class ProjectDA {
 		return false;
 	}
 	
+	/**
+	 * Update some general informations about a project
+	 * @param <Int> $projectID ID of the Project to change
+	 * @param <String> $name (new) Name of the project
+	 * @param <String> $description (new) Description of the project
+	 */
 	public function updateGeneral($projectID, $name, $description) {
 		$db = new DB();
 		$db->connect();
@@ -107,6 +138,13 @@ class ProjectDA {
 		$db->query($sql);
 	}
 	
+	/**
+	 * Update the permission groups of a project
+	 * @param <Int> $projectID ID of the Project to change
+	 * @param <Int> $adminGroupID (new) group with admin permissions on the project
+	 * @param <Int> $writeGroupID (new) group with write permissions on the project
+	 * @param <Int> $readGroupID (new) group with read permissions on the project
+	 */
 	public function updateGroups ($projectID, $adminGroupID, $writeGroupID, $readGroupID) {
 		$db = new DB();
 		$db->connect();
@@ -122,6 +160,11 @@ class ProjectDA {
 		$db->query($sql);
 	}
 	
+	/**
+	 * Checks if a project key is already taken
+	 * @param <String> $key Project key to check
+	 * @return boolean TRUE if the project key is not taken already
+	 */
 	public function checkProjectKey ($key) {
 		$db = new DB();
 		$db->connect();
@@ -138,6 +181,10 @@ class ProjectDA {
 		}
 	}
 	
+	/**
+	 * Deactivate a project
+	 * @param <Int> $projectId ID of the project to deactivate
+	 */
 	public function deactivateProject($projectId) {
 		$db = new DB();
 		$db->connect();
@@ -147,6 +194,10 @@ class ProjectDA {
 		Logger::info("Project { id = $projectId } deactivated", null);
 	}
 	
+	/**
+	 * Activate a project
+	 * @param <Int> $projectId ID of the project to activate
+	 */
 	public function activateProject($projectId) {
 		$db = new DB();
 		$db->connect();
@@ -156,6 +207,15 @@ class ProjectDA {
 		Logger::info("Project { id = $projectId } activated", null);
 	}
 	
+	/**
+	 * Create a new project
+	 * @param <Int> $key Key of the new project
+	 * @param <String> $name Name of the new project
+	 * @param <String> $description description of the new project
+	 * @param <Int> $groupAdmID group that will administrate the new project
+	 * @param <Int> $groupWriteID group with write access to the new project
+	 * @param <Int> $groupReadID group with read only access to the new project
+	 */
 	public function createProject ($key, $name, $description, $groupAdmID, $groupWriteID, $groupReadID) {
 		$db = new DB();
 		$db->connect();
@@ -173,6 +233,9 @@ class ProjectDA {
 		Logger::info("New Project { name = $name, desc = $description } created", null);
 	}
 	
+	/**
+	 * Print out the project of the current logged in user (for the main page)
+	 */
 	public function printProjectsOnMainPage () {
 		$db = new DB();
 		$db->connect();
@@ -192,6 +255,12 @@ class ProjectDA {
 		}
 	}
 	
+	/**
+	 * Get the versions of a project
+	 * @param <Int> $projectId Selected project
+	 * @param <Boolean> $released show only released versions or only unreleased versions
+	 * @return <dbResult> selected versions of a project
+	 */
 	public function getVersionsOfProject ($projectId, $released) {
 		$db = new DB();
 		$db->connect();
@@ -206,6 +275,11 @@ class ProjectDA {
 		return $db->query($sql);
 	}
 	
+	/**
+	 * Returns the newest version of a project
+	 * @param <Int> $projectId selected project
+	 * @return <String> Name of the newest version
+	 */
 	public function getNewestVersionOfProject ($projectId) {
 		$db = new DB();
 		$db->connect();
@@ -225,6 +299,11 @@ class ProjectDA {
 		return $version;
 	}
 	
+	/**
+	 * Returns a version that matches to the given ID
+	 * @param <Int> $versionId unique ID of the version
+	 * @return <dbResult> version from the database
+	 */
 	public function getVersionById ($versionId) {
 		$db = new DB();
 		$db->connect();
@@ -235,6 +314,14 @@ class ProjectDA {
 		return $db->query($sql);
 	}
 	
+	/**
+	 * Create a new version
+	 * @param <Int> $projectId project ID of the new version
+	 * @param <String> $versionName name of the new version (e.g. v1.2)
+	 * @param <String> $description short description of the new version
+	 * @param <Boolean> $isReleased TRUE if the version is already released
+	 * @param <String>|NULL $releaseDay Date the version will be released or was released
+	 */
 	public function createNewVersionForProject ($projectId, $versionName, $description, $isReleased, $releaseDay = null) {
 		$db = new DB();
 		$db->connect();
@@ -255,6 +342,14 @@ class ProjectDA {
 		$db->query($sql);
 	}
 	
+	/**
+	 * Edit a existing version of a project
+	 * @param <Int> $versionId ID of the version to change
+	 * @param <String> $versionName (new) name of the version
+	 * @param <String> $description (new) description of the version
+	 * @param <Boolean> $isReleased is version released or not?
+	 * @param <String> $releaseDate date the version will/was be released
+	 */
 	public function editVersion ($versionId, $versionName, $description, $isReleased, $releaseDate = null) {
 		$db = new DB();
 		$db->connect();
@@ -275,6 +370,10 @@ class ProjectDA {
 		$db->query($sql);
 	}
 	
+	/**
+	 * Delete a version (cannot be undone!)
+	 * @param <Int> $versionId unique ID of the version to delete
+	 */
 	public function deleteVersion ($versionId) {
 		$db = new DB();
 		$db->connect();

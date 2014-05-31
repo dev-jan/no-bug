@@ -3,7 +3,13 @@ include_once 'db.php';
 include_once dirname(__FILE__).'/groupDA.php';
 include_once dirname(__FILE__).'/../logger.php';
 
+/**
+ * DataAccess for general settings (affects the whole platform)
+ */
 class SettingsDA { 
+	/**
+	 * Print out the dropdown content of the global admingroup select (selected the current admin group)
+	 */
 	public function printGlobalAdminGroupSelect () {
 		$db = new DB();
 		$db->connect();
@@ -16,6 +22,9 @@ class SettingsDA {
 		$groupDA->printGroupSelection($adminGroupId);
 	}
 	
+	/**
+	 * Returns the current platformname
+	 */
 	public function getPlatformName () {
 		$db = new DB();
 		$db->connect();
@@ -24,6 +33,9 @@ class SettingsDA {
 		return $db->query($sql)->fetch_assoc()["value"];
 	}
 	
+	/**
+	 * Returns the banner message of the platform
+	 */
 	public function getMotd () {
 		$db = new DB();
 		$db->connect();
@@ -32,6 +44,9 @@ class SettingsDA {
 		return $db->query($sql)->fetch_assoc()["value"];
 	}
 	
+	/**
+	 * Returns the tacking code of the platform (e.g. google analytics or piwik)
+	 */
 	public function getTrackingCode() {
 		$db = new DB();
 		$db->connect();
@@ -40,6 +55,13 @@ class SettingsDA {
 		return $db->query($sql)->fetch_assoc()["value"];
 	}
 	
+	/**
+	 * Set the global parameters
+	 * @param <Int> $globalAdminGroupId (new) Group that will administrate the platform
+	 * @param <String> $globalName (new) Name of the platform
+	 * @param <String> $motd (new) Message of the day (Banner on mainpage)
+	 * @param <String> $tracker (new) Tracking code (included in every page)
+	 */
 	public function setValues ($globalAdminGroupId, $globalName, $motd, $tracker) {
 		$db = new DB();
 		$db->connect();
@@ -60,6 +82,9 @@ class SettingsDA {
 		Logger::info("General settings updated", null);
 	}
 	
+	/**
+	 * Print out the most important server informations (e.g. PHP Version, mySQL Version)
+	 */
 	public function printServerInfos () {
 		// Fetch Informations...
 		$informations = array();
@@ -104,12 +129,20 @@ class SettingsDA {
 		}
 	}
 	
+	/**
+	 * Return the current version of the no-bug platform
+	 * @return <String> Name of the current version
+	 */
 	private function getVersionString() {
 		include dirname(__FILE__).'/../version.php';
 		return $versionname . " (" . $compileDate .")";
 	}
 	
-	private function getDatabasesize () {
+	/**
+	 * Returns the actual size of the no-bug database
+	 * @return <Int> Size in bytes
+	 */
+	private function getDatabasesize() {
 		$db = new DB();
 		$db->connect();
 		
@@ -123,6 +156,11 @@ class SettingsDA {
 		return $dbsize;
 	}
 	
+	/**
+	 * Parse a bytenumber into a human readable number with prefix (e.g. 322 MB)
+	 * @param <Int> $bytes raw number in bytes
+	 * @return <String> Bytes with prefix
+	 */
 	private function getBytesWithPrefix ($bytes) {
 		$prefixList = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
 		

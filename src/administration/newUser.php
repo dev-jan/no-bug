@@ -1,18 +1,24 @@
 <?php
+/* Description: Create a new user */
+
+// Include core files
 define( 'ACTIVE_MENU', 'administration');
 include_once '../core/header.php';
 include_once '../core/logic/userDA.php';
 include_once '../core/logic/permissionDA.php';
 include_once '../core/logic/adminDA.php';
 
+// Check if the user is allowed to access this page
 $permDA = new PermissionDA();
 if (!$permDA->isGeneralAdmininstrationAllowed()) {
 	$permDA->echoPermissionDeniedAndDie();
 }
 
+// DataAccess initialisation
 $userDA = new UserDA();
 $alerts = "";
 
+// Check if the user request to create a new user
 if (isset($_POST["createUser"])) {
 	if ($_POST["newPassword"] == $_POST["newPassword2"]) {
 		$userDA->createUser($_POST["newUsername"], $_POST["newPrename"], $_POST["newSurname"], $_POST["newEmail"], $_POST["newPassword"]);
@@ -29,7 +35,7 @@ if (isset($_POST["createUser"])) {
 
 ?>
 <div id="main">
-	<?php echo $alerts; ?>
+	<?php echo $alerts; //Show alerts if something happen ?>
 	<?php 
 	$adminDA = new AdminDA();
 	$adminDA->getAdminMenu("users.php");
@@ -74,4 +80,3 @@ if (isset($_POST["createUser"])) {
 </div>
 <?php 
 include '../core/footer.php';
-?>

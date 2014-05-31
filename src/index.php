@@ -55,4 +55,3 @@ include_once 'core/logic/settingsDA.php';
 
 <?php 
 include 'core/footer.php';
-?>
