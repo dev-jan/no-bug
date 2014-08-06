@@ -114,7 +114,6 @@ CREATE TABLE IF NOT EXISTS `project` (
   `group_admin` INT NOT NULL,
   `group_write` INT NOT NULL,
   `group_read` INT NOT NULL,
-  `version` VARCHAR(45) NULL,
   `active` INT NULL,
   `meta_creatorID` INT NULL,
   `meta_createDate` DATE NULL,
