@@ -127,10 +127,12 @@ if ($edited) {
 
 	  <li class="list-group-item">
 	  	<form action="?p=<?php echo $selectedProject["id"]; ?>"	method="post">
-	  		<p style="float: left; margin-right: 30px;">New Component:</p>
 	  		<input type="hidden" name="newComponent" value="true" />
 	  		<input type="text" class="form-control" name="componentname" value="" style="width: 250px; float: left;" />
-	  		<button type="submit" class="btn btn-success" style="margin-left: 30px;"><i class="fa fa-plus"></i></button>
+	  		<button id="addcomponent" type="submit" class="btn btn-success" style="margin-left: 30px;" data-toggle="tooltip" data-placement="right" title="add a new component">
+	  			<i class="fa fa-plus"></i>
+	  		</button>
+	  		<script type="text/javascript">$('#addcomponent').tooltip();</script>
 	  	</form>
 	  </li>
 	</ul>

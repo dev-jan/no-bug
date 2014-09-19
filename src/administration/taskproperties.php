@@ -83,7 +83,7 @@ if (isset($_POST["deleteTasktype"])) {
 						    name="typname" class="form-control" value="'.$oneType["name"].'"
 						    style="width: 250px; float: left;" />
 						<button type="submit" class="btn btn-default" style="float: left; margin-left: 10px;">
-						<i class="fa fa-check"></i>
+							<i class="fa fa-check"></i>
 						</button>
 						<span style="clear: both;">&nbsp;</span>
 					</form>
@@ -97,20 +97,20 @@ if (isset($_POST["deleteTasktype"])) {
 		}
 		echo '<li class="list-group-item" style="padding-bottom: 30px;">
 				<form action="" method="post">
-					<p style="float: left; margin-right: 30px;">New Tasktype:</p>
 					<input type="hidden" name="newType" value="true" /> 
 					<input type="text"
 					    name="typname" class="form-control" value=""
 					    style="width: 250px; float: left;" />
-					<button type="submit" class="btn btn-success" style="float: left; margin-left: 10px;">
-					<i class="fa fa-plus"></i>
+					<button id="addtasktype" type="submit" class="btn btn-success" style="float: left; margin-left: 10px;" 
+					        data-toggle="tooltip" data-placement="right" title="add a new tasktype">
+						<i class="fa fa-plus"></i>
 					</button>
+					<script type="text/javascript">$("#addtasktype").tooltip();</script>
 					<span style="clear: both;">&nbsp;</span>
 				 </form>
 			  </li>';
 		?>
 	</ul>
-
 
 	<h2>Status</h2>
 	<script type="text/javascript" src="../js/jscolor/jscolor.js"></script>
@@ -153,7 +153,6 @@ if (isset($_POST["deleteTasktype"])) {
 	echo '
 		<li class="list-group-item" style="padding-bottom: 30px;">
 			<form action="" method="post">
-				<p style="float: left; margin-right: 30px;">New Status:</p>
 				<input type="hidden" name="newStatus" value="true" /> 
 				<input type="text"
 					name="statusname" class="form-control" value=""
@@ -164,14 +163,15 @@ if (isset($_POST["deleteTasktype"])) {
 				<label style="margin-left: 10px; float: left;">
 			      	<input type="checkbox" name="isDone" style="margin-top: 10px"> is Done
 			    </label>
-				<button type="submit" class="btn btn-success"
-					style="float: left; margin-left: 10px;">
+				<button id="addstatus" type="submit" class="btn btn-success" style="float: left; margin-left: 10px; 
+						data-toggle="tooltip" data-placement="right" title="add a new status"">
 					<i class="fa fa-plus"></i>
 				</button>
+				<script type="text/javascript">$("#addstatus").tooltip();</script>
 				<span style="clear: both;">&nbsp;</span>
 			</form>
 		 </li>
-			';
+		 ';
 	?>
 	</ul>
 </div>
