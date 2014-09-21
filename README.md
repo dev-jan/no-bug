@@ -8,6 +8,8 @@ Bugtracking Platform based on PHP and MySQL
 
 The no-bug Platform is currently in early Developement!
 
+Our Bugtracker is of course [no-bug](http://nobug.jan-bucher.ch).
+
 ## Developer
 
 * Jan Bucher
@@ -17,12 +19,12 @@ The no-bug Platform is currently in early Developement!
 
 * A webserver (We are using Apache 2.2, but any other also work)
 * PHP (Version: higher as 5) 
-* mySQL Server
+* MySQL Server
 
 ## Frameworks
 
 * PHP (For the Code Behind)
-* mySQL (The Database Engine)
+* MySQL (The Database Engine)
 * Bootstrap (UI Components) [by Bootstrap](http://getbootstrap.com/)
 * Font Awesome (Symboles in the UI) [by Dave Gandy](http://fontawesome.io/)
 * JSColor (Colorpicker) [by JSColor](http://jscolor.com/)
