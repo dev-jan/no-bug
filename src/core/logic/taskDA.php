@@ -433,12 +433,15 @@ class TaskDA {
 				INNER JOIN `user` ON `user`.id = comment.user_id
 				WHERE comment.task_id = " . $taskid;
 		$query = $db->query($sql);
-		
+
 		while ($oneRow = $query->fetch_assoc()) {
+			//build gravatar url form mail
+			$gravatar_url = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $oneRow["email"] ) ) ) . "?s=80&d=mm";
+			
 			echo '
 				<div class="media">
 					<a class="pull-left" href="#">
-						<img class="media-object img-circle" src="style/default_profil.png" alt="person" height="64" width="64">
+						<img class="media-object img-circle" src="' . $gravatar_url . '" alt="person" height="64" width="64">
 					</a>
 					<div class="media-body">
 						<h4 class="media-heading">'.$oneRow["prename"].' '.$oneRow["surname"].'</h4>
